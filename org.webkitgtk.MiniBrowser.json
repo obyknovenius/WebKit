@@ -1,0 +1,33 @@
+{
+    "id": "org.webkitgtk.MiniBrowser",
+    "runtime": "org.webkit.Platform",
+    "runtime-version": "22.08",
+    "sdk": "org.webkit.Sdk",
+    "command": "/app/libexec/webkit2gtk-4.1/MiniBrowser",
+    "finish-args": [
+        "--device=dri",
+        "--socket=wayland",
+        "--share=network"
+    ],
+    "modules": [
+        {
+            "name": "webkit",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DPORT=GTK",
+                "-DCMAKE_BUILD_TYPE=Release"
+            ],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": ".",
+                    "skip": [
+                        "WebKitBuild",
+                        ".git"
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
