@@ -182,7 +182,15 @@ namespace WebCore {
     macro(DecompressionStreamTransform) \
     macro(DelayNode) \
     macro(DeprecationReportBody) \
+<<<<<<< HEAD
     macro(DigitalCredential) \
+||||||| constructed merge base
+    macro(DigitalIdentity) \
+=======
+    macro(DigitalIdentity) \
+    macro(DeviceMotionEvent) \
+    macro(DeviceOrientationEvent) \
+>>>>>>> chore(webkit): bootstrap build #1984
     macro(DocumentTimeline) \
     macro(DynamicsCompressorNode) \
     macro(ElementInternals) \
