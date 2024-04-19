@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+# Copyright (C) 2024 Igalia S.L.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this program; if not, write to the
+# Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+# Boston, MA 02110-1301, USA.
+
+import argparse
+import os
+import subprocess
+
+def install_sdk():
+    env = os.environ.copy()
+    env["FLATPAK_USER_DIR"] = "WebKitBuild/UserFlatpak"
+
+    command = ["flatpak",
+               "remote-add",
+               "--user",
+               "--if-not-exists",
+               "webkit",
+               "https://software.igalia.com/flatpak-refs/webkit-sdk.flatpakrepo"]
+    print(command)
+
+    subprocess.run(command, env=env)
+
+    command = ["flatpak",
+               "install",
+               "--user",
+               "--assumeyes",
+               "webkit",
+               "org.webkit.Platform//22.08",
+               "org.webkit.Sdk//22.08"]
+    print(command)
+
+    subprocess.run(command, env=env)
+
+def init():
+    env = os.environ.copy()
+    env["FLATPAK_USER_DIR"] = "WebKitBuild/UserFlatpak"
+
+    command = ["flatpak-builder",
+               "--force-clean",
+               "--state-dir=WebKitBuild/flatpak-builder",
+               "--stop-at=webkit",
+               "WebKitBuild/build-dir",
+               "org.webkitgtk.MiniBrowser.json"]
+    print(command)
+
+    subprocess.run(command, env=env)
+
+def run(args):
+    print("args type:", type(args))
+
+    env = os.environ.copy()
+    env["FLATPAK_USER_DIR"] = "WebKitBuild/UserFlatpak"
+
+    command = ["flatpak",
+               "build",
+               "--socket=wayland",
+               "--device=dri",
+               "--share=network",
+               "--talk-name=org.a11y.Bus",
+               "WebKitBuild/build-dir"]
+    command += args;
+    print(command)
+
+    subprocess.run(command, env=env)
+
+def flatpak_install_sdk(args):
+    install_sdk()
+
+def flatpak_init(args):
+    init();
+
+def flatpak_run(args):
+    run(args.command)
+
+def flatpak_enter(args):
+    run(["bash"])
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(prog="flatpak")
+    subparsers = parser.add_subparsers()
+
+    parser_update_sdk = subparsers.add_parser("install-sdk")
+    parser_update_sdk.set_defaults(func=flatpak_install_sdk)
+
+    parser_init = subparsers.add_parser("init")
+    parser_init.set_defaults(func=flatpak_init)
+
+    parser_run = subparsers.add_parser("run")
+    parser_run.add_argument("command", nargs=argparse.REMAINDER)
+    parser_run.set_defaults(func=flatpak_run)
+
+    parser_enter = subparsers.add_parser("enter")
+    parser_enter.set_defaults(func=flatpak_enter)
+
+    args = parser.parse_args()
+    args.func(args)

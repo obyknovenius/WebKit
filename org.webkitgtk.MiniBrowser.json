@@ -5,8 +5,8 @@
     "sdk": "org.webkit.Sdk",
     "command": "/app/libexec/webkit2gtk-4.1/MiniBrowser",
     "finish-args": [
-        "--device=dri",
         "--socket=wayland",
+        "--device=dri",
         "--share=network"
     ],
     "modules": [
