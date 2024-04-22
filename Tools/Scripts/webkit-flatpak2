@@ -28,8 +28,8 @@ def install_sdk():
                "remote-add",
                "--user",
                "--if-not-exists",
-               "webkit",
-               "https://software.igalia.com/flatpak-refs/webkit-sdk.flatpakrepo"]
+               "flathub",
+               "https://flathub.org/repo/flathub.flatpakrepo"]
     print(command)
 
     subprocess.run(command, env=env)
@@ -38,9 +38,9 @@ def install_sdk():
                "install",
                "--user",
                "--assumeyes",
-               "webkit",
-               "org.webkit.Platform//22.08",
-               "org.webkit.Sdk//22.08"]
+               "flathub",
+               "org.gnome.Platform//45",
+               "org.gnome.Sdk//45"]
     print(command)
 
     subprocess.run(command, env=env)
@@ -68,9 +68,12 @@ def run(args):
     command = ["flatpak",
                "build",
                "--socket=wayland",
+               "--socket=x11",
                "--device=dri",
+               "--filesystem=host",
                "--share=network",
                "--talk-name=org.a11y.Bus",
+               "--bind-mount=/run/host/font-dirs.xml=" + os.path.expanduser("~/.cache/font-dirs.xml"),
                "WebKitBuild/build-dir"]
     command += args;
     print(command)
