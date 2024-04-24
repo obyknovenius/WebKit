@@ -16,91 +16,37 @@
 # Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
 # Boston, MA 02110-1301, USA.
 
-import argparse
 import os
-import subprocess
+import sys
 
-def install_sdk():
-    env = os.environ.copy()
-    env["FLATPAK_USER_DIR"] = "WebKitBuild/UserFlatpak"
+source_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-    command = ["flatpak",
-               "remote-add",
-               "--user",
-               "--if-not-exists",
-               "flathub",
-               "https://flathub.org/repo/flathub.flatpakrepo"]
-    print(command)
+sys.path.insert(0, os.path.join(source_dir, "Tools", "flatpak"))
+import flatpak
 
-    subprocess.run(command, env=env)
-
-    command = ["flatpak",
-               "install",
-               "--user",
-               "--assumeyes",
-               "flathub",
-               "org.gnome.Platform//45",
-               "org.gnome.Sdk//45"]
-    print(command)
-
-    subprocess.run(command, env=env)
-
-def init():
-    env = os.environ.copy()
-    env["FLATPAK_USER_DIR"] = "WebKitBuild/UserFlatpak"
-
-    command = ["flatpak-builder",
-               "--force-clean",
-               "--state-dir=WebKitBuild/flatpak-builder",
-               "--stop-at=webkit",
-               "WebKitBuild/build-dir",
-               "org.webkitgtk.MiniBrowser.json"]
-    print(command)
-
-    subprocess.run(command, env=env)
-
-def run(args):
-    print("args type:", type(args))
-
-    env = os.environ.copy()
-    env["FLATPAK_USER_DIR"] = "WebKitBuild/UserFlatpak"
-
-    command = ["flatpak",
-               "build",
-               "--socket=wayland",
-               "--socket=x11",
-               "--device=dri",
-               "--filesystem=host",
-               "--share=network",
-               "--talk-name=org.a11y.Bus",
-               "--bind-mount=/run/host/font-dirs.xml=" + os.path.expanduser("~/.cache/font-dirs.xml"),
-               "WebKitBuild/build-dir"]
-    command += args;
-    print(command)
-
-    subprocess.run(command, env=env)
+import argparse
 
 def flatpak_install_sdk(args):
-    install_sdk()
+    flatpak.install_sdk()
 
-def flatpak_init(args):
-    init();
+def flatpak_update_dependencies(args):
+    flatpak.update_dependencies();
 
 def flatpak_run(args):
-    run(args.command)
+    flatpak.run(args.command)
 
 def flatpak_enter(args):
-    run(["bash"])
+    flatpak.run(["bash"])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="flatpak")
     subparsers = parser.add_subparsers()
 
-    parser_update_sdk = subparsers.add_parser("install-sdk")
-    parser_update_sdk.set_defaults(func=flatpak_install_sdk)
+    parser_install_sdk = subparsers.add_parser("install-sdk")
+    parser_install_sdk.set_defaults(func=flatpak_install_sdk)
 
-    parser_init = subparsers.add_parser("init")
-    parser_init.set_defaults(func=flatpak_init)
+    parser_update_dependencies = subparsers.add_parser("update-dependencies")
+    parser_update_dependencies.set_defaults(func=flatpak_update_dependencies)
 
     parser_run = subparsers.add_parser("run")
     parser_run.add_argument("command", nargs=argparse.REMAINDER)
