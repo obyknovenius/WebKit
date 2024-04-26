@@ -181,7 +181,9 @@
             "buildsystem": "cmake-ninja",
             "config-opts": [
                 "-DPORT=GTK",
-                "-DCMAKE_BUILD_TYPE=Release"
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DDEVELOPER_MODE=ON",
+                "-DENABLE_EXPERIMENTAL_FEATURES=ON"
             ],
             "sources": [
                 {
