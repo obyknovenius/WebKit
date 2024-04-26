@@ -72,6 +72,12 @@ class GtkPort(GLibPort):
             return self.default_timeout_ms()
         return super(GtkPort, self).driver_stop_timeout()
 
+    def _build_path(self, *comps):
+        build_dir = os.getenv("BUILDDIR")
+        if build_dir:
+            return self._filesystem.join(self._filesystem.abspath(build_dir), *comps)
+        return super(GtkPort, self)._build_path(*comps)
+
     def setup_environ_for_server(self, server_name=None):
         environment = super(GtkPort, self).setup_environ_for_server(server_name)
         environment['LIBOVERLAY_SCROLLBAR'] = '0'
