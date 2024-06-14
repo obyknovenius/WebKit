@@ -1344,7 +1344,6 @@ String LocalFrame::customUserAgentAsSiteSpecificQuirks() const
     return { };
 }
 
-<<<<<<< HEAD
 OptionSet<AdvancedPrivacyProtections> LocalFrame::advancedPrivacyProtections() const
 {
     if (auto* documentLoader = loader().activeDocumentLoader())
@@ -1352,8 +1351,6 @@ OptionSet<AdvancedPrivacyProtections> LocalFrame::advancedPrivacyProtections() c
     return { };
 }
 
-||||||| constructed merge base
-=======
 #if !PLATFORM(IOS_FAMILY)
 
 void LocalFrame::betterApproximateNode(const IntPoint& testPoint, const NodeQualifier& nodeQualifierFunction, Node*& best, Node* failedNode, IntPoint& bestPoint, IntRect& bestRect, const IntRect& testRect)
@@ -1710,7 +1707,6 @@ Node* LocalFrame::nodeRespondingToScrollWheelEvents(const FloatPoint& viewportLo
 
 #endif // !PLATFORM(IOS_FAMILY)
 
->>>>>>> chore(webkit): bootstrap build #2035
 } // namespace WebCore
 
 #undef FRAME_RELEASE_LOG_ERROR

@@ -1434,20 +1434,10 @@ public:
 #endif
 #endif
 
-<<<<<<< HEAD
     void pageScaleFactorDidChange(IPC::Connection&, double);
+    void viewScaleFactorDidChange(IPC::Connection&, double);
     void pluginScaleFactorDidChange(IPC::Connection&, double);
     void pluginZoomFactorDidChange(IPC::Connection&, double);
-||||||| constructed merge base
-    void pageScaleFactorDidChange(double);
-    void pluginScaleFactorDidChange(double);
-    void pluginZoomFactorDidChange(double);
-=======
-    void pageScaleFactorDidChange(double);
-    void viewScaleFactorDidChange(double);
-    void pluginScaleFactorDidChange(double);
-    void pluginZoomFactorDidChange(double);
->>>>>>> chore(webkit): bootstrap build #2035
 
     // Find.
     void findString(const String&, OptionSet<FindOptions>, unsigned maxMatchCount);

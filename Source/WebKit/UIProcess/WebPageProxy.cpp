@@ -2396,11 +2396,6 @@ void WebPageProxy::setControlledByAutomation(bool controlled)
     websiteDataStore().protectedNetworkProcess()->send(Messages::NetworkProcess::SetSessionIsControlledByAutomation(m_websiteDataStore->sessionID(), m_controlledByAutomation), 0);
 }
 
-<<<<<<< HEAD
-void WebPageProxy::createInspectorTarget(IPC::Connection& connection, const String& targetId, Inspector::InspectorTargetType type)
-||||||| constructed merge base
-void WebPageProxy::createInspectorTarget(const String& targetId, Inspector::InspectorTargetType type)
-=======
 void WebPageProxy::setAuthCredentialsForAutomation(std::optional<WebCore::Credential>&& credentials, std::optional<URL>&& origin)
 {
     m_credentialsForAutomation = WTFMove(credentials);
@@ -2456,8 +2451,7 @@ void WebPageProxy::logToStderr(const String& str)
     fprintf(stderr, "RENDERER: %s\n", str.utf8().data());
 }
 
-void WebPageProxy::createInspectorTarget(const String& targetId, Inspector::InspectorTargetType type)
->>>>>>> chore(webkit): bootstrap build #2035
+void WebPageProxy::createInspectorTarget(IPC::Connection& connection, const String& targetId, Inspector::InspectorTargetType type)
 {
     MESSAGE_CHECK_BASE(!targetId.isEmpty(), &connection);
     m_inspectorController->createInspectorTarget(targetId, type);
@@ -5646,18 +5640,13 @@ void WebPageProxy::pageScaleFactorDidChange(IPC::Connection& connection, double 
     m_pageScaleFactor = scaleFactor;
 }
 
-<<<<<<< HEAD
-void WebPageProxy::pluginScaleFactorDidChange(IPC::Connection& connection, double pluginScaleFactor)
-||||||| constructed merge base
-void WebPageProxy::pluginScaleFactorDidChange(double pluginScaleFactor)
-=======
-void WebPageProxy::viewScaleFactorDidChange(double scaleFactor)
+void WebPageProxy::viewScaleFactorDidChange(IPC::Connection& connection, double scaleFactor)
 {
+    MESSAGE_CHECK_BASE(scaleFactorIsValid(scaleFactor), &connection);
     m_viewScaleFactor = scaleFactor;
 }
 
-void WebPageProxy::pluginScaleFactorDidChange(double pluginScaleFactor)
->>>>>>> chore(webkit): bootstrap build #2035
+void WebPageProxy::pluginScaleFactorDidChange(IPC::Connection& connection, double pluginScaleFactor)
 {
     MESSAGE_CHECK_BASE(scaleFactorIsValid(pluginScaleFactor), &connection);
     m_pluginScaleFactor = pluginScaleFactor;
@@ -7142,11 +7131,6 @@ void WebPageProxy::beginSafeBrowsingCheck(const URL&, bool, WebFramePolicyListen
 
 void WebPageProxy::decidePolicyForNavigationActionAsync(NavigationActionData&& data, CompletionHandler<void(PolicyDecision&&)>&& completionHandler)
 {
-<<<<<<< HEAD
-    decidePolicyForNavigationActionAsyncShared(protectedLegacyMainFrameProcess(), WTFMove(data), WTFMove(completionHandler));
-||||||| constructed merge base
-    decidePolicyForNavigationActionAsyncShared(protectedProcess(), WTFMove(data), WTFMove(completionHandler));
-=======
     if (m_inspectorController->shouldPauseLoading()) {
         decidePolicyForNavigationActionAsyncShared(protectedProcess(), WTFMove(data), WTFMove(completionHandler));
         m_inspectorController->setContinueLoadingCallback([this, protectedThis = Ref { *this }, data = WTFMove(data), completionHandler = WTFMove(completionHandler)] () mutable {
@@ -7155,7 +7139,6 @@ void WebPageProxy::decidePolicyForNavigationActionAsync(NavigationActionData&& d
     } else {
         decidePolicyForNavigationActionAsyncShared(protectedProcess(), WTFMove(data), WTFMove(completionHandler));
     }
->>>>>>> chore(webkit): bootstrap build #2035
 }
 
 void WebPageProxy::decidePolicyForNavigationActionAsyncShared(Ref<WebProcessProxy>&& process, NavigationActionData&& data, CompletionHandler<void(PolicyDecision&&)>&& completionHandler)
