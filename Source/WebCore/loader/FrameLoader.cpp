@@ -3090,35 +3090,15 @@ String FrameLoader::userAgent(const URL& url) const
 
 String FrameLoader::navigatorPlatform() const
 {
-<<<<<<< HEAD
-    auto customNavigatorPlatform = m_frame->mainFrame().customNavigatorPlatform();
-    if (!customNavigatorPlatform.isEmpty())
-        return customNavigatorPlatform;
-    return String();
-||||||| constructed merge base
-    if (RefPtr localFrame = dynamicDowncast<LocalFrame>(m_frame->mainFrame())) {
-        if (RefPtr documentLoader = localFrame->loader().activeDocumentLoader()) {
-            auto& customNavigatorPlatform = documentLoader->customNavigatorPlatform();
-            if (!customNavigatorPlatform.isEmpty())
-                return customNavigatorPlatform;
-        }
-    }
-    return String();
-=======
     String platform;
 
-    if (RefPtr localFrame = dynamicDowncast<LocalFrame>(m_frame->mainFrame())) {
-        if (RefPtr documentLoader = localFrame->loader().activeDocumentLoader()) {
-            auto& customNavigatorPlatform = documentLoader->customNavigatorPlatform();
-            if (!customNavigatorPlatform.isEmpty())
-                platform = customNavigatorPlatform;
-        }
-    }
+    auto customNavigatorPlatform = m_frame->mainFrame().customNavigatorPlatform();
+    if (!customNavigatorPlatform.isEmpty())
+        platform = customNavigatorPlatform;
 
     InspectorInstrumentation::applyPlatformOverride(m_frame, platform);
 
     return platform;
->>>>>>> chore(webkit): bootstrap build #2036
 }
 
 void FrameLoader::dispatchOnloadEvents()

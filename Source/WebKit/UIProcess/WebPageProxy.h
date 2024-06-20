@@ -908,12 +908,8 @@ public:
 
     PageClient& pageClient() const;
     Ref<PageClient> protectedPageClient() const;
-<<<<<<< HEAD
     RefPtr<PageClient> optionalProtectedPageClient() const;
-||||||| constructed merge base
-=======
     bool hasPageClient() const { return !!m_pageClient; }
->>>>>>> chore(webkit): bootstrap build #2036
 
     void setViewNeedsDisplay(const WebCore::Region&);
     void requestScroll(const WebCore::FloatPoint& scrollPosition, const WebCore::IntPoint& scrollOrigin, WebCore::ScrollIsAnimated);
