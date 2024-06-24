@@ -82,11 +82,6 @@ WeakRef<WebPageProxy> WebPageInspectorController::protectedInspectedPage()
 
 void WebPageInspectorController::init()
 {
-<<<<<<< HEAD
-    String pageTargetId = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageIDInMainFrameProcess());
-||||||| constructed merge base
-    String pageTargetId = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageID());
-=======
     auto targetAgent = makeUnique<InspectorTargetAgent>(m_frontendRouter.get(), m_backendDispatcher.get());
     m_targetAgent = targetAgent.get();
     m_agents.append(WTFMove(targetAgent));
@@ -107,7 +102,6 @@ void WebPageInspectorController::init()
     if (!m_inspectedPage->hasRunningProcess())
         return;
     String pageTargetId = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageID());
->>>>>>> chore(webkit): bootstrap build #2037
     createInspectorTarget(pageTargetId, Inspector::InspectorTargetType::Page);
 }
 

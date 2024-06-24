@@ -26,13 +26,7 @@
 #pragma once
 
 #include "APIObject.h"
-<<<<<<< HEAD
-||||||| constructed merge base
-#include "IdentifierTypes.h"
-=======
 #include "APIWebsitePolicies.h"
-#include "IdentifierTypes.h"
->>>>>>> chore(webkit): bootstrap build #2037
 #include "MessageReceiver.h"
 #include <WebCore/FrameIdentifier.h>
 #include <WebCore/NowPlayingMetadataObserver.h>

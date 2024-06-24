@@ -29,12 +29,8 @@
 #include "EditorState.h"
 #include "InputMethodState.h"
 #include "PageClientImpl.h"
-<<<<<<< HEAD
 #include "WebProcessProxy.h"
-||||||| constructed merge base
-=======
 #include <wpe/wpe-platform.h>
->>>>>>> chore(webkit): bootstrap build #2037
 #include <WebCore/PlatformEvent.h>
 
 #if USE(ATK)
