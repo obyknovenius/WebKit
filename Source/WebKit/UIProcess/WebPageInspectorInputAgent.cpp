@@ -298,9 +298,9 @@ void WebPageInspectorInputAgent::dispatchMouseEvent(const String& type, int x, i
 }
 
 void WebPageInspectorInputAgent::dispatchTapEvent(int x, int y, std::optional<int>&& modifiers, Ref<DispatchTapEventCallback>&& callback) {
-    m_page.sendWithAsyncReply(Messages::WebPage::FakeTouchTap(WebCore::IntPoint(x, y), modifiers ? *modifiers : 0), [callback]() {
+    m_page.legacyMainFrameProcess().sendWithAsyncReply(Messages::WebPage::FakeTouchTap(WebCore::IntPoint(x, y), modifiers ? *modifiers : 0), [callback]() {
         callback->sendSuccess();
-    });
+    }, m_page.webPageIDInMainFrameProcess());
 }
 
 void WebPageInspectorInputAgent::dispatchWheelEvent(int x, int y, std::optional<int>&& modifiers, std::optional<int>&& deltaX, std::optional<int>&& deltaY, Ref<DispatchWheelEventCallback>&& callback)

@@ -32,6 +32,7 @@
 #include "WebPageInspectorTarget.h"
 #include "WebPageMessages.h"
 #include "WebPageProxy.h"
+#include "WebProcessProxy.h"
 
 namespace WebKit {
 
@@ -99,7 +100,7 @@ void InspectorTargetProxy::didCommitProvisionalTarget()
 void InspectorTargetProxy::willResume()
 {
     if (m_page.hasRunningProcess())
-        m_page.send(Messages::WebPage::ResumeInspectorIfPausedInNewWindow());
+        m_page.legacyMainFrameProcess().send(Messages::WebPage::ResumeInspectorIfPausedInNewWindow(), m_page.webPageIDInMainFrameProcess());
 }
 
 void InspectorTargetProxy::activate(String& error)

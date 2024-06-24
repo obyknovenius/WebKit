@@ -2442,7 +2442,7 @@ void WebPageProxy::setOrientationOverride(std::optional<int>&& angle)
     auto deviceOrientation = toScreenOrientationType(angle.value_or(0));
     if (m_screenOrientationManager)
         m_screenOrientationManager->setCurrentOrientation(deviceOrientation);
-    m_legacyMainFrameProcess->send(Messages::WebPage::SetDeviceOrientation(angle.value_or(0)), webPageID());
+    m_legacyMainFrameProcess->send(Messages::WebPage::SetDeviceOrientation(angle.value_or(0)), webPageIDInMainFrameProcess());
 }
 
 std::optional<bool> WebPageProxy::permissionForAutomation(const String& origin, const String& permission) const

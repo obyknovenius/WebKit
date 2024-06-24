@@ -731,7 +731,7 @@ Inspector::Protocol::ErrorStringOr<void> InspectorPlaywrightAgent::grantFileRead
     }
 
     auto sandboxExtensionHandles = SandboxExtension::createReadOnlyHandlesForFiles("InspectorPlaywrightAgent::grantFileReadAccess"_s, files);
-    pageProxyChannel->page().send(Messages::WebPage::ExtendSandboxForFilesFromOpenPanel(WTFMove(sandboxExtensionHandles)));
+    pageProxyChannel->page().legacyMainFrameProcess().send(Messages::WebPage::ExtendSandboxForFilesFromOpenPanel(WTFMove(sandboxExtensionHandles)), pageProxyChannel->page().webPageIDInMainFrameProcess());
 #endif
     return { };
 }

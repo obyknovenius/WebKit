@@ -101,13 +101,13 @@ void WebPageInspectorController::init()
     // window.open will create page with already running process.
     if (!m_inspectedPage->hasRunningProcess())
         return;
-    String pageTargetId = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageID());
+    String pageTargetId = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageIDInMainFrameProcess());
     createInspectorTarget(pageTargetId, Inspector::InspectorTargetType::Page);
 }
 
 void WebPageInspectorController::didFinishAttachingToWebProcess()
 {
-    String pageTargetID = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageID());
+    String pageTargetID = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageIDInMainFrameProcess());
     // Create target only after attaching to a Web Process first time. Before that
     // we cannot event establish frontend connection.
     if (m_targets.contains(pageTargetID))
@@ -117,7 +117,7 @@ void WebPageInspectorController::didFinishAttachingToWebProcess()
 
 void WebPageInspectorController::pageClosed()
 {
-    String pageTargetId = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageID());
+    String pageTargetId = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageIDInMainFrameProcess());
     destroyInspectorTarget(pageTargetId);
 
     disconnectAllFrontends();
@@ -132,7 +132,7 @@ bool WebPageInspectorController::pageCrashed(ProcessTerminationReason reason)
 {
     if (reason != ProcessTerminationReason::Crash)
         return false;
-    String targetId = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageID());
+    String targetId = WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageIDInMainFrameProcess());
     auto it = m_targets.find(targetId);
     if (it == m_targets.end())
         return false;
@@ -372,14 +372,14 @@ bool WebPageInspectorController::shouldPauseLoading() const
     if (!m_inspectedPage->isPageOpenedByDOMShowingInitialEmptyDocument())
         return false;
 
-    auto* target = m_targets.get(WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageID()));
+    auto* target = m_targets.get(WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageIDInMainFrameProcess()));
     ASSERT(target);
     return target->isPaused();
 }
 
 void WebPageInspectorController::setContinueLoadingCallback(WTF::Function<void()>&& callback)
 {
-    auto* target = m_targets.get(WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageID()));
+    auto* target = m_targets.get(WebPageInspectorTarget::toTargetID(m_inspectedPage->webPageIDInMainFrameProcess()));
     ASSERT(target);
     target->setResumeCallback(WTFMove(callback));
 }

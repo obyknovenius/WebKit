@@ -345,9 +345,9 @@ void WebPageProxy::setInterceptDrags(bool shouldIntercept) {
             NSPasteboard *pasteboard = [NSPasteboard pasteboardWithUniqueName];
             m_overrideDragPasteboardName = String([pasteboard name]);
         }
-        send(Messages::WebPage::SetDragPasteboardName(m_overrideDragPasteboardName));
+        legacyMainFrameProcess().send(Messages::WebPage::SetDragPasteboardName(m_overrideDragPasteboardName), webPageIDInMainFrameProcess());
     } else {
-        send(Messages::WebPage::SetDragPasteboardName(""_s));
+        legacyMainFrameProcess().send(Messages::WebPage::SetDragPasteboardName(""_s), webPageIDInMainFrameProcess());
     }
 }
 
