@@ -180,7 +180,7 @@ static int compactScriptItemsIfNeeded(std::span<const UChar> cp, Vector<SCRIPT_I
     if (!numItems)
         return numItems;
 
-    if (font->platformData().isSystemFont() || font->platformData().hasVariations())
+    if (font->platformData().hasVariations())
         return numItems;
 
     bool allGoodCharacters = true;
