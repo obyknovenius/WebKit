@@ -1585,6 +1585,7 @@ void WebLocalFrameLoaderClient::transitionToCommittedForNewPage(InitializingIfra
         view->setScrollPinningBehavior(webPage->scrollPinningBehavior());
 
     if (initializingIframe == InitializingIframe::No)
+<<<<<<< HEAD
         webPage->scheduleFullEditorStateUpdate();
 
 #if USE(COORDINATED_GRAPHICS)
@@ -1594,6 +1595,19 @@ void WebLocalFrameLoaderClient::transitionToCommittedForNewPage(InitializingIfra
         return;
     }
 #endif
+||||||| constructed merge base
+        webPage->clearEditorStateAfterPageTransition();
+
+#if USE(COORDINATED_GRAPHICS)
+    if (shouldUseFixedLayout) {
+        view->setDelegatedScrollingMode(shouldUseFixedLayout ? DelegatedScrollingMode::DelegatedToNativeScrollView : DelegatedScrollingMode::NotDelegated);
+        view->setPaintsEntireContents(shouldUseFixedLayout);
+        return;
+    }
+#endif
+=======
+        webPage->clearEditorStateAfterPageTransition();
+>>>>>>> chore(webkit): bootstrap build #2037
 }
 
 void WebLocalFrameLoaderClient::didRestoreFromBackForwardCache()
