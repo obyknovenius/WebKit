@@ -3494,22 +3494,14 @@ void WebPageProxy::performDragControllerAction(DragControllerAction action, Drag
         performDragControllerAction(action, dragData, remoteUserInputEventData->targetFrameID);
     };
 
-#if PLATFORM(GTK)
+#if PLATFORM(GTK) || PLATFORM(WPE)
     UNUSED_PARAM(frameID);
     String url = dragData.asURL();
     if (!url.isEmpty())
         protectedLegacyMainFrameProcess()->assumeReadAccessToBaseURL(*this, url);
 
     ASSERT(dragData.platformData());
-<<<<<<< HEAD
     sendWithAsyncReplyToProcessContainingFrame(frameID, Messages::WebPage::PerformDragControllerAction(action, dragData.clientPosition(), dragData.globalPosition(), dragData.draggingSourceOperationMask(), *dragData.platformData(), dragData.flags()), WTFMove(completionHandler));
-||||||| constructed merge base
-    sendWithAsyncReply(Messages::WebPage::PerformDragControllerAction(action, dragData.clientPosition(), dragData.globalPosition(), dragData.draggingSourceOperationMask(), *dragData.platformData(), dragData.flags()), WTFMove(completionHandler));
-=======
-#endif
-#if PLATFORM(GTK) || PLATFORM(WPE)
-    sendWithAsyncReply(Messages::WebPage::PerformDragControllerAction(action, dragData.clientPosition(), dragData.globalPosition(), dragData.draggingSourceOperationMask(), *dragData.platformData(), dragData.flags()), WTFMove(completionHandler));
->>>>>>> chore(webkit): bootstrap build #2039
 #else
     sendWithAsyncReplyToProcessContainingFrame(frameID, Messages::WebPage::PerformDragControllerAction(frameID, action, dragData), WTFMove(completionHandler));
 #endif

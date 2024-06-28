@@ -51,22 +51,10 @@ messages -> WebPage LegacyReceiver {
     MouseEvent(WebCore::FrameIdentifier frameID, WebKit::WebMouseEvent event, std::optional<Vector<WebKit::SandboxExtensionHandle>> sandboxExtensions)
     SetLastKnownMousePosition(WebCore::FrameIdentifier frameID, WebCore::IntPoint eventPoint, WebCore::IntPoint globalPoint);
 
-<<<<<<< HEAD
-||||||| constructed merge base
-#if ENABLE(NOTIFICATIONS)
-    ClearNotificationPermissionState()
-#endif
-
-=======
-#if ENABLE(NOTIFICATIONS)
-    ClearNotificationPermissionState()
-#endif
-
 #if ENABLE(ORIENTATION_EVENTS)
     SetDeviceOrientation(WebCore::IntDegrees deviceOrientation)
 #endif
 
->>>>>>> chore(webkit): bootstrap build #2039
 #if PLATFORM(IOS_FAMILY)
     SetSceneIdentifier(String sceneIdentifier)
     SetViewportConfigurationViewLayoutSize(WebCore::FloatSize size, double scaleFactor, double minimumEffectiveDeviceWidth)
