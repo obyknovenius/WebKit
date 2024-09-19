@@ -26,12 +26,8 @@
 
 #pragma once
 
-<<<<<<< HEAD
 #include <algorithm>
-||||||| constructed merge base
-=======
 #include <bit>
->>>>>>> chore(webkit): bootstrap build #2078
 #include <cstring>
 #include <functional>
 #include <memory>
