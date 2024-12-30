@@ -6,6 +6,8 @@ if (NOT WIN32 AND NOT PLAYSTATION)
     find_package(Fontconfig 2.13.0 REQUIRED)
 endif ()
 
+find_package(Threads REQUIRED)
+
 if (USE_SKIA_ENCODERS)
     find_package(WebP REQUIRED COMPONENTS mux)
 endif ()
@@ -1054,6 +1056,7 @@ endif ()
 target_link_libraries(Skia PRIVATE
     JPEG::JPEG
     PNG::PNG
+    Threads::Threads
 )
 
 WEBKIT_ADD_TARGET_CXX_FLAGS(Skia
