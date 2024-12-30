@@ -114,7 +114,13 @@ void ProcessLauncher::launchProcess()
         argv[i++] = nullptr;
         WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
 
+<<<<<<< HEAD
         m_processID = ProcessProviderLibWPE::singleton().launchProcess(m_launchOptions, argv, webkitSocketPair.client.value());
+||||||| parent of 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
+        m_processID = ProcessProviderLibWPE::singleton().launchProcess(m_launchOptions, argv, WTFMove(webkitSocketPair.client));
+=======
+        m_processID = ProcessProviderLibWPE::singleton().launchProcess(m_launchOptions, argv, webkitSocketPair.client.release());
+>>>>>>> 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
         if (m_processID <= -1)
             g_error("Unable to spawn a new child process");
 
@@ -168,6 +174,13 @@ void ProcessLauncher::launchProcess()
         nargs++;
     }
 #endif
+// Playwright begin
+    bool enableSharedArrayBuffer = false;
+    if (m_launchOptions.processType == ProcessLauncher::ProcessType::Web && m_client && m_client->shouldEnableSharedArrayBuffer()) {
+        enableSharedArrayBuffer = true;
+        nargs++;
+    }
+// Playwright end
 
     WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN // GTK/WPE port
 
@@ -186,6 +199,10 @@ void ProcessLauncher::launchProcess()
     if (configureJSCForTesting)
         argv[i++] = const_cast<char*>("--configure-jsc-for-testing");
 #endif
+// Playwright begin
+    if (enableSharedArrayBuffer)
+        argv[i++] = const_cast<char*>("--enable-shared-array-buffer");
+// Playwright end
     argv[i++] = nullptr;
 
     WTF_ALLOW_UNSAFE_BUFFER_USAGE_END

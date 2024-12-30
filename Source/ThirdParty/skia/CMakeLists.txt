@@ -5,10 +5,17 @@ if (NOT WIN32 AND NOT PLAYSTATION)
     find_package(Freetype 2.9.0 REQUIRED)
     find_package(Fontconfig 2.13.0 REQUIRED)
 endif ()
+<<<<<<< HEAD
 
 if (USE_SKIA_ENCODERS)
     find_package(WebP REQUIRED COMPONENTS mux)
 endif ()
+||||||| parent of 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
+find_package(WebP REQUIRED COMPONENTS mux)
+=======
+find_package(Threads REQUIRED)
+find_package(WebP REQUIRED COMPONENTS mux)
+>>>>>>> 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
 
 if (ANDROID)
     find_package(EXPAT REQUIRED)
@@ -1054,6 +1061,13 @@ endif ()
 target_link_libraries(Skia PRIVATE
     JPEG::JPEG
     PNG::PNG
+<<<<<<< HEAD
+||||||| parent of 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
+    WebP::mux
+=======
+    Threads::Threads
+    WebP::mux
+>>>>>>> 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
 )
 
 WEBKIT_ADD_TARGET_CXX_FLAGS(Skia
