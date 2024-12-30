@@ -2135,15 +2135,7 @@ void WebPageProxy::loadRequestWithNavigationShared(Ref<WebProcessProxy>&& proces
         if (protectedThis->m_inspectorController->shouldPauseLoadRequest())
             protectedThis->m_inspectorController->setContinueLoadingCallback(WTFMove(continuation));
         else
-<<<<<<< HEAD
-            protectedProcess->send(Messages::WebPage::LoadRequestWaitingForProcessLaunch(WTFMove(loadParameters), protectedThis->pageLoadState().resourceDirectoryURL(), protectedThis->identifier(), true), webPageID);
-        protectedProcess->startResponsivenessTimer();
-||||||| parent of 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
-            protectedProcess->send(Messages::WebPage::LoadRequestWaitingForProcessLaunch(WTFMove(loadParameters), protectedThis->internals().pageLoadState.resourceDirectoryURL(), protectedThis->identifier(), true), webPageID);
-        protectedProcess->startResponsivenessTimer();
-=======
             continuation();
->>>>>>> 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
     });
 }
 

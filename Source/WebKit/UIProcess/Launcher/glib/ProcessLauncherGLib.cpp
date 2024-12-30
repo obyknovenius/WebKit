@@ -114,13 +114,7 @@ void ProcessLauncher::launchProcess()
         argv[i++] = nullptr;
         WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
 
-<<<<<<< HEAD
         m_processID = ProcessProviderLibWPE::singleton().launchProcess(m_launchOptions, argv, webkitSocketPair.client.value());
-||||||| parent of 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
-        m_processID = ProcessProviderLibWPE::singleton().launchProcess(m_launchOptions, argv, WTFMove(webkitSocketPair.client));
-=======
-        m_processID = ProcessProviderLibWPE::singleton().launchProcess(m_launchOptions, argv, webkitSocketPair.client.release());
->>>>>>> 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
         if (m_processID <= -1)
             g_error("Unable to spawn a new child process");
 

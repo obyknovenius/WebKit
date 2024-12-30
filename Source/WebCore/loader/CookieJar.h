@@ -47,12 +47,8 @@ struct CookieStoreGetOptions;
 class NetworkStorageSession;
 class StorageSessionProvider;
 struct SameSiteInfo;
-<<<<<<< HEAD
 enum class ShouldPartitionCookie : bool;
-||||||| parent of 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
-=======
 class ResourceLoader;
->>>>>>> 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
 
 class WEBCORE_EXPORT CookieJar : public RefCountedAndCanMakeWeakPtr<CookieJar> {
 public:

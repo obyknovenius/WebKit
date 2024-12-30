@@ -1889,15 +1889,9 @@ void FrameLoader::loadWithDocumentLoader(DocumentLoader* loader, FrameLoadType t
         return;
     }
 
-<<<<<<< HEAD
     auto policyDecisionMode = loader->triggeringAction().isFromNavigationAPI() ? PolicyDecisionMode::Synchronous : PolicyDecisionMode::Asynchronous;
     RELEASE_ASSERT(!isBackForwardLoadType(policyChecker().loadType()) || history().provisionalItem());
-||||||| parent of 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
-    RELEASE_ASSERT(!isBackForwardLoadType(policyChecker().loadType()) || frame->history().provisionalItem());
-=======
-    RELEASE_ASSERT(!isBackForwardLoadType(policyChecker().loadType()) || frame->history().provisionalItem());
     InspectorInstrumentation::willCheckNavigationPolicy(m_frame);
->>>>>>> 2e8eab3acff3 (chore(webkit): bootstrap build #2121)
     policyChecker().checkNavigationPolicy(ResourceRequest(loader->request()), ResourceResponse { } /* redirectResponse */, loader, WTFMove(formState), [this, frame, allowNavigationToInvalidURL, completionHandler = completionHandlerCaller.release()] (const ResourceRequest& request, WeakPtr<FormState>&& weakFormState, NavigationPolicyDecision navigationPolicyDecision) mutable {
         InspectorInstrumentation::didCheckNavigationPolicy(m_frame, navigationPolicyDecision != NavigationPolicyDecision::ContinueLoad);
         continueLoadAfterNavigationPolicy(request, RefPtr { weakFormState.get() }.get(), navigationPolicyDecision, allowNavigationToInvalidURL);
