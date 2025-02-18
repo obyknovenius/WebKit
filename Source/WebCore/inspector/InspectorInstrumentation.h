@@ -1711,18 +1711,12 @@ inline void InspectorInstrumentation::performanceMark(ScriptExecutionContext& co
         performanceMarkImpl(*agents, label, WTFMove(startTime));
 }
 
-<<<<<<< HEAD
-inline void InspectorInstrumentation::didRequestAnimationFrame(ScriptExecutionContext& scriptExecutionContext, int callbackId)
-||||||| parent of 02fca62813dd (chore(webkit): bootstrap build #2138)
-inline void InspectorInstrumentation::didRequestAnimationFrame(Document& document, int callbackId)
-=======
 inline void InspectorInstrumentation::bindingCalled(Page& page, JSC::JSGlobalObject* globalObject, const String& name, const String& arg)
 {
     bindingCalledImpl(instrumentingAgents(page), globalObject, name, arg);
 }
 
-inline void InspectorInstrumentation::didRequestAnimationFrame(Document& document, int callbackId)
->>>>>>> 02fca62813dd (chore(webkit): bootstrap build #2138)
+inline void InspectorInstrumentation::didRequestAnimationFrame(ScriptExecutionContext& scriptExecutionContext, int callbackId)
 {
     FAST_RETURN_IF_NO_FRONTENDS(void());
     if (auto* agents = instrumentingAgents(scriptExecutionContext))

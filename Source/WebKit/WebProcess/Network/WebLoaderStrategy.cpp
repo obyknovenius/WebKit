@@ -405,13 +405,7 @@ bool WebLoaderStrategy::fillParametersForNetworkProcessLoad(ResourceLoader& reso
             && resourceLoader.frameLoader()->notifier().isInitialRequestIdentifier(identifier)
             ? MainFrameMainResource::Yes : MainFrameMainResource::No;
         if (!page->allowsLoadFromURL(request.url(), mainFrameMainResource)) {
-<<<<<<< HEAD
-            RunLoop::protectedMain()->dispatch([resourceLoader = Ref { resourceLoader }, error = blockedError(request)] {
-||||||| parent of 02fca62813dd (chore(webkit): bootstrap build #2138)
-            RunLoop::main().dispatch([resourceLoader = Ref { resourceLoader }, error = blockedError(request)] {
-=======
-            RunLoop::main().dispatch([resourceLoader = Ref { resourceLoader }, error = platformStrategies()->loaderStrategy()->blockedError(request)] {
->>>>>>> 02fca62813dd (chore(webkit): bootstrap build #2138)
+            RunLoop::protectedMain()->dispatch([resourceLoader = Ref { resourceLoader }, error = platformStrategies()->loaderStrategy()->blockedError(request)] {
                 resourceLoader->didFail(error);
             });
             return false;

@@ -45,12 +45,7 @@
 #include "WebProcessActivityState.h"
 #include "WebProcessMessages.h"
 #include "WebProcessProxy.h"
-<<<<<<< HEAD
 #include <WebCore/PageIdentifier.h>
-||||||| parent of 02fca62813dd (chore(webkit): bootstrap build #2138)
-=======
-#include "WebProcessMessages.h"
->>>>>>> 02fca62813dd (chore(webkit): bootstrap build #2138)
 #include <WebCore/RemoteUserInputEventData.h>
 #include <wtf/TZoneMallocInlines.h>
 
