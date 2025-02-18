@@ -199,12 +199,23 @@ void WebResourceLoader::didReceiveResponse(ResourceResponse&& response, PrivateR
                 return;
             }
 
+<<<<<<< HEAD
             coreLoader->didReceiveResponse(inspectorResponse, [this, protectedThis = Ref { *this }, interceptedRequestIdentifier, policyDecisionCompletionHandler = WTFMove(policyDecisionCompletionHandler), overrideData = WTFMove(overrideData)]() mutable {
                 RefPtr coreLoader = m_coreLoader;
                 if (policyDecisionCompletionHandler)
                     policyDecisionCompletionHandler();
 
                 if (!m_coreLoader || !coreLoader->identifier()) {
+||||||| parent of 02fca62813dd (chore(webkit): bootstrap build #2138)
+            m_coreLoader->didReceiveResponse(inspectorResponse, [this, protectedThis = WTFMove(protectedThis), interceptedRequestIdentifier, policyDecisionCompletionHandler = WTFMove(policyDecisionCompletionHandler), overrideData = WTFMove(overrideData)]() mutable {
+                if (policyDecisionCompletionHandler)
+                    policyDecisionCompletionHandler();
+
+                if (!m_coreLoader || !m_coreLoader->identifier()) {
+=======
+            m_coreLoader->didReceiveResponse(inspectorResponse, [this, protectedThis = WTFMove(protectedThis), interceptedRequestIdentifier, policyDecisionCompletionHandler = WTFMove(policyDecisionCompletionHandler), overrideData = WTFMove(overrideData)]() mutable {
+                if (!m_coreLoader || !m_coreLoader->identifier()) {
+>>>>>>> 02fca62813dd (chore(webkit): bootstrap build #2138)
                     m_interceptController.continueResponse(interceptedRequestIdentifier);
                     return;
                 }
@@ -220,6 +231,8 @@ void WebResourceLoader::didReceiveResponse(ResourceResponse&& response, PrivateR
                 }
             });
         });
+        if (policyDecisionCompletionHandler)
+          policyDecisionCompletionHandler();
         return;
     }
 
