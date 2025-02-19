@@ -975,16 +975,12 @@ WebPageProxy::~WebPageProxy()
     if (RefPtr gpuProcess = GPUProcessProxy::singletonIfCreated())
         gpuProcess->setPresentingApplicationAuditToken(m_legacyMainFrameProcess->coreProcessIdentifier(), m_webPageID, std::nullopt);
 #endif
-<<<<<<< HEAD
 
     internals().updatePlayingMediaDidChangeTimer.stop();
-||||||| parent of 0a85f269ef52 (chore(webkit): bootstrap build #2139)
-=======
 
 #if PLATFORM(COCOA)
     releaseInspectorDragPasteboard();
 #endif
->>>>>>> 0a85f269ef52 (chore(webkit): bootstrap build #2139)
 }
 
 Ref<WebPageProxy> WebPageProxy::Internals::protectedPage() const

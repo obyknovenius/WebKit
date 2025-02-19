@@ -121,12 +121,9 @@ struct WebPushMessage;
 struct WebsiteDataRecord;
 struct WebsiteDataStoreParameters;
 
-<<<<<<< HEAD
 enum RemoveDataTaskCounterType { };
 using RemoveDataTaskCounter = RefCounter<RemoveDataTaskCounterType>;
 
-||||||| parent of 0a85f269ef52 (chore(webkit): bootstrap build #2139)
-=======
 class DownloadInstrumentation {
 public:
     virtual void downloadCreated(const String& uuid, const WebCore::ResourceRequest&, const FrameInfoData& frameInfoData, WebPageProxy* page, RefPtr<DownloadProxy> download) = 0;
@@ -135,7 +132,6 @@ public:
     virtual ~DownloadInstrumentation() = default;
 };
 
->>>>>>> 0a85f269ef52 (chore(webkit): bootstrap build #2139)
 class WebsiteDataStore : public API::ObjectImpl<API::Object::Type::WebsiteDataStore>, public CanMakeWeakPtr<WebsiteDataStore> {
 public:
     static Ref<WebsiteDataStore> defaultDataStore();
