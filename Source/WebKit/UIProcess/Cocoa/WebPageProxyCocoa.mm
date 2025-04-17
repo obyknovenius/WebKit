@@ -339,7 +339,7 @@ bool WebPageProxy::scrollingUpdatesDisabledForTesting()
 void WebPageProxy::startDrag(const DragItem& dragItem, ShareableBitmap::Handle&& dragImageHandle)
 {
     if (m_interceptDrags) {
-        NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName: m_overrideDragPasteboardName];
+        NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName: m_overrideDragPasteboardName.createNSString().get()];
 
         m_dragSelectionData = String([pasteboard name]);
         if (auto replyID = grantAccessToCurrentPasteboardData(String([pasteboard name]), [] () { }))
@@ -352,7 +352,7 @@ void WebPageProxy::startDrag(const DragItem& dragItem, ShareableBitmap::Handle&&
                 dragCancelled();
                 return;
             }
-            NSString *utiType = attachment->utiType();
+            NSString *utiType = attachment->utiType().createNSString().get();
             if (!utiType.length) {
                 dragCancelled();
                 return;
@@ -360,7 +360,7 @@ void WebPageProxy::startDrag(const DragItem& dragItem, ShareableBitmap::Handle&&
 
             for (size_t index = 0; index < info.additionalTypesAndData.size(); ++index) {
                 auto nsData = info.additionalTypesAndData[index].second->createNSData();
-                [pasteboard setData:nsData.get() forType:info.additionalTypesAndData[index].first];
+                [pasteboard setData:nsData.get() forType:info.additionalTypesAndData[index].first.createNSString().get()];
             }
         } else {
             [pasteboard setString:@"" forType:PasteboardTypes::WebDummyPboardType];
