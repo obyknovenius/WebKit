@@ -422,7 +422,6 @@ static void addParametersShared(const LocalFrame* frame, NetworkResourceLoadPara
         parameters.linkPreconnectEarlyHintsEnabled = mainFrame->settings().linkPreconnectEarlyHintsEnabled();
 }
 
-// static
 bool WebLoaderStrategy::fillParametersForNetworkProcessLoad(ResourceLoader& resourceLoader, const ResourceRequest& request, const WebResourceLoader::TrackingParameters& trackingParameters, bool shouldClearReferrerOnHTTPSToHTTPRedirect, Seconds maximumBufferingTime, NetworkResourceLoadParameters& loadParameters)
 {
     auto identifier = *resourceLoader.identifier();
