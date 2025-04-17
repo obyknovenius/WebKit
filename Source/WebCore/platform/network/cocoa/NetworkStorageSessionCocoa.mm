@@ -558,10 +558,10 @@ void NetworkStorageSession::setCookiesFromResponse(const URL& firstParty, const 
     size_t count = cookieValues.size();
     auto* cookies = [NSMutableArray arrayWithCapacity:count];
     for (const auto& cookieValue : cookieValues) {
-        NSString* cookieString = (NSString *)cookieValue;
+        NSString* cookieString = cookieValue.createNSString().autorelease();
         NSString* cookieKey = @"Set-Cookie";
         NSDictionary* headers = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObject:cookieString] forKeys:[NSArray arrayWithObject:cookieKey]];
-        NSArray<NSHTTPCookie*>* parsedCookies = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:(NSURL *)url.createNSURL().get()];
+        NSArray<NSHTTPCookie*>* parsedCookies = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:url.createNSURL().get()];
         [cookies addObject:parsedCookies[0]];
     }
     NSURL *cookieURL = url.createNSURL().get();

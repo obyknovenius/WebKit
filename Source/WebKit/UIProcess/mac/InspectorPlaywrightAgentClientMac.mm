@@ -65,7 +65,7 @@ void InspectorPlaywrightAgentClientMac::closeBrowser()
 
 std::unique_ptr<BrowserContext> InspectorPlaywrightAgentClientMac::createBrowserContext(WTF::String& error, const WTF::String& proxyServer, const WTF::String& proxyBypassList)
 {
-    _WKBrowserContext* wkBrowserContext = [[delegate_ createBrowserContext:proxyServer WithBypassList:proxyBypassList] autorelease];
+    _WKBrowserContext* wkBrowserContext = [[delegate_ createBrowserContext:proxyServer.createNSString().get() WithBypassList:proxyBypassList.createNSString().get()] autorelease];
     auto browserContext = std::make_unique<BrowserContext>();
     browserContext->processPool = &static_cast<WebProcessPool&>([[wkBrowserContext processPool] _apiObject]);
     browserContext->dataStore = &static_cast<WebsiteDataStore&>([[wkBrowserContext dataStore] _apiObject]);

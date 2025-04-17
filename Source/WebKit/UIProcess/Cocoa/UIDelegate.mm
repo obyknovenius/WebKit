@@ -501,7 +501,7 @@ void UIDelegate::UIClient::handleJavaScriptDialog(WebKit::WebPageProxy&, bool ac
     auto delegate = m_uiDelegate->m_delegate.get();
     if (!delegate)
         return;
-    [delegate webView:m_uiDelegate->m_webView.get().get() handleJavaScriptDialog:accept value:value];
+    [delegate webView:m_uiDelegate->m_webView.get().get() handleJavaScriptDialog:accept value:value.createNSString().get()];
 }
 
 void UIDelegate::UIClient::requestStorageAccessConfirm(WebPageProxy& webPageProxy, WebFrameProxy*, const WebCore::RegistrableDomain& requestingDomain, const WebCore::RegistrableDomain& currentDomain, std::optional<WebCore::OrganizationStorageAccessPromptQuirk>&& organizationStorageAccessPromptQuirk, CompletionHandler<void(bool)>&& completionHandler)
