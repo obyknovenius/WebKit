@@ -2762,7 +2762,9 @@ void WebPageProxy::setActiveForAutomation(std::optional<bool> active) {
 
 void WebPageProxy::logToStderr(const String& str)
 {
+WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
     fprintf(stderr, "RENDERER: %s\n", str.utf8().data());
+WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
 }
 
 void WebPageProxy::createInspectorTarget(IPC::Connection& connection, const String& targetId, Inspector::InspectorTargetType type)

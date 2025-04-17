@@ -1051,7 +1051,9 @@ std::optional<FrameIdentifier> InspectorPageAgent::parseFrameID(String frameID)
     if (!frameID.containsOnlyASCII())
         return std::nullopt;
 
+WTF_ALLOW_UNSAFE_BUFFER_USAGE_BEGIN
     uint64_t frameIDNumber = strtoull(frameID.ascii().data(), 0, 10);
+WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
     return WebCore::FrameIdentifier(frameIDNumber);
 }
 
