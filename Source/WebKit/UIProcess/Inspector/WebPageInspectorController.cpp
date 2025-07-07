@@ -78,16 +78,6 @@ WebPageInspectorController::WebPageInspectorController(WebPageProxy& inspectedPa
     , m_backendDispatcher(BackendDispatcher::create(m_frontendRouter.copyRef()))
     , m_inspectedPage(inspectedPage)
 {
-<<<<<<< HEAD
-    auto targetAgent = makeUnique<InspectorTargetAgent>(m_frontendRouter, m_backendDispatcher);
-    m_targetAgent = targetAgent.get();
-    m_agents.append(WTFMove(targetAgent));
-||||||| parent of fe4c479f745d (chore(webkit): bootstrap build #2190)
-    auto targetAgent = makeUnique<InspectorTargetAgent>(m_frontendRouter.get(), m_backendDispatcher.get());
-    m_targetAgent = targetAgent.get();
-    m_agents.append(WTFMove(targetAgent));
-=======
->>>>>>> fe4c479f745d (chore(webkit): bootstrap build #2190)
 }
 
 WebPageInspectorController::~WebPageInspectorController() = default;
