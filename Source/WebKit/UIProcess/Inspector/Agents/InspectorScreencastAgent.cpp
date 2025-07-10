@@ -75,7 +75,7 @@ InspectorScreencastAgent::~InspectorScreencastAgent()
 {
 }
 
-void InspectorScreencastAgent::didCreateFrontendAndBackend(FrontendRouter*, BackendDispatcher*)
+void InspectorScreencastAgent::didCreateFrontendAndBackend()
 {
 }
 

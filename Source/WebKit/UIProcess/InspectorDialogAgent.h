@@ -51,7 +51,7 @@ public:
     InspectorDialogAgent(Inspector::BackendDispatcher& backendDispatcher, Inspector::FrontendRouter& frontendRouter, WebPageProxy& page);
     ~InspectorDialogAgent() override;
 
-    void didCreateFrontendAndBackend(Inspector::FrontendRouter*, Inspector::BackendDispatcher*) override;
+    void didCreateFrontendAndBackend() override;
     void willDestroyFrontendAndBackend(Inspector::DisconnectReason) override;
 
     Inspector::Protocol::ErrorStringOr<void> enable() override;

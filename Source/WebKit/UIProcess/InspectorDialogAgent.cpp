@@ -49,7 +49,7 @@ InspectorDialogAgent::~InspectorDialogAgent()
     disable();
 }
 
-void InspectorDialogAgent::didCreateFrontendAndBackend(Inspector::FrontendRouter*, Inspector::BackendDispatcher*)
+void InspectorDialogAgent::didCreateFrontendAndBackend()
 {
 }
 

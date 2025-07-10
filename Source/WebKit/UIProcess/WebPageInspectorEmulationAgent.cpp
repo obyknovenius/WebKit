@@ -49,7 +49,7 @@ WebPageInspectorEmulationAgent::~WebPageInspectorEmulationAgent()
 {
 }
 
-void WebPageInspectorEmulationAgent::didCreateFrontendAndBackend(FrontendRouter*, BackendDispatcher*)
+void WebPageInspectorEmulationAgent::didCreateFrontendAndBackend()
 {
 }
 

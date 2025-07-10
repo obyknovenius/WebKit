@@ -65,7 +65,7 @@ public:
     InspectorScreencastAgent(Inspector::BackendDispatcher& backendDispatcher, Inspector::FrontendRouter& frontendRouter, WebPageProxy& page);
     ~InspectorScreencastAgent() override;
 
-    void didCreateFrontendAndBackend(Inspector::FrontendRouter*, Inspector::BackendDispatcher*) override;
+    void didCreateFrontendAndBackend() override;
     void willDestroyFrontendAndBackend(Inspector::DisconnectReason) override;
 
 #if USE(SKIA)

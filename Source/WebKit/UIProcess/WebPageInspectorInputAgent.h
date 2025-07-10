@@ -55,7 +55,7 @@ public:
     void didProcessAllPendingMouseEvents();
     void didProcessAllPendingWheelEvents();
 
-    void didCreateFrontendAndBackend(Inspector::FrontendRouter*, Inspector::BackendDispatcher*) override;
+    void didCreateFrontendAndBackend() override;
     void willDestroyFrontendAndBackend(Inspector::DisconnectReason) override;
 
     // Protocol handler

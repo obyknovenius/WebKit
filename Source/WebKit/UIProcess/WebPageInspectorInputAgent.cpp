@@ -107,7 +107,7 @@ void WebPageInspectorInputAgent::didProcessAllPendingWheelEvents()
     m_wheelCallbacks->sendSuccess();
 }
 
-void WebPageInspectorInputAgent::didCreateFrontendAndBackend(Inspector::FrontendRouter*, Inspector::BackendDispatcher*)
+void WebPageInspectorInputAgent::didCreateFrontendAndBackend()
 {
     m_keyboardCallbacks = makeUnique<KeyboardCallbacks>();
     m_mouseCallbacks = makeUnique<MouseCallbacks>();

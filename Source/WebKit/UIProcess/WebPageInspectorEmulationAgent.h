@@ -50,7 +50,7 @@ public:
     WebPageInspectorEmulationAgent(Inspector::BackendDispatcher& backendDispatcher, WebPageProxy& page);
     ~WebPageInspectorEmulationAgent() override;
 
-    void didCreateFrontendAndBackend(Inspector::FrontendRouter*, Inspector::BackendDispatcher*) override;
+    void didCreateFrontendAndBackend() override;
     void willDestroyFrontendAndBackend(Inspector::DisconnectReason) override;
 
     void setDeviceMetricsOverride(int width, int height, bool fixedlayout, std::optional<double>&& deviceScaleFactor, Ref<SetDeviceMetricsOverrideCallback>&&) override;
