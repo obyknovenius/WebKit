@@ -58,7 +58,12 @@ enum class SnapshotFlags : uint16_t {
     PaintWith3xBaseScale                    = 1 << 10,
     ExcludeText                             = 1 << 11,
     FixedAndStickyLayersOnly                = 1 << 12,
+<<<<<<< HEAD
     DraggableElement                        = 1 << 13,
+||||||| parent of 02a459da04ca (chore(webkit): bootstrap build #2191)
+=======
+    OmitDeviceScaleFactor                   = 1 << 13,
+>>>>>>> 02a459da04ca (chore(webkit): bootstrap build #2191)
 };
 
 struct SnapshotOptions {
