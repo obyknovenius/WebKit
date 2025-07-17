@@ -39,13 +39,9 @@
 #include "WebPageInspectorInputAgent.h"
 #include "WebPageInspectorTarget.h"
 #include "WebPageProxy.h"
-<<<<<<< HEAD
 #include "WebsiteDataStore.h"
-||||||| parent of a6be728dcd39 (chore(webkit): bootstrap build #2194)
-=======
 #include <WebCore/ResourceError.h>
 #include <WebCore/WindowFeatures.h>
->>>>>>> a6be728dcd39 (chore(webkit): bootstrap build #2194)
 #include <JavaScriptCore/InspectorAgentBase.h>
 #include <JavaScriptCore/InspectorBackendDispatcher.h>
 #include <JavaScriptCore/InspectorBackendDispatchers.h>

@@ -23,17 +23,13 @@ find_package(WebP REQUIRED COMPONENTS demux)
 find_package(WPE REQUIRED)
 find_package(ZLIB REQUIRED)
 
-<<<<<<< HEAD
 if (ANDROID)
     find_package(Android REQUIRED COMPONENTS Log)
 endif ()
 
-||||||| parent of a6be728dcd39 (chore(webkit): bootstrap build #2194)
-=======
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 
->>>>>>> a6be728dcd39 (chore(webkit): bootstrap build #2194)
 WEBKIT_OPTION_BEGIN()
 
 SET_AND_EXPOSE_TO_BUILD(ENABLE_DEVELOPER_MODE ${DEVELOPER_MODE})

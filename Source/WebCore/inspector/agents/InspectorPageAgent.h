@@ -54,14 +54,8 @@ namespace WebCore {
 class DOMWrapperWorld;
 class DocumentLoader;
 class Frame;
-<<<<<<< HEAD
-class InspectorBackendClient;
-||||||| parent of a6be728dcd39 (chore(webkit): bootstrap build #2194)
-class InspectorClient;
-=======
 class HTMLInputElement;
-class InspectorClient;
->>>>>>> a6be728dcd39 (chore(webkit): bootstrap build #2194)
+class InspectorBackendClient;
 class InspectorOverlay;
 class LocalFrame;
 class Page;
@@ -211,14 +205,8 @@ private:
     const Ref<Inspector::PageBackendDispatcher> m_backendDispatcher;
 
     WeakRef<Page> m_inspectedPage;
-<<<<<<< HEAD
-    InspectorBackendClient* m_client { nullptr };
-||||||| parent of a6be728dcd39 (chore(webkit): bootstrap build #2194)
-    InspectorClient* m_client { nullptr };
-=======
     Inspector::InjectedScriptManager& m_injectedScriptManager;
-    InspectorClient* m_client { nullptr };
->>>>>>> a6be728dcd39 (chore(webkit): bootstrap build #2194)
+    InspectorBackendClient* m_client { nullptr };
     WeakRef<InspectorOverlay> m_overlay;
 
     MemoryCompactRobinHoodHashMap<String, WeakPtr<Frame>> m_identifierToFrame;

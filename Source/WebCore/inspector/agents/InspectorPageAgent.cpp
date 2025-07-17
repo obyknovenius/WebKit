@@ -45,12 +45,8 @@
 #include "DocumentLoader.h"
 #include "Editor.h"
 #include "ElementInlines.h"
-<<<<<<< HEAD
 #include "EventTargetInlines.h"
-||||||| parent of a6be728dcd39 (chore(webkit): bootstrap build #2194)
-=======
 #include "FocusController.h"
->>>>>>> a6be728dcd39 (chore(webkit): bootstrap build #2194)
 #include "ForcedAccessibilityValue.h"
 #include "FrameLoadRequest.h"
 #include "FrameLoader.h"
