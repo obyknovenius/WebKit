@@ -33,7 +33,7 @@
 #include "WebPageProxyMessages.h"
 #include <WebCore/DataTransfer.h>
 #include <WebCore/DragData.h>
-#include <WebCore/ElementIdentifier.h>
+#include <WebCore/NodeIdentifier.h>
 #include <WebCore/Pasteboard.h>
 #include <WebCore/ShareableBitmap.h>
 #include <wtf/win/GDIObject.h>
@@ -47,7 +47,7 @@ void WebDragClient::didConcludeEditDrag()
 {
 }
 
-void WebDragClient::startDrag(DragItem, DataTransfer& dataTransfer, Frame& frame, const std::optional<ElementIdentifier>&)
+void WebDragClient::startDrag(DragItem, DataTransfer& dataTransfer, Frame& frame, const std::optional<NodeIdentifier>&)
 {
     m_page->willStartDrag();
     m_page->send(Messages::WebPageProxy::StartDrag(dataTransfer.pasteboard().createDragDataMap()));
