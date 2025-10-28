@@ -395,13 +395,11 @@ public:
 // Paywright begin
 #if PLATFORM(COCOA)
     virtual RetainPtr<CGImageRef> takeSnapshotForAutomation() = 0;
-#elif PLATFORM(WPE)
-    virtual sk_sp<SkImage> takeViewSnapshot(std::optional<WebCore::IntRect>&&, bool nominalResolution = false) = 0;
-#elif PLATFORM(GTK)
+#elif PLATFORM(GTK) || (PLATFORM(WPE) && USE(SKIA))
     virtual RefPtr<ViewSnapshot> takeViewSnapshot(std::optional<WebCore::IntRect>&&, bool nominalResolution = false) = 0;
 #endif
 // Paywright end
-#if PLATFORM(COCOA) || (PLATFORM(WPE) && USE(SKIA))
+#if PLATFORM(COCOA)
     virtual RefPtr<ViewSnapshot> takeViewSnapshot(std::optional<WebCore::IntRect>&&) = 0;
 #endif
 

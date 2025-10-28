@@ -564,37 +564,6 @@ void PageClientImpl::selectionDidChange()
     m_view.selectionDidChange();
 }
 
-#if USE(SKIA)
-sk_sp<SkImage> PageClientImpl::takeViewSnapshot(std::optional<WebCore::IntRect>&& clipRect, bool nominalResolution)
-{
-    sk_sp<SkImage> fullScreenshot = m_view.client().takeViewScreenshot();
-    float deviceScale = m_view.page().deviceScaleFactor();
-    if (!clipRect && (!nominalResolution || deviceScale == 1))
-        return fullScreenshot;
-
-    WebCore::IntSize size = clipRect ? clipRect->size() : m_view.page().viewSize();
-    if (!nominalResolution) {
-        size.scale(deviceScale);
-        if (clipRect)
-            clipRect->scale(deviceScale);
-    }
-
-    SkBitmap bitmap;
-    bitmap.allocPixels(SkImageInfo::Make(size.width(), size.height(), kN32_SkColorType, kPremul_SkAlphaType));
-    SkCanvas canvas(bitmap);
-    if (clipRect) {
-        canvas.translate(-clipRect->x(), -clipRect->y());
-        SkRect rect = SkRect::MakeXYWH(clipRect->x(), clipRect->y(), clipRect->width(), clipRect->height());
-        canvas.clipRect(rect);
-    }
-    if (nominalResolution)
-        canvas.scale(1/deviceScale, 1/deviceScale);
-    canvas.drawImage(fullScreenshot, 0, 0);
-    return bitmap.asImage();
-}
-#endif
-
-
 WebKitWebResourceLoadManager* PageClientImpl::webResourceLoadManager()
 {
     return m_view.webResourceLoadManager();
@@ -606,11 +575,11 @@ void PageClientImpl::callAfterNextPresentationUpdate(CompletionHandler<void()>&&
 }
 
 #if USE(SKIA)
-RefPtr<ViewSnapshot> PageClientImpl::takeViewSnapshot(std::optional<WebCore::IntRect>&& clipRect)
+RefPtr<ViewSnapshot> PageClientImpl::takeViewSnapshot(std::optional<WebCore::IntRect>&& clipRect, bool nominalResolution)
 {
 #if ENABLE(WPE_PLATFORM)
     if (m_view.wpeView()) {
-        auto snapshot = static_cast<WKWPE::ViewPlatform&>(m_view).takeViewSnapshot(WTFMove(clipRect));
+        auto snapshot = static_cast<WKWPE::ViewPlatform&>(m_view).takeViewSnapshot(WTFMove(clipRect), nominalResolution);
         // FIXME Forward the Expected in https://webkit.org/b/300271
         if (snapshot)
             return WTFMove(snapshot.value());

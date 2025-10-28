@@ -150,7 +150,7 @@ void InspectorPlaywrightAgentClientGlib::deleteBrowserContext(WTF::String& error
 void InspectorPlaywrightAgentClientGlib::takePageScreenshot(WebPageProxy& page, WebCore::IntRect&& clip, bool nominalResolution, CompletionHandler<void(const String&, const String&)>&& completionHandler)
 {
     page.callAfterNextPresentationUpdate([protectedPage = Ref{ page }, clip = WTFMove(clip), nominalResolution, completionHandler = WTFMove(completionHandler)]() mutable {
-#if PLATFORM(GTK)
+#if PLATFORM(GTK) || (PLATFORM(WPE) && USE(SKIA))
         RefPtr<ViewSnapshot> viewSnapshot = protectedPage->pageClient()->takeViewSnapshot(WTFMove(clip), nominalResolution);
         if (viewSnapshot) {
             std::optional<String> data = WebAutomationSession::platformGetBase64EncodedPNGData(*viewSnapshot);
@@ -158,14 +158,6 @@ void InspectorPlaywrightAgentClientGlib::takePageScreenshot(WebPageProxy& page, 
                 completionHandler(emptyString(), makeString("data:image/png;base64,"_s, *data));
                 return;
             }
-        }
-#elif PLATFORM(WPE)
-        sk_sp<SkImage> protectPtr = protectedPage->pageClient()->takeViewSnapshot(WTFMove(clip), nominalResolution);
-        SkImage* surface = protectPtr.get();
-        if (surface) {
-            Vector<uint8_t> encodeData = WebCore::encodeData(surface, "image/png"_s, std::nullopt);
-            completionHandler(emptyString(), makeString("data:image/png;base64,"_s, base64Encoded(encodeData)));
-            return;
         }
 #endif
         completionHandler("Failed to take screenshot"_s, emptyString());

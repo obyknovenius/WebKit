@@ -553,13 +553,6 @@ void WebKitWebViewClient::frameDisplayed(WKWPE::View&)
     }
 }
 
-#if USE(SKIA)
-sk_sp<SkImage> WebKitWebViewClient::takeViewScreenshot()
-{
-    return sk_sp<SkImage>(webkitWebViewBackendTakeScreenshot(m_webView->priv->backend.get()));
-}
-#endif
-
 void WebKitWebViewClient::willStartLoad(WKWPE::View&)
 {
     webkitWebViewWillStartLoad(m_webView);
