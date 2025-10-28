@@ -605,7 +605,6 @@ void PageClientImpl::callAfterNextPresentationUpdate(CompletionHandler<void()>&&
     m_view.callAfterNextPresentationUpdate(WTFMove(callback));
 }
 
-<<<<<<< HEAD
 #if USE(SKIA)
 RefPtr<ViewSnapshot> PageClientImpl::takeViewSnapshot(std::optional<WebCore::IntRect>&& clipRect)
 {
@@ -623,8 +622,6 @@ RefPtr<ViewSnapshot> PageClientImpl::takeViewSnapshot(std::optional<WebCore::Int
 }
 #endif
 
-||||||| parent of 0ae828ad60cd (chore(webkit): bootstrap build #2225)
-=======
 #if ENABLE(DATE_AND_TIME_INPUT_TYPES)
 RefPtr<WebDateTimePicker> PageClientImpl::createDateTimePicker(WebPageProxy& page)
 {
@@ -632,5 +629,4 @@ RefPtr<WebDateTimePicker> PageClientImpl::createDateTimePicker(WebPageProxy& pag
 }
 #endif
 
->>>>>>> 0ae828ad60cd (chore(webkit): bootstrap build #2225)
 } // namespace WebKit

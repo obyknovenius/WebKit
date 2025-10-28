@@ -190,18 +190,14 @@ private:
 #endif
     WebKitWebResourceLoadManager* webResourceLoadManager() override;
 
-<<<<<<< HEAD
 #if USE(SKIA)
     RefPtr<ViewSnapshot> takeViewSnapshot(std::optional<WebCore::IntRect>&&) override;
 #endif
 
-||||||| parent of 0ae828ad60cd (chore(webkit): bootstrap build #2225)
-=======
 #if ENABLE(DATE_AND_TIME_INPUT_TYPES)
     RefPtr<WebDateTimePicker> createDateTimePicker(WebPageProxy&) override;
 #endif
 
->>>>>>> 0ae828ad60cd (chore(webkit): bootstrap build #2225)
     WKWPE::View& m_view;
     DefaultUndoController m_undoController;
 #if ENABLE(FULLSCREEN_API)

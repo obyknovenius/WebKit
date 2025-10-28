@@ -97,25 +97,15 @@
         "woff2"
       ]
     }
-<<<<<<< HEAD
   },
   "overrides": [
     {
         "name": "ngtcp2",
         "version": "1.12.0"
-    }
-  ]
-}
-||||||| parent of 0ae828ad60cd (chore(webkit): bootstrap build #2225)
-  }
-}
-=======
-  },
-  "overrides": [
+    },
     {
       "name": "libvpx",
       "version": "1.13.1#3"
     }
   ]
 }
->>>>>>> 0ae828ad60cd (chore(webkit): bootstrap build #2225)

@@ -9179,15 +9179,7 @@ void WebPageProxy::createNewPage(IPC::Connection& connection, WindowFeatures&& w
     configuration->setInitialReferrerPolicy(effectiveReferrerPolicy);
     configuration->setWindowFeatures(WTFMove(windowFeatures));
     configuration->setOpenedMainFrameName(openedMainFrameName);
-<<<<<<< HEAD
-||||||| parent of 0ae828ad60cd (chore(webkit): bootstrap build #2225)
-    if (!protectedPreferences()->siteIsolationEnabled())
-        configuration->setRelatedPage(*this);
-=======
-    if (!protectedPreferences()->siteIsolationEnabled())
-        configuration->setRelatedPage(*this);
     configuration->setOpenerPageForInspector(*this);
->>>>>>> 0ae828ad60cd (chore(webkit): bootstrap build #2225)
 
     if (RefPtr openerFrame = WebFrameProxy::webFrame(originatingFrameInfoData.frameID); navigationActionData.hasOpener && openerFrame) {
         configuration->setRelatedPage(*this);
