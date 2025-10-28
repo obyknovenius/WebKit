@@ -118,8 +118,13 @@ public:
 #if PLATFORM(WPE) && USE(GBM) && ENABLE(WPE_PLATFORM)
     void preferredBufferFormatsDidChange();
 #endif
+<<<<<<< HEAD
 
     void fillGLInformation(RenderProcessInfo&&, CompletionHandler<void(RenderProcessInfo&&)>&&);
+||||||| parent of 0ae828ad60cd (chore(webkit): bootstrap build #2225)
+=======
+
+>>>>>>> 0ae828ad60cd (chore(webkit): bootstrap build #2225)
 private:
     void updateRootLayer();
     WebCore::FloatRect visibleContentsRect() const;
