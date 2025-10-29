@@ -167,33 +167,16 @@ void Navigation::initializeForNewWindow(std::optional<NavigationNavigationType> 
 
                 if (navigationType == NavigationNavigationType::Replace) {
                     m_entries[*previousNavigation->m_currentEntryIndex] = NavigationHistoryEntry::create(*this, *currentItem);
-<<<<<<< HEAD
-
-                m_currentEntryIndex = getEntryIndexOfHistoryItem(m_entries, *currentItem);
-                if (m_currentEntryIndex) {
-                    m_activation = NavigationActivation::create(*navigationType, *currentEntry(), WTFMove(previousEntry));
-                    return;
-                }
-||||||| parent of 2337af0046c9 (chore(webkit): bootstrap build #2226)
-
-                m_currentEntryIndex = getEntryIndexOfHistoryItem(m_entries, *currentItem);
-
-                ASSERT(navigationType);
-                m_activation = NavigationActivation::create(*navigationType, *currentEntry(), WTFMove(previousEntry));
-
-                return;
-=======
                     m_currentEntryIndex = *previousNavigation->m_currentEntryIndex;
                 } else if (navigationType == NavigationNavigationType::Reload)
                     m_currentEntryIndex = *previousNavigation->m_currentEntryIndex;
                 else
                     m_currentEntryIndex = getEntryIndexOfHistoryItem(m_entries, *currentItem);
 
-                ASSERT(navigationType);
-                m_activation = NavigationActivation::create(*navigationType, *currentEntry(), WTFMove(previousEntry));
-
-                return;
->>>>>>> 2337af0046c9 (chore(webkit): bootstrap build #2226)
+                if (m_currentEntryIndex) {
+                    m_activation = NavigationActivation::create(*navigationType, *currentEntry(), WTFMove(previousEntry));
+                    return;
+                }
             }
         }
     }

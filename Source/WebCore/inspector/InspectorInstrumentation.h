@@ -1710,7 +1710,6 @@ inline void InspectorInstrumentation::performanceMark(ScriptExecutionContext& co
         performanceMarkImpl(*agents, label, WTFMove(startTime));
 }
 
-<<<<<<< HEAD
 inline void InspectorInstrumentation::didEnqueueFirstContentfulPaint(ScriptExecutionContext& context)
 {
     FAST_RETURN_IF_NO_FRONTENDS(void());
@@ -1725,14 +1724,11 @@ inline void InspectorInstrumentation::didEnqueueLargestContentfulPaint(ScriptExe
         didEnqueueLargestContentfulPaintImpl(*agents, entry);
 }
 
-||||||| parent of 2337af0046c9 (chore(webkit): bootstrap build #2226)
-=======
 inline void InspectorInstrumentation::bindingCalled(Page& page, JSC::JSGlobalObject* globalObject, const String& name, const String& arg)
 {
     bindingCalledImpl(instrumentingAgents(page), globalObject, name, arg);
 }
 
->>>>>>> 2337af0046c9 (chore(webkit): bootstrap build #2226)
 inline void InspectorInstrumentation::didRequestAnimationFrame(ScriptExecutionContext& scriptExecutionContext, int callbackId)
 {
     FAST_RETURN_IF_NO_FRONTENDS(void());
