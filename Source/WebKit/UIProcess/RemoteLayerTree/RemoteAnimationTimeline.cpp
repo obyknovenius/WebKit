@@ -29,6 +29,7 @@
 #if ENABLE(THREADED_ANIMATION_RESOLUTION)
 
 #import <wtf/TZoneMallocInlines.h>
+#import <wtf/MonotonicTime.h>
 
 namespace WebKit {
 
