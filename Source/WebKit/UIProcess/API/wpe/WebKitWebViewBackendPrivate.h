@@ -30,5 +30,11 @@ WTF_DECLARE_GREF_TRAITS(WebKitWebViewBackend)
 }
 
 void webkitWebViewBackendUnref(WebKitWebViewBackend*);
+<<<<<<< HEAD
 
 #endif // USE(LIBWPE)
+||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
+=======
+
+PlatformImage webkitWebViewBackendTakeScreenshot(WebKitWebViewBackend*);
+>>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)

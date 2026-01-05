@@ -48,6 +48,8 @@ void InspectorTarget::resume()
     ASSERT(m_isPaused);
     m_isPaused = false;
 
+    willResume();
+
     if (m_resumeCallback) {
         m_resumeCallback();
         m_resumeCallback = nullptr;
@@ -56,8 +58,15 @@ void InspectorTarget::resume()
 
 void InspectorTarget::setResumeCallback(WTF::Function<void()>&& callback)
 {
+<<<<<<< HEAD
     ASSERT(!m_resumeCallback);
     m_resumeCallback = WTF::move(callback);
+||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
+    ASSERT(!m_resumeCallback);
+    m_resumeCallback = WTFMove(callback);
+=======
+    m_resumeCallback = WTFMove(callback);
+>>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
 }
 
 } // namespace Inspector
