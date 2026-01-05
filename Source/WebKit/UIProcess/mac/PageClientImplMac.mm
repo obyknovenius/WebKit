@@ -108,11 +108,8 @@ namespace WebKit {
 
 using namespace WebCore;
 
-<<<<<<< HEAD
 WTF_MAKE_TZONE_ALLOCATED_IMPL(PageClientImpl);
 
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-=======
 static bool _headless = false;
 
 // static
@@ -120,7 +117,6 @@ void PageClientImpl::setHeadless(bool headless) {
     _headless = headless;
 }
 
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
 PageClientImpl::PageClientImpl(NSView *view, WKWebView *webView)
     : PageClientImplCocoa(webView)
     , m_view(view)
@@ -205,7 +201,7 @@ void PageClientImpl::assistiveTechnologyMakeFirstResponder()
 {
     [retainPtr([m_view.get() window]) makeFirstResponder:m_view.get().get()];
 }
-    
+
 void PageClientImpl::makeFirstResponder()
 {
     if (m_shouldSuppressFirstResponderChanges)
@@ -213,7 +209,7 @@ void PageClientImpl::makeFirstResponder()
 
     [retainPtr([m_view.get() window]) makeFirstResponder:m_view.get().get()];
 }
-    
+
 bool PageClientImpl::isViewVisible(NSView *view, NSWindow *viewWindow)
 {
     if (_headless)
@@ -488,7 +484,7 @@ void PageClientImpl::drawPageBorderForPrinting(WebCore::FloatSize&& size)
 {
     [webView() drawPageBorderWithSize:size];
 }
-    
+
 IntPoint PageClientImpl::screenToRootView(const IntPoint& point)
 {
     RetainPtr view = m_view.get();
@@ -628,7 +624,7 @@ void PageClientImpl::accessibilityWebProcessTokenReceived(std::span<const uint8_
 {
     checkedImpl()->setAccessibilityWebProcessToken(toNSData(data).get(), pid);
 }
-    
+
 void PageClientImpl::enterAcceleratedCompositingMode(const LayerTreeContext& layerTreeContext)
 {
     ASSERT(!layerTreeContext.isEmpty());

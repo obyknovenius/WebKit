@@ -1643,31 +1643,8 @@ Inspector::Protocol::ErrorStringOr<void> InspectorDOMAgent::highlightNode(std::o
 Inspector::Protocol::ErrorStringOr<void> InspectorDOMAgent::highlightNode(std::optional<Inspector::Protocol::DOM::NodeId>&& nodeId, const Inspector::Protocol::Runtime::RemoteObjectId& objectId, Ref<JSON::Object>&& highlightInspectorObject, RefPtr<JSON::Object>&& gridOverlayInspectorObject, RefPtr<JSON::Object>&& flexOverlayInspectorObject, std::optional<bool>&& showRulers)
 {
     Inspector::Protocol::ErrorString errorString;
-<<<<<<< HEAD
 
-    RefPtr<Node> node;
-    if (nodeId)
-        node = assertNode(errorString, *nodeId);
-    else if (!!objectId) {
-        node = nodeForObjectId(objectId);
-        errorString = "Missing node for given objectId"_s;
-    } else
-        errorString = "Either nodeId or objectId must be specified"_s;
-
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-
-    Node* node = nullptr;
-    if (nodeId)
-        node = assertNode(errorString, *nodeId);
-    else if (!!objectId) {
-        node = nodeForObjectId(objectId);
-        errorString = "Missing node for given objectId"_s;
-    } else
-        errorString = "Either nodeId or objectId must be specified"_s;
-
-=======
-    Node* node = assertNode(errorString, WTFMove(nodeId), objectId);
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
+    RefPtr<Node> node = assertNode(errorString, WTF::move(nodeId), objectId);
     if (!node)
         return makeUnexpected(errorString);
 
@@ -2058,17 +2035,12 @@ Protocol::ErrorStringOr<Ref<JSON::ArrayOf<Protocol::DOM::Quad>>> InspectorDOMAge
 Inspector::Protocol::ErrorStringOr<Ref<Protocol::Runtime::RemoteObject>> InspectorDOMAgent::resolveNode(std::optional<Inspector::Protocol::DOM::NodeId>&& nodeId, const String& objectId, const Inspector::Protocol::Network::FrameId& frameId, std::optional<int>&& contextId, const String& objectGroup)
 {
     Inspector::Protocol::ErrorString errorString;
-    Node* node = nullptr;
+    RefPtr<Node> node = nullptr;
     if (!!frameId) {
         auto* pageAgent = m_instrumentingAgents->enabledPageAgent();
         if (!pageAgent)
             return makeUnexpected("Page domain must be enabled"_s);
 
-<<<<<<< HEAD
-    RefPtr node = assertNode(errorString, nodeId);
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    Node* node = assertNode(errorString, nodeId);
-=======
         auto* frame = pageAgent->assertFrame(errorString, frameId);
         if (!frame)
             return makeUnexpected(errorString);
@@ -2077,17 +2049,10 @@ Inspector::Protocol::ErrorStringOr<Ref<Protocol::Runtime::RemoteObject>> Inspect
     } else {
         node = assertNode(errorString, WTFMove(nodeId), objectId);
     }
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
     if (!node)
         return makeUnexpected(errorString);
 
-<<<<<<< HEAD
-    auto object = resolveNode(node.get(), objectGroup);
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    auto object = resolveNode(node, objectGroup);
-=======
-    auto object = resolveNode(node, objectGroup, WTFMove(contextId));
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
+    auto object = resolveNode(node.get(), objectGroup, WTF::move(contextId));
     if (!object)
         return makeUnexpected("Missing injected script for given nodeId"_s);
 

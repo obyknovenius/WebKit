@@ -33,12 +33,8 @@
 #include <wtf/HexNumber.h>
 #include <wtf/text/MakeString.h>
 #include <wtf/text/StringBuilder.h>
-<<<<<<< HEAD
-#endif
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-=======
 #include <mutex>
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
+#endif
 
 namespace WebCore {
 

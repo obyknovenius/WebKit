@@ -246,7 +246,7 @@ WebCore::IntPoint PageClientImpl::accessibilityScreenToRootView(const WebCore::I
     return screenToRootView(point);
 }
 
-WebCore::IntRect PageClientImpl::rootViewToAccessibilityScreen(const WebCore::IntRect& rect)    
+WebCore::IntRect PageClientImpl::rootViewToAccessibilityScreen(const WebCore::IntRect& rect)
 {
     return rootViewToScreen(rect);
 }
@@ -349,13 +349,7 @@ void PageClientImpl::selectionDidChange()
 
 RefPtr<ViewSnapshot> PageClientImpl::takeViewSnapshot(std::optional<WebCore::IntRect>&& clipRect, bool nominalResolution)
 {
-<<<<<<< HEAD
-    return webkitWebViewBaseTakeViewSnapshot(WEBKIT_WEB_VIEW_BASE(m_viewWidget), WTF::move(clipRect));
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    return webkitWebViewBaseTakeViewSnapshot(WEBKIT_WEB_VIEW_BASE(m_viewWidget), WTFMove(clipRect));
-=======
-    return webkitWebViewBaseTakeViewSnapshot(WEBKIT_WEB_VIEW_BASE(m_viewWidget), WTFMove(clipRect), nominalResolution);
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
+    return webkitWebViewBaseTakeViewSnapshot(WEBKIT_WEB_VIEW_BASE(m_viewWidget), WTF::move(clipRect), nominalResolution);
 }
 
 void PageClientImpl::didChangeContentSize(const IntSize& size)

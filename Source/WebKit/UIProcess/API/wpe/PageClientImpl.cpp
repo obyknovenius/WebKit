@@ -61,20 +61,16 @@
 #include <wpe/wpe-platform.h>
 #endif
 
-<<<<<<< HEAD
 #if USE(LIBWPE)
 #include <wpe/wpe.h>
 #endif
 
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-=======
 #if USE(SKIA)
 #include <skia/core/SkBitmap.h>
 #include <skia/core/SkCanvas.h>
 #include <skia/core/SkImage.h>
 #endif
 
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
 namespace WebKit {
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(PageClientImpl);
@@ -243,7 +239,7 @@ WebCore::IntPoint PageClientImpl::accessibilityScreenToRootView(const WebCore::I
 
 WebCore::IntRect PageClientImpl::rootViewToAccessibilityScreen(const WebCore::IntRect& rect)
 {
-    return rootViewToScreen(rect);    
+    return rootViewToScreen(rect);
 }
 
 void PageClientImpl::doneWithKeyEvent(const NativeWebKeyboardEvent&, bool)
@@ -603,13 +599,7 @@ RefPtr<ViewSnapshot> PageClientImpl::takeViewSnapshot(std::optional<WebCore::Int
 {
 #if ENABLE(WPE_PLATFORM)
     if (m_view.wpeView()) {
-<<<<<<< HEAD
-        auto snapshot = static_cast<WKWPE::ViewPlatform&>(m_view).takeViewSnapshot(WTF::move(clipRect));
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-        auto snapshot = static_cast<WKWPE::ViewPlatform&>(m_view).takeViewSnapshot(WTFMove(clipRect));
-=======
-        auto snapshot = static_cast<WKWPE::ViewPlatform&>(m_view).takeViewSnapshot(WTFMove(clipRect), nominalResolution);
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
+        auto snapshot = static_cast<WKWPE::ViewPlatform&>(m_view).takeViewSnapshot(WTF::move(clipRect), nominalResolution);
         // FIXME Forward the Expected in https://webkit.org/b/300271
         if (snapshot)
             return WTF::move(snapshot.value());

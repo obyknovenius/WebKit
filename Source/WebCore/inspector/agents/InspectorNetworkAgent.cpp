@@ -522,7 +522,7 @@ void InspectorNetworkAgent::didReceiveResponse(ResourceLoaderIdentifier identifi
     // 'Raw' is used for loading worker scripts, and those should stay as 'Script' and not change to 'XHR' type.
     if (type != newType && newType != ResourceType::XHR && newType != ResourceType::Other)
         type = newType;
-    
+
     // FIXME: <webkit.org/b/216125> 304 Not Modified responses for XHR/Fetch do not have all their information from the cache.
     if (isNotModified && (type == ResourceType::XHR || type == ResourceType::Fetch) && (!cachedResource || !cachedResource->encodedSize())) {
         if (auto previousResourceData = m_resourcesData->dataForURL(response.url().string())) {
@@ -533,12 +533,12 @@ void InspectorNetworkAgent::didReceiveResponse(ResourceLoaderIdentifier identifi
                     m_resourcesData->maybeAddResourceData(requestId, buffer);
                 });
             }
-            
+
             resourceResponse->setString("mimeType"_s, previousResourceData->mimeType());
-            
+
             resourceResponse->setInteger("status"_s, previousResourceData->httpStatusCode());
             resourceResponse->setString("statusText"_s, previousResourceData->httpStatusText());
-            
+
             resourceResponse->setString("source"_s, Inspector::Protocol::Helpers::getEnumConstantValue(Inspector::Protocol::Network::Response::Source::DiskCache));
         }
     }
@@ -1299,18 +1299,12 @@ Inspector::Protocol::ErrorStringOr<void> InspectorNetworkAgent::interceptRequest
     }
     response.setHTTPHeaderFields(WTF::move(explicitHeaders));
     response.setHTTPHeaderField(HTTPHeaderName::ContentType, response.mimeType());
-<<<<<<< HEAD
-    loader->didReceiveResponse(WTF::move(response), [loader, buffer = data.releaseNonNull()]() {
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    loader->didReceiveResponse(WTFMove(response), [loader, buffer = data.releaseNonNull()]() {
-=======
 
     auto* frame = loader->frame();
     if (!setCookieValue.isEmpty() && frame && frame->page())
         frame->page()->cookieJar().setCookieFromResponse(*loader.get(), setCookieValue);
 
-    loader->didReceiveResponse(WTFMove(response), [loader, buffer = data.releaseNonNull()]() {
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
+    loader->didReceiveResponse(WTF::move(response), [loader, buffer = data.releaseNonNull()]() {
         if (loader->reachedTerminalState())
             return;
 

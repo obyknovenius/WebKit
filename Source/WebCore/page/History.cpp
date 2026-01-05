@@ -95,7 +95,7 @@ ExceptionOr<History::ScrollRestoration> History::scrollRestoration() const
     RefPtr historyItem = frame->loader().history().currentItem();
     if (!historyItem)
         return ScrollRestoration::Auto;
-    
+
     return historyItem->shouldRestoreScrollPosition() ? ScrollRestoration::Auto : ScrollRestoration::Manual;
 }
 
@@ -312,15 +312,9 @@ ExceptionOr<void> History::stateObjectAdded(RefPtr<SerializedScriptValue>&& data
             return { };
     }
 
-<<<<<<< HEAD
     frame->loader().updateURLAndHistory(fullURL, WTF::move(data), historyBehavior);
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    frame->loader().updateURLAndHistory(fullURL, WTFMove(data), historyBehavior);
-=======
-    frame->loader().updateURLAndHistory(fullURL, WTFMove(data), historyBehavior);
     InspectorInstrumentation::didNavigateWithinPage(*frame);
 
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
     return { };
 }
 

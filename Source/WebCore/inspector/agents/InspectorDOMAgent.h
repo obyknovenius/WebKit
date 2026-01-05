@@ -274,18 +274,8 @@ private:
     Ref<Inspector::Protocol::DOM::EventListener> buildObjectForEventListener(const RegisteredEventListener&, Inspector::Protocol::DOM::EventListenerId identifier, EventTarget&, const AtomString& eventType, bool disabled, const RefPtr<JSC::Breakpoint>&);
     Ref<Inspector::Protocol::DOM::AccessibilityProperties> buildObjectForAccessibilityProperties(Node&);
     void processAccessibilityChildren(AXCoreObject&, JSON::ArrayOf<Inspector::Protocol::DOM::NodeId>&);
-<<<<<<< HEAD
 
     RefPtr<Node> nodeForPath(const String& path);
-    Node* nodeForObjectId(const Inspector::Protocol::Runtime::RemoteObjectId&);
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    
-    Node* nodeForPath(const String& path);
-    Node* nodeForObjectId(const Inspector::Protocol::Runtime::RemoteObjectId&);
-=======
-    
-    Node* nodeForPath(const String& path);
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
 
     void discardBindings();
 

@@ -897,7 +897,6 @@ static NSDictionary<NSString *, id> *extractResolutionReport(NSError *error)
         resourceResponse.disableLazyInitialization();
 
         resourceResponse.setDeprecatedNetworkLoadMetrics(WebCore::copyTimingData(taskMetrics.get(), networkDataTask->networkLoadMetrics()));
-<<<<<<< HEAD
         resourceResponse.setProxyName(WTF::move(proxyName));
 
         __block WebCore::HTTPHeaderMap requestHeaders;
@@ -908,21 +907,6 @@ static NSDictionary<NSString *, id> *extractResolutionReport(NSError *error)
         resourceResponse.m_httpRequestHeaderFields = WTF::move(requestHeaders);
 
         networkDataTask->didReceiveResponse(WTF::move(resourceResponse), negotiatedLegacyTLS, privateRelayed, [completionHandler = makeBlockPtr(completionHandler), taskIdentifier](WebCore::PolicyAction policyAction) {
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-        resourceResponse.setProxyName(WTFMove(proxyName));
-        networkDataTask->didReceiveResponse(WTFMove(resourceResponse), negotiatedLegacyTLS, privateRelayed, [completionHandler = makeBlockPtr(completionHandler), taskIdentifier](WebCore::PolicyAction policyAction) {
-=======
-        resourceResponse.setProxyName(WTFMove(proxyName));
-
-        __block WebCore::HTTPHeaderMap requestHeaders;
-        NSURLSessionTaskTransactionMetrics *m = dataTask._incompleteTaskMetrics.transactionMetrics.lastObject;
-        [m.request.allHTTPHeaderFields enumerateKeysAndObjectsUsingBlock:^(NSString *name, NSString *value, BOOL *) {
-            requestHeaders.set(String(name), String(value));
-        }];
-        resourceResponse.m_httpRequestHeaderFields = WTFMove(requestHeaders);
-
-        networkDataTask->didReceiveResponse(WTFMove(resourceResponse), negotiatedLegacyTLS, privateRelayed, [completionHandler = makeBlockPtr(completionHandler), taskIdentifier](WebCore::PolicyAction policyAction) {
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
 #if !LOG_DISABLED
             LOG(NetworkSession, "%zu didReceiveResponse completionHandler (%s)", taskIdentifier, toString(policyAction).characters());
 #else

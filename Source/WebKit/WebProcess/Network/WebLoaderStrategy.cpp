@@ -497,7 +497,7 @@ bool WebLoaderStrategy::fillParametersForNetworkProcessLoad(ResourceLoader& reso
 
     if (resourceLoader.options().crossOriginEmbedderPolicy)
         loadParameters.crossOriginEmbedderPolicy = *resourceLoader.options().crossOriginEmbedderPolicy;
-    
+
     auto* webFrameLoaderClient = frame ? dynamicDowncast<WebLocalFrameLoaderClient>(frame->loader().client()) : nullptr;
     RefPtr webFrame = webFrameLoaderClient ? &webFrameLoaderClient->webFrame() : nullptr;
 
@@ -638,13 +638,7 @@ void WebLoaderStrategy::scheduleLoadFromNetworkProcess(ResourceLoader& resourceL
     }
 
     auto loader = WebResourceLoader::create(resourceLoader, trackingParameters);
-<<<<<<< HEAD
-    m_webResourceLoaders.set(identifier, WTF::move(loader));
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    m_webResourceLoaders.set(identifier, WTFMove(loader));
-=======
-    m_webResourceLoaders.set(*resourceLoader.identifier(), WTFMove(loader));
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
+    m_webResourceLoaders.set(*resourceLoader.identifier(), WTF::move(loader));
 }
 
 void WebLoaderStrategy::scheduleInternallyFailedLoad(WebCore::ResourceLoader& resourceLoader)

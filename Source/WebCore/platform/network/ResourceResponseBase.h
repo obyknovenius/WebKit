@@ -21,7 +21,7 @@
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #pragma once
@@ -228,9 +228,9 @@ public:
     WEBCORE_EXPORT bool containsInvalidHTTPHeaders() const;
 
     WEBCORE_EXPORT static ResourceResponse dataURLResponse(const URL&, const DataURLDecoder::Result&);
-    
+
     WEBCORE_EXPORT ResourceResponseBase(std::optional<ResourceResponseData>&&);
-    
+
     WEBCORE_EXPORT std::optional<ResourceResponseData> getResponseData() const;
 
 protected:
@@ -313,39 +313,17 @@ struct ResourceResponseData {
     ResourceResponseData() = default;
     ResourceResponseData(ResourceResponseData&&) = default;
     ResourceResponseData& operator=(ResourceResponseData&&) = default;
-<<<<<<< HEAD
-    ResourceResponseData(URL&& url, String&& mimeType, long long expectedContentLength, String&& textEncodingName, int httpStatusCode, String&& httpStatusText, String&& httpVersion, HTTPHeaderMap&& httpHeaderFields, std::optional<NetworkLoadMetrics>&& networkLoadMetrics, ResourceResponseSource source, ResourceResponseBaseType type, ResourceResponseBaseTainting tainting, bool isRedirected, UsedLegacyTLS usedLegacyTLS, WasPrivateRelayed wasPrivateRelayed, String&& proxyName, bool isRangeRequested, std::optional<CertificateInfo> certificateInfo, IPAddressSpace ipAddressSpace)
+    ResourceResponseData(URL&& url, String&& mimeType, long long expectedContentLength, String&& textEncodingName, int httpStatusCode, String&& httpStatusText, String&& httpVersion, HTTPHeaderMap&& httpHeaderFields, HTTPHeaderMap&& httpRequestHeaderFields, std::optional<NetworkLoadMetrics>&& networkLoadMetrics, ResourceResponseSource source, ResourceResponseBaseType type, ResourceResponseBaseTainting tainting, bool isRedirected, UsedLegacyTLS usedLegacyTLS, WasPrivateRelayed wasPrivateRelayed, String&& proxyName, bool isRangeRequested, std::optional<CertificateInfo> certificateInfo, IPAddressSpace ipAddressSpace)
         : url(WTF::move(url))
         , mimeType(WTF::move(mimeType))
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    ResourceResponseData(URL&& url, String&& mimeType, long long expectedContentLength, String&& textEncodingName, int httpStatusCode, String&& httpStatusText, String&& httpVersion, HTTPHeaderMap&& httpHeaderFields, std::optional<NetworkLoadMetrics>&& networkLoadMetrics, ResourceResponseSource source, ResourceResponseBaseType type, ResourceResponseBaseTainting tainting, bool isRedirected, UsedLegacyTLS usedLegacyTLS, WasPrivateRelayed wasPrivateRelayed, String&& proxyName, bool isRangeRequested, std::optional<CertificateInfo> certificateInfo, IPAddressSpace ipAddressSpace)
-        : url(WTFMove(url))
-        , mimeType(WTFMove(mimeType))
-=======
-    ResourceResponseData(URL&& url, String&& mimeType, long long expectedContentLength, String&& textEncodingName, int httpStatusCode, String&& httpStatusText, String&& httpVersion, HTTPHeaderMap&& httpHeaderFields, HTTPHeaderMap&& httpRequestHeaderFields, std::optional<NetworkLoadMetrics>&& networkLoadMetrics, ResourceResponseSource source, ResourceResponseBaseType type, ResourceResponseBaseTainting tainting, bool isRedirected, UsedLegacyTLS usedLegacyTLS, WasPrivateRelayed wasPrivateRelayed, String&& proxyName, bool isRangeRequested, std::optional<CertificateInfo> certificateInfo, IPAddressSpace ipAddressSpace)
-        : url(WTFMove(url))
-        , mimeType(WTFMove(mimeType))
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
         , expectedContentLength(expectedContentLength)
         , textEncodingName(WTF::move(textEncodingName))
         , httpStatusCode(httpStatusCode)
-<<<<<<< HEAD
         , httpStatusText(WTF::move(httpStatusText))
         , httpVersion(WTF::move(httpVersion))
         , httpHeaderFields(WTF::move(httpHeaderFields))
+        , httpRequestHeaderFields(WTF::move(httpRequestHeaderFields))
         , networkLoadMetrics(WTF::move(networkLoadMetrics))
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-        , httpStatusText(WTFMove(httpStatusText))
-        , httpVersion(WTFMove(httpVersion))
-        , httpHeaderFields(WTFMove(httpHeaderFields))
-        , networkLoadMetrics(WTFMove(networkLoadMetrics))
-=======
-        , httpStatusText(WTFMove(httpStatusText))
-        , httpVersion(WTFMove(httpVersion))
-        , httpHeaderFields(WTFMove(httpHeaderFields))
-        , httpRequestHeaderFields(WTFMove(httpRequestHeaderFields))
-        , networkLoadMetrics(WTFMove(networkLoadMetrics))
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
         , source(source)
         , type(type)
         , tainting(tainting)

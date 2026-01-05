@@ -984,17 +984,11 @@ static void webkitWebViewConstructed(GObject* object)
         priv->websitePolicies = adoptGRef(webkit_website_policies_new());
 
     Ref configuration = priv->relatedView && priv->relatedView->priv->configurationForNextRelatedView ? priv->relatedView->priv->configurationForNextRelatedView.releaseNonNull() : webkitWebViewCreatePageConfiguration(webView);
-<<<<<<< HEAD
-    webkitWebViewCreatePage(webView, WTF::move(configuration));
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    webkitWebViewCreatePage(webView, WTFMove(configuration));
-=======
 
     // Playwright: REGRESSION(278896@main): Need to preserve configuration's preferences.
     configuration->setPreferences(webkitSettingsGetPreferences(priv->settings.get()));
 
-    webkitWebViewCreatePage(webView, WTFMove(configuration));
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
+    webkitWebViewCreatePage(webView, WTF::move(configuration));
     webkitWebContextWebViewCreated(priv->context.get(), webView);
 
     priv->loadObserver = PageLoadStateObserver::create(webView);

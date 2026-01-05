@@ -21,7 +21,7 @@
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include "config.h"
@@ -75,29 +75,13 @@ ResourceResponseBase::ResourceResponseBase(std::optional<ResourceResponseData>&&
     : m_url(data ? WTF::move(data->url) : URL { })
     , m_mimeType(data ? WTF::move(data->mimeType) : AtomString { })
     , m_expectedContentLength(data ? data->expectedContentLength : 0)
-<<<<<<< HEAD
     , m_textEncodingName(data ? WTF::move(data->textEncodingName) : String { })
     , m_httpStatusText(data ? WTF::move(data->httpStatusText) : String { })
     , m_httpVersion(data ? WTF::move(data->httpVersion) : String { })
     , m_httpHeaderFields(data ? WTF::move(data->httpHeaderFields) : HTTPHeaderMap { })
+    , m_httpRequestHeaderFields(data ? data->httpRequestHeaderFields : HTTPHeaderMap { })
     , m_networkLoadMetrics(data && data->networkLoadMetrics ? Box<NetworkLoadMetrics>::create(WTF::move(*data->networkLoadMetrics)) : Box<NetworkLoadMetrics> { })
     , m_certificateInfo(data ? WTF::move(data->certificateInfo) : std::nullopt)
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-    , m_textEncodingName(data ? WTFMove(data->textEncodingName) : String { })
-    , m_httpStatusText(data ? WTFMove(data->httpStatusText) : String { })
-    , m_httpVersion(data ? WTFMove(data->httpVersion) : String { })
-    , m_httpHeaderFields(data ? WTFMove(data->httpHeaderFields) : HTTPHeaderMap { })
-    , m_networkLoadMetrics(data && data->networkLoadMetrics ? Box<NetworkLoadMetrics>::create(WTFMove(*data->networkLoadMetrics)) : Box<NetworkLoadMetrics> { })
-    , m_certificateInfo(data ? WTFMove(data->certificateInfo) : std::nullopt)
-=======
-    , m_textEncodingName(data ? WTFMove(data->textEncodingName) : String { })
-    , m_httpStatusText(data ? WTFMove(data->httpStatusText) : String { })
-    , m_httpVersion(data ? WTFMove(data->httpVersion) : String { })
-    , m_httpHeaderFields(data ? WTFMove(data->httpHeaderFields) : HTTPHeaderMap { })
-    , m_httpRequestHeaderFields(data ? data->httpRequestHeaderFields : HTTPHeaderMap { })
-    , m_networkLoadMetrics(data && data->networkLoadMetrics ? Box<NetworkLoadMetrics>::create(WTFMove(*data->networkLoadMetrics)) : Box<NetworkLoadMetrics> { })
-    , m_certificateInfo(data ? WTFMove(data->certificateInfo) : std::nullopt)
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
     , m_httpStatusCode(data ? data->httpStatusCode : 0)
     , m_isNull(!data)
     , m_usedLegacyTLS(data ? data->usedLegacyTLS : UsedLegacyTLS::No)
@@ -296,7 +280,7 @@ const String& ResourceResponseBase::mimeType() const
 {
     lazyInit(CommonFieldsOnly);
 
-    return m_mimeType; 
+    return m_mimeType;
 }
 
 void ResourceResponseBase::setMimeType(String&& mimeType)
@@ -310,7 +294,7 @@ void ResourceResponseBase::setMimeType(String&& mimeType)
     // FIXME: Should invalidate or update platform response if present.
 }
 
-long long ResourceResponseBase::expectedContentLength() const 
+long long ResourceResponseBase::expectedContentLength() const
 {
     lazyInit(CommonFieldsOnly);
 
@@ -323,7 +307,7 @@ void ResourceResponseBase::setExpectedContentLength(long long expectedContentLen
     m_isNull = false;
 
     // FIXME: Content length is determined by HTTP Content-Length header. We should update the header, so that it doesn't disagree with m_expectedContentLength.
-    m_expectedContentLength = expectedContentLength; 
+    m_expectedContentLength = expectedContentLength;
 
     // FIXME: Should invalidate or update platform response if present.
 }
@@ -414,7 +398,7 @@ const String& ResourceResponseBase::httpStatusText() const
 {
     lazyInit(AllFields);
 
-    return m_httpStatusText; 
+    return m_httpStatusText;
 }
 
 void ResourceResponseBase::setHTTPStatusText(String&& statusText)
@@ -429,16 +413,16 @@ void ResourceResponseBase::setHTTPStatusText(String&& statusText)
 const String& ResourceResponseBase::httpVersion() const
 {
     lazyInit(AllFields);
-    
+
     return m_httpVersion;
 }
 
 void ResourceResponseBase::setHTTPVersion(String&& versionText)
 {
     lazyInit(AllFields);
-    
+
     m_httpVersion = versionText;
-    
+
     // FIXME: Should invalidate or update platform response if present.
 }
 
@@ -576,12 +560,12 @@ String ResourceResponseBase::httpHeaderField(StringView name) const
 
     // If we already have the header, just return it instead of consuming memory by grabing all headers.
     String value = m_httpHeaderFields.get(name);
-    if (!value.isEmpty())        
+    if (!value.isEmpty())
         return value;
 
     lazyInit(AllFields);
 
-    return m_httpHeaderFields.get(name); 
+    return m_httpHeaderFields.get(name);
 }
 
 String ResourceResponseBase::httpHeaderField(HTTPHeaderName name) const
@@ -595,7 +579,7 @@ String ResourceResponseBase::httpHeaderField(HTTPHeaderName name) const
 
     lazyInit(AllFields);
 
-    return m_httpHeaderFields.get(name); 
+    return m_httpHeaderFields.get(name);
 }
 
 void ResourceResponseBase::updateHeaderParsedState(HTTPHeaderName name)
@@ -705,7 +689,7 @@ void ResourceResponseBase::parseCacheControlDirectives() const
     m_cacheControlDirectives = WebCore::parseCacheControlDirectives(m_httpHeaderFields);
     m_haveParsedCacheControlHeader = true;
 }
-    
+
 bool ResourceResponseBase::cacheControlContainsNoCache() const
 {
     if (!m_haveParsedCacheControlHeader)
@@ -726,7 +710,7 @@ bool ResourceResponseBase::cacheControlContainsMustRevalidate() const
         parseCacheControlDirectives();
     return m_cacheControlDirectives.mustRevalidate;
 }
-    
+
 bool ResourceResponseBase::cacheControlContainsImmutable() const
 {
     if (!m_haveParsedCacheControlHeader)
@@ -881,7 +865,7 @@ void ResourceResponseBase::lazyInit(InitLevel initLevel) const
 bool ResourceResponseBase::equalForWebKitLegacyChallengeComparison(const ResourceResponse& a, const ResourceResponse& b)
 {
     if (a.isNull() != b.isNull())
-        return false;  
+        return false;
     if (a.url() != b.url())
         return false;
     if (a.mimeType() != b.mimeType())
@@ -915,7 +899,7 @@ std::optional<ResourceResponseData> ResourceResponseBase::getResponseData() cons
     if (m_isNull)
         return std::nullopt;
     lazyInit(AllFields);
-    
+
     return { ResourceResponseData {
         URL { m_url },
         String { m_mimeType },
@@ -1063,20 +1047,10 @@ std::optional<WebCore::ResourceResponseData> Coder<WebCore::ResourceResponseData
         *expectedContentLength,
         WTF::move(*textEncodingName),
         *httpStatusCode,
-<<<<<<< HEAD
         WTF::move(*httpStatusText),
         WTF::move(*httpVersion),
         WTF::move(*httpHeaderFields),
-||||||| parent of 55829c06edeb (chore(webkit): bootstrap build #2243)
-        WTFMove(*httpStatusText),
-        WTFMove(*httpVersion),
-        WTFMove(*httpHeaderFields),
-=======
-        WTFMove(*httpStatusText),
-        WTFMove(*httpVersion),
-        WTFMove(*httpHeaderFields),
-        WTFMove(*httpRequestHeaderFields),
->>>>>>> 55829c06edeb (chore(webkit): bootstrap build #2243)
+        WTF::move(*httpRequestHeaderFields),
         std::nullopt,
         *source,
         *type,
