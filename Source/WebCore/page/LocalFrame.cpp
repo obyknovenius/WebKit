@@ -302,16 +302,16 @@ void LocalFrame::setView(RefPtr<LocalFrameView>&& view)
     // these calls to work.
     if (!view && m_doc && m_doc->backForwardCacheState() != Document::InBackForwardCache)
         protectedDocument()->willBeRemovedFromFrame();
-    
+
     if (RefPtr view = m_view)
         view->checkedLayoutContext()->unscheduleLayout();
-    
+
     m_eventHandler->clear();
 
     RELEASE_ASSERT(!m_doc || !m_doc->hasLivingRenderTree());
 
     m_view = WTF::move(view);
-    
+
     // Only one form submission is allowed per view of a part.
     // Since this part may be getting reused as a result of being
     // pulled from the back/forward cache, reset this flag.
@@ -530,7 +530,7 @@ String LocalFrame::searchForLabelsBeforeElement(const Vector<String>& labels, El
         *resultDistance = notFound;
     if (resultIsInCellAbove)
         *resultIsInCellAbove = false;
-    
+
     // walk backwards in the node tree, until another element, or form, or end of tree
     int unsigned lengthSearched = 0;
     RefPtr<Node> n;
@@ -591,7 +591,7 @@ static String matchLabelsAgainstString(const Vector<String>& labels, const Strin
     // Make numbers and _'s in field names behave like word boundaries, e.g., "address2"
     replace(mutableStringToMatch, JSC::Yarr::RegularExpression("\\d"_s), " "_s);
     mutableStringToMatch = makeStringByReplacingAll(mutableStringToMatch, '_', ' ');
-    
+
     JSC::Yarr::RegularExpression regExp = createRegExpForLabels(labels);
     // Use the largest match we can find in the whole string
     int pos;
@@ -610,12 +610,12 @@ static String matchLabelsAgainstString(const Vector<String>& labels, const Strin
             start = pos + 1;
         }
     } while (pos != -1);
-    
+
     if (bestPos != -1)
         return mutableStringToMatch.substring(bestPos, bestLength);
     return String();
 }
-    
+
 String LocalFrame::matchLabelsAgainstElement(const Vector<String>& labels, Element* element)
 {
     // Match against the name element, then against the id element if no match is found for the name element.
@@ -625,7 +625,7 @@ String LocalFrame::matchLabelsAgainstElement(const Vector<String>& labels, Eleme
     String resultFromNameAttribute = matchLabelsAgainstString(labels, element->getNameAttribute());
     if (!resultFromNameAttribute.isEmpty())
         return resultFromNameAttribute;
-    
+
     return matchLabelsAgainstString(labels, element->attributeWithoutSynchronization(idAttr));
 }
 
@@ -1270,7 +1270,7 @@ String LocalFrame::debugDescription() const
 
     if (RefPtr document = this->document())
         builder.append(' ', document->documentURI());
-    
+
     return builder.toString();
 }
 
@@ -1956,7 +1956,7 @@ Node* LocalFrame::approximateNodeAtViewportLocationLegacy(const FloatPoint& view
         return nullptr;
     };
 
-    return qualifyingNodeAtViewportLocation(viewportLocation, adjustedViewportLocation, WTFMove(ancestorRespondingToClickEvents), ShouldApproximate::Yes);
+    return qualifyingNodeAtViewportLocation(viewportLocation, adjustedViewportLocation, WTF::move(ancestorRespondingToClickEvents), ShouldApproximate::Yes);
 }
 
 static inline NodeQualifier ancestorRespondingToClickEventsNodeQualifier(SecurityOrigin* securityOrigin = nullptr)
@@ -2017,7 +2017,7 @@ Node* LocalFrame::nodeRespondingToDoubleClickEvent(const FloatPoint& viewportLoc
         return nullptr;
     };
 
-    return qualifyingNodeAtViewportLocation(viewportLocation, adjustedViewportLocation, WTFMove(ancestorRespondingToDoubleClickEvent), ShouldApproximate::Yes);
+    return qualifyingNodeAtViewportLocation(viewportLocation, adjustedViewportLocation, WTF::move(ancestorRespondingToDoubleClickEvent), ShouldApproximate::Yes);
 }
 
 Node* LocalFrame::nodeRespondingToInteraction(const FloatPoint& viewportLocation, FloatPoint& adjustedViewportLocation)
@@ -2055,7 +2055,7 @@ Node* LocalFrame::nodeRespondingToScrollWheelEvents(const FloatPoint& viewportLo
     };
 
     FloatPoint adjustedViewportLocation;
-    return qualifyingNodeAtViewportLocation(viewportLocation, adjustedViewportLocation, WTFMove(ancestorRespondingToScrollWheelEvents), ShouldApproximate::No);
+    return qualifyingNodeAtViewportLocation(viewportLocation, adjustedViewportLocation, WTF::move(ancestorRespondingToScrollWheelEvents), ShouldApproximate::No);
 }
 
 #endif // !PLATFORM(IOS_FAMILY)

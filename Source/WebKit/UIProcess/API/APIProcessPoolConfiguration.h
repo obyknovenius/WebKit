@@ -49,7 +49,7 @@ public:
 
     explicit ProcessPoolConfiguration();
     virtual ~ProcessPoolConfiguration();
-    
+
     Ref<ProcessPoolConfiguration> copy();
 
     bool usesSingleWebProcess() const { return m_usesSingleWebProcess; }
@@ -92,10 +92,10 @@ public:
 
     bool attrStyleEnabled() const { return m_attrStyleEnabled; }
     void setAttrStyleEnabled(bool enabled) { m_attrStyleEnabled = enabled; }
-    
+
     bool shouldThrowExceptionForGlobalConstantRedeclaration() const { return m_shouldThrowExceptionForGlobalConstantRedeclaration; }
     void setShouldThrowExceptionForGlobalConstantRedeclaration(bool shouldThrow) { m_shouldThrowExceptionForGlobalConstantRedeclaration = shouldThrow; }
-    
+
 #if PLATFORM(MAC)
     bool forceOverlayScrollbars() const { return m_forceOverlayScrollbars; }
     void setForceOverlayScrollbars(bool forceOverlayScrollbars) { m_forceOverlayScrollbars = forceOverlayScrollbars; }
@@ -103,7 +103,7 @@ public:
 
     /* playwright revert fb205fb */
     const Vector<WTF::String>& overrideLanguages() const { return m_overrideLanguages; }
-    void setOverrideLanguages(Vector<WTF::String>&& languages) { m_overrideLanguages = WTFMove(languages); }
+    void setOverrideLanguages(Vector<WTF::String>&& languages) { m_overrideLanguages = WTF::move(languages); }
     /* end playwright revert fb205fb */
 
     bool alwaysRunsAtBackgroundPriority() const { return m_alwaysRunsAtBackgroundPriority; }

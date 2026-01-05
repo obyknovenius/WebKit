@@ -2047,7 +2047,7 @@ Inspector::Protocol::ErrorStringOr<Ref<Protocol::Runtime::RemoteObject>> Inspect
 
         node = frame->ownerElement();
     } else {
-        node = assertNode(errorString, WTFMove(nodeId), objectId);
+        node = assertNode(errorString, WTF::move(nodeId), objectId);
     }
     if (!node)
         return makeUnexpected(errorString);
@@ -3515,9 +3515,9 @@ void InspectorDOMAgent::setInputFiles(const String& objectId, Ref<JSON::Array>&&
     HTMLInputElement* element = static_cast<HTMLInputElement*>(node);
     Vector<Ref<File>> fileObjects;
     if (element->hasAttributeWithoutSynchronization(webkitdirectoryAttr)) {
-        auto directoryFileListCreator = DirectoryFileListCreator::create([element = RefPtr { element }, callback = WTFMove(callback)](Ref<FileList>&& fileList) mutable {
+        auto directoryFileListCreator = DirectoryFileListCreator::create([element = RefPtr { element }, callback = WTF::move(callback)](Ref<FileList>&& fileList) mutable {
             ASSERT(isMainThread());
-            element->setFiles(WTFMove(fileList));
+            element->setFiles(WTF::move(fileList));
             callback->sendSuccess();
         });
         Vector<FileChooserFileInfo> fileChooserFiles;
@@ -3537,8 +3537,8 @@ void InspectorDOMAgent::setInputFiles(const String& objectId, Ref<JSON::Array>&&
             ScriptExecutionContext* context = element->scriptExecutionContext();
             fileObjects.append(File::create(context, path));
         }
-        RefPtr<FileList> fileList = FileList::create(WTFMove(fileObjects));
-        element->setFiles(WTFMove(fileList));
+        RefPtr<FileList> fileList = FileList::create(WTF::move(fileObjects));
+        element->setFiles(WTF::move(fileList));
         callback->sendSuccess();
     }
 }
