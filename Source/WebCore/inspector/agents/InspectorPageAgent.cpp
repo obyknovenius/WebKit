@@ -276,7 +276,7 @@ Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::overrideSetting(Ins
         return { };
 
 #if ENABLE(DEVICE_ORIENTATION)
-    case Protocol::Page::Setting::DeviceOrientationEventEnabled:
+    case Inspector::Protocol::Page::Setting::DeviceOrientationEventEnabled:
         inspectedPageSettings.setDeviceOrientationEventEnabled(value.value_or(false));
         return { };
 #endif
@@ -308,26 +308,26 @@ Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::overrideSetting(Ins
         return { };
 
 #if ENABLE(NOTIFICATIONS)
-    case Protocol::Page::Setting::NotificationsEnabled:
+    case Inspector::Protocol::Page::Setting::NotificationsEnabled:
         inspectedPageSettings.setNotificationsEnabled(value.value_or(false));
         return { };
 #endif
 
 #if ENABLE(FULLSCREEN_API)
-    case Protocol::Page::Setting::FullScreenEnabled:
+    case Inspector::Protocol::Page::Setting::FullScreenEnabled:
         inspectedPageSettings.setFullScreenEnabled(value.value_or(false));
         return { };
 #endif
 
-    case Protocol::Page::Setting::InputTypeMonthEnabled:
+    case Inspector::Protocol::Page::Setting::InputTypeMonthEnabled:
         inspectedPageSettings.setInputTypeMonthEnabled(value.value_or(false));
         return { };
 
-    case Protocol::Page::Setting::InputTypeWeekEnabled:
+    case Inspector::Protocol::Page::Setting::InputTypeWeekEnabled:
         inspectedPageSettings.setInputTypeWeekEnabled(value.value_or(false));
         return { };
 
-    case Protocol::Page::Setting::FixedBackgroundsPaintRelativeToDocument:
+    case Inspector::Protocol::Page::Setting::FixedBackgroundsPaintRelativeToDocument:
         // Enable this setting similar to iOS to ensure scrolling works with
         // `background-attachment: fixed`.
         // See https://github.com/microsoft/playwright/issues/31551.
@@ -335,7 +335,7 @@ Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::overrideSetting(Ins
         return { };
 
 #if ENABLE(POINTER_LOCK)
-    case Protocol::Page::Setting::PointerLockEnabled:
+    case Inspector::Protocol::Page::Setting::PointerLockEnabled:
         inspectedPageSettings.setPointerLockEnabled(value.value_or(false));
         return { };
 #endif
@@ -353,7 +353,7 @@ Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::overrideSetting(Ins
         return { };
 
 #if ENABLE(MEDIA_STREAM)
-    case Protocol::Page::Setting::SpeechRecognitionEnabled:
+    case Inspector::Protocol::Page::Setting::SpeechRecognitionEnabled:
         inspectedPageSettings.setSpeechRecognitionEnabled(value.value_or(false));
         return { };
 #endif
@@ -1147,7 +1147,7 @@ Inspector::Protocol::ErrorStringOr<String> InspectorPageAgent::snapshotRect(int 
     return snapshot->toDataURL("image/png"_s, std::nullopt, PreserveResolution::Yes);
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::setForcedColors(std::optional<Protocol::Page::ForcedColors>&& forcedColors)
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::setForcedColors(std::optional<Inspector::Protocol::Page::ForcedColors>&& forcedColors)
 {
     if (!forcedColors) {
         m_inspectedPage->setUseForcedColorsOverride(std::nullopt);
@@ -1155,10 +1155,10 @@ Protocol::ErrorStringOr<void> InspectorPageAgent::setForcedColors(std::optional<
     }
 
     switch (*forcedColors) {
-        case Protocol::Page::ForcedColors::Active:
+        case Inspector::Protocol::Page::ForcedColors::Active:
             m_inspectedPage->setUseForcedColorsOverride(true);
             return { };
-        case Protocol::Page::ForcedColors::None:
+        case Inspector::Protocol::Page::ForcedColors::None:
             m_inspectedPage->setUseForcedColorsOverride(false);
             return { };
     }
@@ -1167,7 +1167,7 @@ Protocol::ErrorStringOr<void> InspectorPageAgent::setForcedColors(std::optional<
     return { };
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::setTimeZone(const String& timeZone)
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::setTimeZone(const String& timeZone)
 {
     bool success = WTF::setTimeZoneOverride(timeZone);
     if (!success)
@@ -1176,7 +1176,7 @@ Protocol::ErrorStringOr<void> InspectorPageAgent::setTimeZone(const String& time
     return { };
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::setTouchEmulationEnabled(bool enabled)
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::setTouchEmulationEnabled(bool enabled)
 {
   setScreenHasTouchDeviceOverride(enabled);
   m_inspectedPage->settings().setTouchEventDOMAttributesEnabled(enabled);
@@ -1218,7 +1218,7 @@ Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::setScreenSizeOverri
     return { };
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::insertText(const String& text)
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::insertText(const String& text)
 {
     UserGestureIndicator indicator { IsProcessingUserGesture::Yes };
     RefPtr frame = m_inspectedPage->focusController().focusedOrMainFrame();
@@ -1234,13 +1234,13 @@ Protocol::ErrorStringOr<void> InspectorPageAgent::insertText(const String& text)
     return { };
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::setInterceptFileChooserDialog(bool enabled)
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::setInterceptFileChooserDialog(bool enabled)
 {
     m_interceptFileChooserDialog = enabled;
     return { };
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::setDefaultBackgroundColorOverride(RefPtr<JSON::Object>&& color)
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::setDefaultBackgroundColorOverride(RefPtr<JSON::Object>&& color)
 {
     auto* localFrame = dynamicDowncast<LocalFrame>(m_inspectedPage->mainFrame());
     LocalFrameView* view = localFrame ? localFrame->view() : nullptr;
@@ -1256,7 +1256,7 @@ Protocol::ErrorStringOr<void> InspectorPageAgent::setDefaultBackgroundColorOverr
     return { };
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::createUserWorld(const String& name)
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::createUserWorld(const String& name)
 {
     if (createdUserWorlds().contains(name))
         return makeUnexpected("World with the given name already exists"_s);
@@ -1276,19 +1276,19 @@ void InspectorPageAgent::ensureUserWorldsExistInAllFrames(const Vector<DOMWrappe
     }
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::setBypassCSP(bool enabled)
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::setBypassCSP(bool enabled)
 {
     m_bypassCSP = enabled;
     return { };
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::crash()
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::crash()
 {
     WTFCrash();
     return { };
 }
 
-Protocol::ErrorStringOr<void> InspectorPageAgent::updateScrollingState()
+Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::updateScrollingState()
 {
     auto* scrollingCoordinator = m_inspectedPage->scrollingCoordinator();
     if (!scrollingCoordinator)

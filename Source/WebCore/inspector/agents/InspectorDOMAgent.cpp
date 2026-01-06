@@ -508,7 +508,7 @@ Node* InspectorDOMAgent::assertNode(Inspector::Protocol::ErrorString& errorStrin
     return node.unsafeGet();
 }
 
-Node* InspectorDOMAgent::assertNode(Protocol::ErrorString& errorString, std::optional<Protocol::DOM::NodeId>&& nodeId, const String& objectId)
+Node* InspectorDOMAgent::assertNode(Inspector::Protocol::ErrorString& errorString, std::optional<Inspector::Protocol::DOM::NodeId>&& nodeId, const String& objectId)
 {
     Node* node = nullptr;
     if (nodeId) {
@@ -1967,7 +1967,7 @@ Inspector::Protocol::ErrorStringOr<std::tuple<String /* contentFrameId */, Strin
     return { { contentFrameId, ownerFrameId } };
 }
 
-Protocol::ErrorStringOr<void> InspectorDOMAgent::scrollIntoViewIfNeeded(const String& objectId, RefPtr<JSON::Object>&& rect)
+Inspector::Protocol::ErrorStringOr<void> InspectorDOMAgent::scrollIntoViewIfNeeded(const String& objectId, RefPtr<JSON::Object>&& rect)
 {
     Node* node = nodeForObjectId(objectId);
     if (!node)
@@ -2012,7 +2012,7 @@ Protocol::ErrorStringOr<void> InspectorDOMAgent::scrollIntoViewIfNeeded(const St
     return { };
 }
 
-Protocol::ErrorStringOr<Ref<JSON::ArrayOf<Protocol::DOM::Quad>>> InspectorDOMAgent::getContentQuads(const String& objectId)
+Inspector::Protocol::ErrorStringOr<Ref<JSON::ArrayOf<Inspector::Protocol::DOM::Quad>>> InspectorDOMAgent::getContentQuads(const String& objectId)
 {
     Node* node = nodeForObjectId(objectId);
     if (!node)
@@ -2032,7 +2032,7 @@ Protocol::ErrorStringOr<Ref<JSON::ArrayOf<Protocol::DOM::Quad>>> InspectorDOMAge
     return buildArrayOfQuads(quads);
 }
 
-Inspector::Protocol::ErrorStringOr<Ref<Protocol::Runtime::RemoteObject>> InspectorDOMAgent::resolveNode(std::optional<Inspector::Protocol::DOM::NodeId>&& nodeId, const String& objectId, const Inspector::Protocol::Network::FrameId& frameId, std::optional<int>&& contextId, const String& objectGroup)
+Inspector::Protocol::ErrorStringOr<Ref<Inspector::Protocol::Runtime::RemoteObject>> InspectorDOMAgent::resolveNode(std::optional<Inspector::Protocol::DOM::NodeId>&& nodeId, const String& objectId, const Inspector::Protocol::Network::FrameId& frameId, std::optional<int>&& contextId, const String& objectGroup)
 {
     Inspector::Protocol::ErrorString errorString;
     RefPtr<Node> node = nullptr;

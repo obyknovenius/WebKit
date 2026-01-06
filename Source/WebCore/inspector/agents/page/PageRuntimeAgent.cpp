@@ -138,7 +138,7 @@ static void addBindingToFrame(LocalFrame& frame, const String& name)
     globalObject->putDirectNativeFunction(vm, globalObject, JSC::Identifier::fromString(vm, name), 1, bindingCallback, JSC::ImplementationVisibility::Public, JSC::NoIntrinsic, JSC::attributesForStructure(static_cast<unsigned>(JSC::PropertyAttribute::Function)));
 }
 
-Protocol::ErrorStringOr<void> PageRuntimeAgent::addBinding(const String& name)
+Inspector::Protocol::ErrorStringOr<void> PageRuntimeAgent::addBinding(const String& name)
 {
     if (!m_bindingNames.add(name).isNewEntry)
         return {};
