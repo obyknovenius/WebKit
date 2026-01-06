@@ -36,6 +36,8 @@ namespace WebKit {
 
 using namespace Inspector;
 
+WTF_MAKE_TZONE_ALLOCATED_IMPL(InspectorDialogAgent);
+
 InspectorDialogAgent::InspectorDialogAgent(Inspector::BackendDispatcher& backendDispatcher, Inspector::FrontendRouter& frontendRouter, WebPageProxy& page)
     : InspectorAgentBase("Dialog"_s)
     , m_frontendDispatcher(makeUnique<DialogFrontendDispatcher>(frontendRouter))

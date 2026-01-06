@@ -38,6 +38,8 @@ namespace WebKit {
 
 using namespace Inspector;
 
+WTF_MAKE_TZONE_ALLOCATED_IMPL(WebPageInspectorEmulationAgent);
+
 WebPageInspectorEmulationAgent::WebPageInspectorEmulationAgent(BackendDispatcher& backendDispatcher, WebPageProxy& page)
     : InspectorAgentBase("Emulation"_s)
     , m_backendDispatcher(EmulationBackendDispatcher::create(backendDispatcher, this))

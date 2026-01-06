@@ -43,6 +43,8 @@ namespace WebKit {
 
 using namespace Inspector;
 
+WTF_MAKE_TZONE_ALLOCATED_IMPL(WebPageInspectorInputAgent);
+
 namespace {
 
 template<class T>

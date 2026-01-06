@@ -66,6 +66,8 @@ const int kMaxFramesInFlight = 1;
 
 using namespace Inspector;
 
+WTF_MAKE_TZONE_ALLOCATED_IMPL(InspectorScreencastAgent);
+
 InspectorScreencastAgent::InspectorScreencastAgent(BackendDispatcher& backendDispatcher, Inspector::FrontendRouter& frontendRouter, WebPageProxy& page)
     : InspectorAgentBase("Screencast"_s)
     , m_frontendDispatcher(makeUnique<ScreencastFrontendDispatcher>(frontendRouter))
