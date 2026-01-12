@@ -194,6 +194,8 @@ namespace WebCore {
     macro(DeviceMotionEvent) \
     macro(DeviceOrientationEvent) \
     macro(DigitalCredential) \
+    macro(DeviceMotionEvent) \
+    macro(DeviceOrientationEvent) \
     macro(DocumentTimeline) \
     macro(DynamicsCompressorNode) \
     macro(ElementInternals) \

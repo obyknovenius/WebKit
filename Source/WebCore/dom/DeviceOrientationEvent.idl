@@ -25,8 +25,15 @@
 
 [
     Conditional=DEVICE_ORIENTATION,
+<<<<<<< HEAD
     Exposed=Window,
     SecureContext
+||||||| parent of d4ff0ea2731f (chore(webkit): bootstrap build #2245)
+    Exposed=Window
+=======
+    EnabledBySetting=DeviceOrientationEventEnabled,
+    Exposed=Window
+>>>>>>> d4ff0ea2731f (chore(webkit): bootstrap build #2245)
 ] interface DeviceOrientationEvent : Event {
     readonly attribute unrestricted double? alpha;
     readonly attribute unrestricted double? beta;
