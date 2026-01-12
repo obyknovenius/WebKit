@@ -20,20 +20,14 @@
  * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 [
     Conditional=DEVICE_ORIENTATION,
-<<<<<<< HEAD
+    EnabledBySetting=DeviceOrientationEventEnabled,
     Exposed=Window,
     SecureContext
-||||||| parent of d4ff0ea2731f (chore(webkit): bootstrap build #2245)
-    Exposed=Window
-=======
-    EnabledBySetting=DeviceOrientationEventEnabled,
-    Exposed=Window
->>>>>>> d4ff0ea2731f (chore(webkit): bootstrap build #2245)
 ] interface DeviceMotionEvent : Event {
     readonly attribute Acceleration? acceleration;
     readonly attribute Acceleration? accelerationIncludingGravity;
