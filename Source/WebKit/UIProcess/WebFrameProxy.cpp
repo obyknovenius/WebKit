@@ -138,13 +138,6 @@ WebFrameProxy::WebFrameProxy(WebPageProxy& page, FrameProcess& process, FrameIde
     allFrames().set(frameID, *this);
     WebProcessPool::statistics().wkFrameCount++;
 
-<<<<<<< HEAD
-||||||| parent of c85763681384 (chore(webkit): bootstrap build #2277)
-    page.inspectorController().didCreateFrame(*this);
-
-=======
-
->>>>>>> c85763681384 (chore(webkit): bootstrap build #2277)
     m_frameProcess->incrementFrameCount();
 
     m_parentFrame = parent;
@@ -289,7 +282,7 @@ void WebFrameProxy::loadData(std::span<const uint8_t> data, const String& type, 
         page->sendToProcessContainingFrame(m_frameID, Messages::WebPage::LoadDataInFrame(data, type, encodingName, baseURL, m_frameID));
     }
 }
-    
+
 bool WebFrameProxy::canProvideSource() const
 {
     return isDisplayingMarkupDocument();
