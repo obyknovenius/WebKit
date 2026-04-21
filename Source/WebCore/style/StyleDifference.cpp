@@ -386,44 +386,49 @@ public:
         return false;
     }
 
-    static bool changeRequiresLayout(const RenderStyle& a, const RenderStyle& b, OptionSet<DifferenceContextSensitiveProperty>& changedContextSensitiveProperties)
+    static DifferenceProperty changedPropertyRequiresLayout(const RenderStyle& a, const RenderStyle& b, OptionSet<DifferenceContextSensitiveProperty>& changedContextSensitiveProperties)
     {
         if (&a.svgData() != &b.svgData() && svgDataChangeRequiresLayout(a.svgData(), b.svgData()))
-            return true;
+            return DifferenceProperty::Undefined;
 
         if (&a.nonInheritedData() != &b.nonInheritedData()) {
             if (a.nonInheritedData().boxData.ptr() != b.nonInheritedData().boxData.ptr()) {
-                if (a.nonInheritedData().boxData->width != b.nonInheritedData().boxData->width
-                    || a.nonInheritedData().boxData->minWidth != b.nonInheritedData().boxData->minWidth
-                    || a.nonInheritedData().boxData->maxWidth != b.nonInheritedData().boxData->maxWidth
-                    || a.nonInheritedData().boxData->height != b.nonInheritedData().boxData->height
-                    || a.nonInheritedData().boxData->minHeight != b.nonInheritedData().boxData->minHeight
-                    || a.nonInheritedData().boxData->maxHeight != b.nonInheritedData().boxData->maxHeight)
-                    return true;
+                if (a.nonInheritedData().boxData->width != b.nonInheritedData().boxData->width)
+                    return DifferenceProperty::Width;
+                if (a.nonInheritedData().boxData->minWidth != b.nonInheritedData().boxData->minWidth)
+                    return DifferenceProperty::MinWidth;
+                if (a.nonInheritedData().boxData->maxWidth != b.nonInheritedData().boxData->maxWidth)
+                    return DifferenceProperty::MaxWidth;
+                if (a.nonInheritedData().boxData->height != b.nonInheritedData().boxData->height)
+                    return DifferenceProperty::Height;
+                if (a.nonInheritedData().boxData->minHeight != b.nonInheritedData().boxData->minHeight)
+                    return DifferenceProperty::MinHeight;
+                if (a.nonInheritedData().boxData->maxHeight != b.nonInheritedData().boxData->maxHeight)
+                    return DifferenceProperty::MaxHeight;
 
                 if (a.nonInheritedData().boxData->verticalAlign != b.nonInheritedData().boxData->verticalAlign)
-                    return true;
+                    return DifferenceProperty::VerticalAlign;
 
                 if (a.nonInheritedData().boxData->boxSizing != b.nonInheritedData().boxData->boxSizing)
-                    return true;
+                    return DifferenceProperty::BoxSizing;
 
                 if (a.nonInheritedData().boxData->hasAutoUsedZIndex != b.nonInheritedData().boxData->hasAutoUsedZIndex)
-                    return true;
+                    return DifferenceProperty::ZIndex;
             }
 
             if (a.nonInheritedData().surroundData.ptr() != b.nonInheritedData().surroundData.ptr()) {
                 if (a.nonInheritedData().surroundData->margin != b.nonInheritedData().surroundData->margin)
-                    return true;
+                    return DifferenceProperty::Undefined;
 
                 if (a.nonInheritedData().surroundData->padding != b.nonInheritedData().surroundData->padding)
-                    return true;
+                    return DifferenceProperty::Undefined;
 
                 // If our border widths change, then we need to layout. Other changes to borders only necessitate a repaint.
                 if (a.usedBorderLeftWidth() != b.usedBorderLeftWidth()
                     || a.usedBorderTopWidth() != b.usedBorderTopWidth()
                     || a.usedBorderBottomWidth() != b.usedBorderBottomWidth()
                     || a.usedBorderRightWidth() != b.usedBorderRightWidth())
-                    return true;
+                    return DifferenceProperty::Undefined;
 
                 if (a.position() != PositionType::Static) {
                     if (a.nonInheritedData().surroundData->inset != b.nonInheritedData().surroundData->inset) {
@@ -431,11 +436,11 @@ public:
                         // We need to make sure SimplifiedLayout can operate correctly on RenderInlines (we will need
                         // to add a selfNeedsSimplifiedLayout bit in order to not get confused and taint every line).
                         if (a.position() != PositionType::Absolute)
-                            return true;
+                            return DifferenceProperty::Undefined;
 
                         // Optimize for the case where a positioned layer is moving but not changing size.
                         if (!positionChangeIsMovementOnly(a.nonInheritedData().surroundData->inset, b.nonInheritedData().surroundData->inset, a.nonInheritedData().boxData->width))
-                            return true;
+                            return DifferenceProperty::Undefined;
                     }
                 }
             }
@@ -443,21 +448,21 @@ public:
 
         // FIXME: We should add an optimized form of layout that just recomputes visual overflow.
         if (changeAffectsVisualOverflow(a, b))
-            return true;
+            return DifferenceProperty::Undefined;
 
         if (&a.nonInheritedData() != &b.nonInheritedData()) {
             if (a.nonInheritedData().miscData.ptr() != b.nonInheritedData().miscData.ptr()
                 && miscDataChangeRequiresLayout(*a.nonInheritedData().miscData, *b.nonInheritedData().miscData, changedContextSensitiveProperties))
-                return true;
+                return DifferenceProperty::Undefined;
 
             if (a.nonInheritedData().rareData.ptr() != b.nonInheritedData().rareData.ptr()
                 && rareDataChangeRequiresLayout(*a.nonInheritedData().rareData, *b.nonInheritedData().rareData, changedContextSensitiveProperties))
-                return true;
+                return DifferenceProperty::Undefined;
         }
 
         if (&a.inheritedRareData() != &b.inheritedRareData()
             && rareInheritedDataChangeRequiresLayout(a.inheritedRareData(), b.inheritedRareData()))
-            return true;
+            return DifferenceProperty::Undefined;
 
         if (&a.inheritedData() != &b.inheritedData()) {
             if (a.inheritedData().lineHeight != b.inheritedData().lineHeight
@@ -466,10 +471,10 @@ public:
     #endif
                 || a.inheritedData().borderHorizontalSpacing != b.inheritedData().borderHorizontalSpacing
                 || a.inheritedData().borderVerticalSpacing != b.inheritedData().borderVerticalSpacing)
-                return true;
+                return DifferenceProperty::Undefined;
 
             if (a.inheritedData().fontData != b.inheritedData().fontData)
-                return true;
+                return DifferenceProperty::Undefined;
         }
 
         if (a.inheritedFlags().boxDirection != b.inheritedFlags().boxDirection
@@ -477,14 +482,14 @@ public:
             || a.nonInheritedFlags().position != b.nonInheritedFlags().position
             || a.nonInheritedFlags().floating != b.nonInheritedFlags().floating
             || a.nonInheritedFlags().originalDisplay != b.nonInheritedFlags().originalDisplay)
-            return true;
+            return DifferenceProperty::Undefined;
 
         if (static_cast<DisplayType>(a.nonInheritedFlags().display) >= DisplayType::BlockTable) {
             if (a.inheritedFlags().borderCollapse != b.inheritedFlags().borderCollapse
                 || a.inheritedFlags().emptyCells != b.inheritedFlags().emptyCells
                 || a.inheritedFlags().captionSide != b.inheritedFlags().captionSide
                 || a.tableLayout() != b.tableLayout())
-                return true;
+                return DifferenceProperty::Undefined;
 
             // In the collapsing border model, 'hidden' suppresses other borders, while 'none'
             // does not, so these style differences can be width differences.
@@ -497,12 +502,12 @@ public:
                     || (a.borderLeftStyle() == BorderStyle::None && b.borderLeftStyle() == BorderStyle::Hidden)
                     || (a.borderRightStyle() == BorderStyle::Hidden && b.borderRightStyle() == BorderStyle::None)
                     || (a.borderRightStyle() == BorderStyle::None && b.borderRightStyle() == BorderStyle::Hidden)))
-                return true;
+                return DifferenceProperty::Undefined;
         }
 
         if (static_cast<DisplayType>(a.nonInheritedFlags().display) == DisplayType::BlockFlowListItem) {
             if (a.inheritedFlags().listStylePosition != b.inheritedFlags().listStylePosition || a.inheritedRareData().listStyleType != b.inheritedRareData().listStyleType)
-                return true;
+                return DifferenceProperty::Undefined;
         }
 
         if (a.inheritedFlags().textAlign != b.inheritedFlags().textAlign
@@ -512,36 +517,36 @@ public:
             || a.inheritedFlags().textWrapStyle != b.inheritedFlags().textWrapStyle
             || a.nonInheritedFlags().clear != b.nonInheritedFlags().clear
             || a.nonInheritedFlags().unicodeBidi != b.nonInheritedFlags().unicodeBidi)
-            return true;
+            return DifferenceProperty::Undefined;
 
         if (a.writingMode() != b.writingMode())
-            return true;
+            return DifferenceProperty::Undefined;
 
         // Overflow returns a layout hint.
         if (a.nonInheritedFlags().overflowX != b.nonInheritedFlags().overflowX
             || a.nonInheritedFlags().overflowY != b.nonInheritedFlags().overflowY)
-            return true;
+            return DifferenceProperty::Undefined;
 
         if ((a.usedVisibility() == Visibility::Collapse) != (b.usedVisibility() == Visibility::Collapse))
-            return true;
+            return DifferenceProperty::Undefined;
 
         bool aHasFirstLineStyle = a.hasPseudoStyle(PseudoElementType::FirstLine);
         if (aHasFirstLineStyle != b.hasPseudoStyle(PseudoElementType::FirstLine))
-            return true;
+            return DifferenceProperty::Undefined;
 
         if (aHasFirstLineStyle) {
             auto* aFirstLineStyle = a.getCachedPseudoStyle({ PseudoElementType::FirstLine });
             if (!aFirstLineStyle)
-                return true;
+                return DifferenceProperty::Undefined;
             auto* bFirstLineStyle = b.getCachedPseudoStyle({ PseudoElementType::FirstLine });
             if (!bFirstLineStyle)
-                return true;
+                return DifferenceProperty::Undefined;
             // FIXME: Not all first line style changes actually need layout.
             if (*aFirstLineStyle != *bFirstLineStyle)
-                return true;
+                return DifferenceProperty::Undefined;
         }
 
-        return false;
+        return DifferenceProperty::None;
     }
 
     // MARK: DifferenceResult::LayoutOutOfFlowMovementOnly
@@ -961,8 +966,8 @@ public:
     {
         auto changedContextSensitiveProperties = OptionSet<DifferenceContextSensitiveProperty>();
 
-        if (changeRequiresLayout(a, b, changedContextSensitiveProperties))
-            return { DifferenceResult::Layout, changedContextSensitiveProperties };
+        if (DifferenceProperty changedProperty = changedPropertyRequiresLayout(a, b, changedContextSensitiveProperties); changedProperty != DifferenceProperty::None)
+            return { DifferenceResult::Layout, changedContextSensitiveProperties, changedProperty };
 
         if (changeRequiresOutOfFlowMovementLayoutOnly(a, b, changedContextSensitiveProperties))
             return { DifferenceResult::LayoutOutOfFlowMovementOnly, changedContextSensitiveProperties };

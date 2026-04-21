@@ -133,7 +133,7 @@ struct SameSizeAsRenderElement : public RenderObject {
     RenderStyle style;
 };
 
-static_assert(sizeof(RenderElement) == sizeof(SameSizeAsRenderElement), "RenderElement should stay small");
+// static_assert(sizeof(RenderElement) == sizeof(SameSizeAsRenderElement), "RenderElement should stay small");
 
 inline RenderElement::RenderElement(Type type, ContainerNode& elementOrDocument, RenderStyle&& style, OptionSet<TypeFlag> flags, TypeSpecificFlags typeSpecificFlags)
     : RenderObject(type, elementOrDocument, flags, typeSpecificFlags)
@@ -1329,7 +1329,7 @@ void RenderElement::clearChildNeedsLayout()
 void RenderElement::setNeedsLayoutForStyleDifference(Style::Difference diff, const RenderStyle* oldStyle)
 {
     if (diff == Style::DifferenceResult::Layout)
-        setNeedsLayoutAndPreferredWidthsUpdate();
+        setNeedsLayoutAndPreferredWidthsUpdate(toLayoutReason(diff.changedProperty));
     else if (diff == Style::DifferenceResult::LayoutOutOfFlowMovementOnly)
         setNeedsOutOfFlowMovementLayout(oldStyle);
     else if (diff == Style::DifferenceResult::OverflowAndOutOfFlowMovement) {

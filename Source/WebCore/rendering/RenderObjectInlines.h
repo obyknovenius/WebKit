@@ -89,21 +89,22 @@ inline FloatQuad RenderObject::localToAbsoluteQuad(const FloatQuad& quad, Option
     return localToContainerQuad(quad, nullptr, mode, wasFixed);
 }
 
-inline void RenderObject::setNeedsLayout(MarkingBehavior markParents)
+inline void RenderObject::setNeedsLayout(MarkingBehavior markParents, LayoutReason reason)
 {
     ASSERT(!isSetNeedsLayoutForbidden());
     if (selfNeedsLayout())
         return;
     m_stateBitfields.setFlag(StateFlag::NeedsLayout);
+    m_stateBitfields.setLayoutReason(reason);
     if (markParents == MarkingBehavior::MarkContainingBlockChain)
         scheduleLayout(CheckedPtr { markContainingBlocksForLayout() });
     if (hasLayer())
         setLayerNeedsFullRepaint();
 }
 
-inline void RenderObject::setNeedsLayoutAndPreferredWidthsUpdate()
+inline void RenderObject::setNeedsLayoutAndPreferredWidthsUpdate(LayoutReason reason)
 {
-    setNeedsLayout();
+    setNeedsLayout(MarkingBehavior::MarkContainingBlockChain, reason);
     setNeedsPreferredWidthsUpdate();
 }
 

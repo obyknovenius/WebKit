@@ -450,7 +450,7 @@ void RenderText::styleDidChange(Style::Difference diff, const RenderStyle* oldSt
     // We do have to schedule layouts, though, since a style change can force us to
     // need to relayout.
     if (diff == Style::DifferenceResult::Layout) {
-        setNeedsLayoutAndPreferredWidthsUpdate();
+        setNeedsLayoutAndPreferredWidthsUpdate(toLayoutReason(diff.changedProperty));
         m_knownToHaveNoOverflowAndNoFallbackFonts = false;
     }
 
@@ -1839,7 +1839,7 @@ void RenderText::setTextInternal(const String& text, bool force)
 void RenderText::updateRenderedText(const String& text)
 {
     setRenderedText(text);
-    setNeedsLayoutAndPreferredWidthsUpdate();
+    setNeedsLayoutAndPreferredWidthsUpdate(LayoutReason::TextChanged);
     m_knownToHaveNoOverflowAndNoFallbackFonts = false;
 }
 

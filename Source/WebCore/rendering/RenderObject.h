@@ -704,7 +704,7 @@ public:
     bool needsLayout() const;
     bool needsPreferredLogicalWidthsUpdate() const { return m_stateBitfields.hasFlag(StateFlag::PreferredLogicalWidthsNeedUpdate); }
 
-    bool selfNeedsLayout() const { return m_stateBitfields.hasFlag(StateFlag::NeedsLayout); }
+    bool selfNeedsLayout(LayoutReason* reason = nullptr) const;
     bool needsOutOfFlowMovementLayout() const { return m_stateBitfields.hasFlag(StateFlag::NeedsOutOfFlowMovementLayout); }
     bool needsOutOfFlowMovementLayoutOnly() const;
 
@@ -755,13 +755,13 @@ public:
     RenderElement* container(const RenderLayerModelObject* repaintContainer, bool& repaintContainerSkipped) const;
 
     RenderElement* markContainingBlocksForLayout(RenderElement* layoutRoot = nullptr);
-    inline void setNeedsLayout(MarkingBehavior = MarkingBehavior::MarkContainingBlockChain);
+    inline void setNeedsLayout(MarkingBehavior = MarkingBehavior::MarkContainingBlockChain, LayoutReason = LayoutReason::Unknown);
     enum class HadSkippedLayout { No, Yes };
     void clearNeedsLayout(HadSkippedLayout = HadSkippedLayout::No);
     void setNeedsPreferredWidthsUpdate(MarkingBehavior = MarkingBehavior::MarkContainingBlockChain, const RenderBlock* ancestorUpdateBoundary = nullptr);
     void clearNeedsPreferredWidthsUpdate() { m_stateBitfields.setFlag(StateFlag::PreferredLogicalWidthsNeedUpdate, { }); }
     
-    inline void setNeedsLayoutAndPreferredWidthsUpdate();
+    inline void setNeedsLayoutAndPreferredWidthsUpdate(LayoutReason = LayoutReason::Unknown);
 
     void setPositionState(PositionType);
     void clearPositionedState() { m_stateBitfields.clearPositionedState(); }
@@ -1221,6 +1221,7 @@ private:
 
     private:
         uint32_t m_flags : 23 { 0 };
+        uint32_t m_layoutReason : 8 { std::to_underlying(LayoutReason::None) }; // LayoutReason
         uint32_t m_positionedState : 2 { IsStaticallyPositioned }; // PositionedState
         uint32_t m_selectionState : 3 { std::to_underlying(HighlightState::None) }; // HighlightState
         uint32_t m_fragmentedFlowState : 1 { std::to_underlying(FragmentedFlowState::NotInsideFlow) }; // FragmentedFlowState
@@ -1238,6 +1239,9 @@ private:
             ASSERT(flags() == newFlags);
         }
         void clearFlag(StateFlag flag) { setFlag(flag, false); }
+
+        ALWAYS_INLINE LayoutReason layoutReason() const { return static_cast<LayoutReason>(m_layoutReason); }
+        ALWAYS_INLINE void setLayoutReason(LayoutReason layoutReason) { m_layoutReason = static_cast<uint32_t>(layoutReason); }
 
         bool isOutOfFlowPositioned() const { return m_positionedState == IsOutOfFlowPositioned; }
         bool isRelativelyPositioned() const { return m_positionedState == IsRelativelyPositioned; }
@@ -1349,6 +1353,13 @@ inline bool RenderObject::needsLayout() const
         || outOfFlowChildNeedsLayout()
         || needsSimplifiedNormalFlowLayout()
         || needsOutOfFlowMovementLayout();
+}
+
+inline bool RenderObject::selfNeedsLayout(LayoutReason* reason) const
+{
+    if (reason)
+        *reason = m_stateBitfields.layoutReason();
+    return m_stateBitfields.hasFlag(StateFlag::NeedsLayout);
 }
 
 inline bool RenderObject::needsOutOfFlowMovementLayoutOnly() const

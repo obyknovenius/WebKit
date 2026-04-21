@@ -492,7 +492,7 @@ void RenderTreeBuilder::attachToRenderElementInternal(RenderElement& parent, Ren
             listItemRenderer->updateListMarkerNumbers();
     }
 
-    newChild->setNeedsLayoutAndPreferredWidthsUpdate();
+    newChild->setNeedsLayoutAndPreferredWidthsUpdate(LayoutReason::Initialize);
     auto isOutOfFlowBox = newChild->style().hasOutOfFlowPosition();
     if (!isOutOfFlowBox)
         parent.setNeedsPreferredWidthsUpdate();

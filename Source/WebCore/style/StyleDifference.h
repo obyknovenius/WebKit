@@ -70,16 +70,32 @@ enum class DifferenceContextSensitiveProperty : uint8_t {
     WillChange  = 1 << 5,
 };
 
+enum class DifferenceProperty : uint8_t {
+    None,
+    Undefined,
+    Height,
+    MaxHeight,
+    MaxWidth,
+    MinHeight,
+    MinWidth,
+    Width,
+    VerticalAlign,
+    BoxSizing,
+    ZIndex,
+};
+
 struct Difference {
     constexpr explicit Difference() = default;
-    constexpr Difference(DifferenceResult result, OptionSet<DifferenceContextSensitiveProperty> contextSensitiveProperties = { })
+    constexpr Difference(DifferenceResult result, OptionSet<DifferenceContextSensitiveProperty> contextSensitiveProperties = { }, DifferenceProperty changedProperty = DifferenceProperty::None)
         : result { result }
         , contextSensitiveProperties { contextSensitiveProperties }
+        , changedProperty { changedProperty }
     {
     }
 
     DifferenceResult result { DifferenceResult::Equal };
     OptionSet<DifferenceContextSensitiveProperty> contextSensitiveProperties { };
+    DifferenceProperty changedProperty { DifferenceProperty::None };
 
     bool operator==(const Difference&) const = default;
     bool operator==(const DifferenceResult& other) const { return result == other; }

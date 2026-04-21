@@ -207,6 +207,94 @@ void LocalFrameViewLayoutContext::interleavedLayout()
     document()->styleScope().invalidateForLayoutDependencies(layoutDependencyUpdateContext);
 }
 
+static void showElementsThatNeedLayout(TextStream& stream, RenderObject* renderer, int depth = 0)
+{
+    if (!renderer->needsLayout())
+        return;
+
+    for (int i = 0; i < depth; ++i)
+        stream << "  ";
+
+    LayoutReason reason;
+    if (renderer->selfNeedsLayout(&reason))
+        stream << "[self] ";
+    if (renderer->normalChildNeedsLayout())
+        stream << "[normal child] ";
+    if (renderer->outOfFlowChildNeedsLayout())
+        stream << "[out-of-flow child] ";
+    if (renderer->needsSimplifiedNormalFlowLayout())
+        stream << "[simplified] ";
+    if (renderer->needsOutOfFlowMovementLayout())
+        stream << "[out-of-flow movement] ";
+    if (renderer->outOfFlowChildNeedsStaticPositionLayout())
+        stream << "[out of flow child needs parent layout] ";
+
+    if (renderer->node())
+        stream << renderer->node()->nodeName();
+
+    if (RefPtr<Element> element = dynamicDowncast<Element>(renderer->node()))
+        stream << element->attributesForDescription();
+
+    if (auto* renderText = dynamicDowncast<RenderText>(renderer))
+        stream << " " << renderText->text();
+
+    switch (reason) {
+        case LayoutReason::None:
+            break;
+        case LayoutReason::Unknown:
+            stream << " (unknown reason)";
+            break;
+        case LayoutReason::Initialize:
+            stream << " (initialize)";
+            break;
+        case LayoutReason::WidthChanged:
+            stream << " (width changed)";
+            break;
+        case LayoutReason::MinWidthChanged:
+            stream << " (min width changed)";
+            break;
+        case LayoutReason::MaxWidthChanged:
+            stream << " (max width changed)";
+            break;
+        case LayoutReason::HeightChanged:
+            stream << " (height changed)";
+            break;
+        case LayoutReason::MinHeightChanged:
+            stream << " (min height changed)";
+            break;
+        case LayoutReason::MaxHeightChanged:
+            stream << " (max height changed)";
+            break;
+        case LayoutReason::VerticalAlignChanged:
+            stream << " (vertical align changed)";
+            break;
+        case LayoutReason::BoxSizingChanged:
+            stream << " (box sizing changed)";
+            break;
+        case LayoutReason::ZIndexChanged:
+            stream << " (z-index changed)";
+            break;
+        case LayoutReason::StyleChanged:
+            stream << " (style changed)";
+            break;
+        case LayoutReason::TextChanged:
+            stream << " (text changed)";
+            break;
+    }
+
+    stream << "\n";
+
+    for (auto* child = renderer->firstChildSlow(); child; child = child->nextSibling())
+        showElementsThatNeedLayout(stream, child, depth + 1);
+
+    if (auto* renderBlock = dynamicDowncast<RenderBlock>(renderer)) {
+        if (auto* outOfFlowDescendants = renderBlock->outOfFlowBoxes()) {
+            for (auto& renderer : *outOfFlowDescendants)
+                showElementsThatNeedLayout(stream, &renderer, depth + 1);
+        }
+    }
+}
+
 void LocalFrameViewLayoutContext::performLayout(bool canDeferUpdateLayerPositions)
 {
     Ref frame = this->frame();
@@ -276,6 +364,12 @@ void LocalFrameViewLayoutContext::performLayout(bool canDeferUpdateLayerPosition
 #ifndef NDEBUG
         RenderTreeNeedsLayoutChecker checker(*renderView());
 #endif
+
+        TextStream stream;
+        stream << "\n";
+        showElementsThatNeedLayout(stream, layoutRoot);
+        fprintf(stderr, "%s\n", stream.release().utf8().data());
+
         layoutRoot->layout();
 #if ENABLE(TEXT_AUTOSIZING)
         applyTextSizingIfNeeded(*layoutRoot.get());
@@ -515,6 +609,8 @@ void LocalFrameViewLayoutContext::disableSetNeedsLayout()
 
 void LocalFrameViewLayoutContext::scheduleLayout()
 {
+    fprintf(stderr, "LocalFrameViewLayoutContext::scheduleLayout()\n");
+
     // FIXME: We should assert the page is not in the back/forward cache, but that is causing
     // too many false assertions. See <rdar://problem/7218118>.
     ASSERT(frame().view() == &view());
@@ -560,6 +656,11 @@ void LocalFrameViewLayoutContext::unscheduleLayout()
 
 void LocalFrameViewLayoutContext::scheduleSubtreeLayout(RenderElement& layoutRoot)
 {
+    fprintf(stderr, "LocalFrameViewLayoutContext::scheduleSubtreeLayout(%s %s)\n",
+        layoutRoot.element()->nodeName().utf8().data(),
+        layoutRoot.element()->attributesForDescription().utf8().data()
+    );
+
     ASSERT(renderView());
     CheckedRef renderView = *this->renderView();
 

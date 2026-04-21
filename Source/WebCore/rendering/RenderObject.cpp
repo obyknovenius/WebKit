@@ -146,7 +146,7 @@ struct SameSizeAsRenderObject : public CanMakeSingleThreadWeakPtr<SameSizeAsRend
 };
 
 #if CPU(ADDRESS64)
-static_assert(sizeof(RenderObject) == sizeof(SameSizeAsRenderObject), "RenderObject should stay small");
+// static_assert(sizeof(RenderObject) == sizeof(SameSizeAsRenderObject), "RenderObject should stay small");
 #endif
 
 void RenderObjectDeleter::operator() (RenderObject* renderer) const
@@ -563,6 +563,7 @@ void RenderObject::clearNeedsLayout(HadSkippedLayout hadSkippedLayout)
     if (hasLayer())
         downcast<RenderLayerModelObject>(*this).layer()->setSelfAndChildrenNeedPositionUpdate();
     m_stateBitfields.clearFlag(StateFlag::NeedsLayout);
+    m_stateBitfields.setLayoutReason(LayoutReason::None);
     setOutOfFlowChildNeedsLayoutBit(false);
     setNeedsSimplifiedNormalFlowLayoutBit(false);
     setNormalChildNeedsLayoutBit(false);

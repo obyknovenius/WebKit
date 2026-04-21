@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include "StyleDifference.h"
+
 namespace WebCore {
 
 enum class CursorDirective : uint8_t {
@@ -59,5 +61,48 @@ enum class MapCoordinatesMode : uint8_t {
     IgnoreStickyOffsets = 1 << 3,
     ClampOverscroll     = 1 << 4,
 };
+
+enum class LayoutReason : uint8_t {
+    None,
+    Unknown,
+    Initialize,
+    WidthChanged,
+    MinWidthChanged,
+    MaxWidthChanged,
+    HeightChanged,
+    MinHeightChanged,
+    MaxHeightChanged,
+    VerticalAlignChanged,
+    BoxSizingChanged,
+    ZIndexChanged,
+    StyleChanged,
+    TextChanged,
+};
+
+inline LayoutReason toLayoutReason(Style::DifferenceProperty property)
+{
+    switch (property) {
+        case Style::DifferenceProperty::Width:
+            return LayoutReason::WidthChanged;
+        case Style::DifferenceProperty::MinWidth:
+            return LayoutReason::MinWidthChanged;
+        case Style::DifferenceProperty::MaxWidth:
+            return LayoutReason::MaxWidthChanged;
+        case Style::DifferenceProperty::Height:
+            return LayoutReason::HeightChanged;
+        case Style::DifferenceProperty::MinHeight:
+            return LayoutReason::MinHeightChanged;
+        case Style::DifferenceProperty::MaxHeight:
+            return LayoutReason::MaxHeightChanged;
+        case Style::DifferenceProperty::VerticalAlign:
+            return LayoutReason::VerticalAlignChanged;
+        case Style::DifferenceProperty::BoxSizing:
+            return LayoutReason::BoxSizingChanged;
+        case Style::DifferenceProperty::ZIndex:
+            return LayoutReason::ZIndexChanged;
+        default:
+            return LayoutReason::StyleChanged;
+    }
+}
 
 }
