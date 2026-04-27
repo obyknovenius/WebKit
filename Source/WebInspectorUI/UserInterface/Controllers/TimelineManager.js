@@ -60,6 +60,8 @@ WI.TimelineManager = class TimelineManager extends WI.Object
         this._stopCapturingTimeout = undefined;
         this._deadTimeTimeout = undefined;
         this._lastDeadTimeTickle = 0;
+
+        this._lastLayoutInitiator = null;
     }
 
     // Agent
@@ -852,14 +854,19 @@ WI.TimelineManager = class TimelineManager extends WI.Object
             console.assert(isNaN(endTime));
 
             // Pass the startTime as the endTime since this record type has no duration.
-            return new WI.LayoutTimelineRecord(WI.LayoutTimelineRecord.EventType.InvalidateLayout, startTime, startTime, stackTrace, sourceCodeLocation);
+            record = new WI.LayoutTimelineRecord(WI.LayoutTimelineRecord.EventType.InvalidateLayout, startTime, startTime, stackTrace, sourceCodeLocation);
+            this._lastLayoutInitiator = record;
+            return record;
 
         case InspectorBackend.Enum.Timeline.EventType.Layout:
             var layoutRecordType = sourceCodeLocation ? WI.LayoutTimelineRecord.EventType.ForcedLayout : WI.LayoutTimelineRecord.EventType.Layout;
-            return new WI.LayoutTimelineRecord(layoutRecordType, startTime, endTime, stackTrace, sourceCodeLocation, {
+            record = new WI.LayoutTimelineRecord(layoutRecordType, startTime, endTime, stackTrace, sourceCodeLocation, {
                 quad: new WI.Quad(recordPayload.data.root),
                 domNode: WI.domManager.nodeForId(recordPayload.data.nodeId),
+                initiator: this._lastLayoutInitiator,
             });
+            this._lastLayoutInitiator = null;
+            return record;
 
         case InspectorBackend.Enum.Timeline.EventType.Paint:
             return new WI.LayoutTimelineRecord(WI.LayoutTimelineRecord.EventType.Paint, startTime, endTime, stackTrace, sourceCodeLocation, {

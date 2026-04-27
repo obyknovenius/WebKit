@@ -47,7 +47,7 @@ WI.LayoutTimelineDataGridNode = class LayoutTimelineDataGridNode extends WI.Time
         this._cachedData.area = this.record.area;
         this._cachedData.startTime = this.record.startTime - (this.graphDataSource ? this.graphDataSource.zeroTime : 0);
         this._cachedData.totalTime = this.record.duration;
-        this._cachedData.initiator = this.record.initiatorCallFrame;
+        this._cachedData.initiator = this.record.initiator ? this.record.initiator : this.record.initiatorCallFrame;
         this._cachedData.source = this.record.initiatorCallFrame; // Timeline Overview
         return this._cachedData;
     }
@@ -91,6 +91,23 @@ WI.LayoutTimelineDataGridNode = class LayoutTimelineDataGridNode extends WI.Time
 
         case "source": // Timeline Overview
             return super.createCellContent("initiator", cell);
+
+        case "initiator":
+            if (value instanceof WI.LayoutTimelineRecord) {
+                cell.classList.add(WI.TimelineTabContentView.iconClassNameForRecord(value));
+                let fragment = document.createDocumentFragment();
+
+                let iconElement = document.createElement("div");
+                iconElement.classList.add("icon");
+                iconElement.title = this.generateIconTitle(columnIdentifier);
+                fragment.append(iconElement);
+
+                fragment.append(WI.TimelineTabContentView.displayNameForRecord(value));
+
+                fragment.appendChild(WI.createGoToArrowButton());
+                return fragment;
+            }
+            return super.createCellContent(columnIdentifier, cell);
         }
 
         return super.createCellContent(columnIdentifier, cell);

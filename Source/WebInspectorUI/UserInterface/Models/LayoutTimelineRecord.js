@@ -25,7 +25,7 @@
 
 WI.LayoutTimelineRecord = class LayoutTimelineRecord extends WI.TimelineRecord
 {
-    constructor(eventType, startTime, endTime, stackTrace, sourceCodeLocation, {quad, area, domNode} = {})
+    constructor(eventType, startTime, endTime, stackTrace, sourceCodeLocation, {quad, area, domNode, initiator} = {})
     {
         super(WI.TimelineRecord.Type.Layout, startTime, endTime, stackTrace, sourceCodeLocation);
 
@@ -39,6 +39,7 @@ WI.LayoutTimelineRecord = class LayoutTimelineRecord extends WI.TimelineRecord
         this._quad = quad || null;
         this._area = area || null;
         this._domNode = domNode || null;
+        this._initiator = initiator || null;
     }
 
     // Static
@@ -120,6 +121,11 @@ WI.LayoutTimelineRecord = class LayoutTimelineRecord extends WI.TimelineRecord
     get domNode()
     {
         return this._domNode;
+    }
+
+    get initiator()
+    {
+        return this._initiator;
     }
 
     saveIdentityToCookie(cookie)
