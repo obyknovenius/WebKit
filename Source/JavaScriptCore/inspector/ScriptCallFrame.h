@@ -69,4 +69,6 @@ private:
     LineColumn m_lineColumn;
 };
 
+JS_EXPORT_PRIVATE WTF::TextStream& operator<<(WTF::TextStream&, const ScriptCallFrame&);
+
 } // namespace Inspector

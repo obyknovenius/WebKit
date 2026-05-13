@@ -103,6 +103,9 @@
 #include <wtf/text/MakeString.h>
 #include <wtf/text/StringBuilder.h>
 #include <wtf/text/TextStream.h>
+#include <JavaScriptCore/ScriptCallStack.h>
+#include <JavaScriptCore/ScriptCallStackFactory.h>
+#include "JSExecState.h"
 
 #if ENABLE(CONTENT_CHANGE_OBSERVER)
 #include "ContentChangeObserver.h"
@@ -1004,6 +1007,44 @@ void Node::markAncestorsForInvalidatedStyle()
     }
 }
 
+void Node::logStyleInvalidated(Style::Validity validity)
+{
+    static const bool shouldLog = !!getenv("WEBKIT_DEBUG_STYLE_INVALIDATED");
+    if (!shouldLog)
+        return;
+
+    if (validity == Style::Validity::Valid || validity == Style::Validity::AnimationInvalid)
+        return;
+
+    TextStream stream(TextStream::LineMode::MultipleLine, TextStream::Formatting::NumberRespectingIntegers);
+
+    switch (validity) {
+    case Style::Validity::InlineStyleInvalid:
+        stream << "Inline style of <" << description() << "> invalidated";
+        break;
+    case Style::Validity::ElementInvalid:
+        stream << "Style of <" << description() << "> invalidated";
+        break;
+    case Style::Validity::SubtreeInvalid:
+        stream << "Style of <" << description() << "> and all its children invalidated";
+        break;
+    default:
+        ASSERT_NOT_REACHED();
+    }
+    stream.nextLine();
+
+    Ref<Inspector::ScriptCallStack> stackTrace = Inspector::createScriptCallStack(JSExecState::currentState());
+    if (stackTrace->size()) {
+        stream.setIndent(1);
+        stream.writeIndent();
+        stream << "Call stack:" << '\n';
+        stream.increaseIndent();
+        stream << stackTrace;
+    }
+
+    WTFLogAlways("%s\n", stream.release().utf8().data());
+}
+
 void Node::invalidateStyle(Style::Validity validity, Style::InvalidationMode mode)
 {
     if (!inRenderedDocument())
@@ -1013,8 +1054,10 @@ void Node::invalidateStyle(Style::Validity validity, Style::InvalidationMode mod
     if (document().inRenderTreeUpdate())
         return;
 
-    if (validity != Style::Validity::Valid)
+    if (validity != Style::Validity::Valid) {
         setStateFlag(StateFlag::IsComputedStyleInvalidFlag);
+        logStyleInvalidated(validity);
+    }
 
     bool markAncestors = styleValidity() == Style::Validity::Valid || mode == Style::InvalidationMode::InsertedIntoAncestor;
 

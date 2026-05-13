@@ -31,6 +31,7 @@
 
 #include "config.h"
 #include "ScriptCallFrame.h"
+#include <wtf/text/TextStream.h>
 
 namespace Inspector {
 
@@ -77,6 +78,19 @@ Ref<Protocol::Console::CallFrame> ScriptCallFrame::buildInspectorObject() const
         .setLineNumber(m_lineColumn.line)
         .setColumnNumber(m_lineColumn.column)
         .release();
+}
+
+TextStream& operator<<(TextStream& ts, const ScriptCallFrame& frame)
+{
+    if (frame.functionName().isEmpty())
+        ts << "(anonymous function)";
+    else
+        ts << frame.functionName();
+
+    if (!frame.isNative())
+        ts << " at " << frame.sourceURL() << ":" << frame.lineNumber() << ":" << frame.columnNumber();
+
+    return ts;
 }
 
 } // namespace Inspector

@@ -116,6 +116,10 @@
 #include <wtf/StackStats.h>
 #include <wtf/TZoneMallocInlines.h>
 #include <wtf/text/TextStream.h>
+#include <JavaScriptCore/ScriptCallStack.h>
+#include <JavaScriptCore/ScriptCallStackFactory.h>
+#include "JSExecState.h"
+#include <wtf/StringPrintStream.h>
 
 #if ENABLE(CONTENT_CHANGE_OBSERVER)
 #include "ContentChangeObserver.h"
@@ -1346,17 +1350,95 @@ void RenderElement::clearChildNeedsLayout()
     setOutOfFlowChildNeedsStaticPositionLayoutBit(false);
 }
 
+void RenderElement::logNeedsLayout(Style::Difference diff, const RenderStyle* oldStyle) const
+{
+    static const bool shouldLog = !!getenv("WEBKIT_DEBUG_NEEDS_LAYOUT");
+    if (!shouldLog)
+        return;
+
+    if (!oldStyle)
+        return;
+
+    TextStream stream(TextStream::LineMode::MultipleLine, TextStream::Formatting::NumberRespectingIntegers);
+
+    stream << "Style change on ";
+    if (element())
+        stream << "<" << element()->description() << "> ";
+    else
+        stream << "anonymous element ";
+    stream << "caused ";
+
+    switch (diff.result) {
+    case Style::DifferenceResult::LayoutOutOfFlowMovementOnly:
+        stream << " out-of-flow movement layout";
+        break;
+    case Style::DifferenceResult::Overflow:
+        stream << "overflow layout";
+        break;
+    case Style::DifferenceResult::OverflowAndOutOfFlowMovement:
+        stream << "overflow and out-of-flow movement layout";
+        break;
+    case Style::DifferenceResult::Layout:
+        stream << "layout";
+        break;
+    default:
+        ASSERT_NOT_REACHED();
+    }
+    stream << '\n';
+
+    stream.setIndent(1);
+    stream.writeIndent();
+    stream << "Diff:" << '\n';
+    stream.increaseIndent();
+    Style::dumpDifferences(stream, *oldStyle, m_style);
+
+    stream.setIndent(1);
+    stream.writeIndent();
+    stream << "Subtree:" << '\n';
+    stream.increaseIndent();
+
+    Vector<const RenderElement*> ancestors;
+    for (const RenderElement* ancestor = parent(); !ancestor->isRenderView(); ancestor = ancestor->parent())
+        ancestors.append(ancestor);
+
+    for (auto it = ancestors.rbegin(); it != ancestors.rend(); ++it) {
+        stream.writeIndent();
+        if (auto* element = (*it)->element())
+            stream << "<" << element->description() << ">";
+        else
+            stream << "anonymous";
+        stream << '\n';
+        stream.increaseIndent();
+    }
+
+    Ref<Inspector::ScriptCallStack> stackTrace = Inspector::createScriptCallStack(JSExecState::currentState());
+    if (stackTrace->size()) {
+        stream.setIndent(1);
+        stream.writeIndent();
+        stream << "Call stack:" << '\n';
+        stream.increaseIndent();
+        stream << stackTrace;
+    }
+
+    WTFLogAlways("%s\n", stream.release().utf8().data());
+}
+
 void RenderElement::setNeedsLayoutForStyleDifference(Style::Difference diff, const RenderStyle* oldStyle)
 {
-    if (diff == Style::DifferenceResult::Layout)
+    if (diff == Style::DifferenceResult::Layout) {
+        logNeedsLayout(diff, oldStyle);
         setNeedsLayoutAndPreferredWidthsUpdate();
-    else if (diff == Style::DifferenceResult::LayoutOutOfFlowMovementOnly)
+    } else if (diff == Style::DifferenceResult::LayoutOutOfFlowMovementOnly) {
+        logNeedsLayout(diff, oldStyle);
         setNeedsOutOfFlowMovementLayout(oldStyle);
-    else if (diff == Style::DifferenceResult::OverflowAndOutOfFlowMovement) {
+    } else if (diff == Style::DifferenceResult::OverflowAndOutOfFlowMovement) {
+        logNeedsLayout(diff, oldStyle);
         setNeedsOutOfFlowMovementLayout(oldStyle);
         setNeedsLayoutForOverflowChange();
-    } else if (diff == Style::DifferenceResult::Overflow)
+    } else if (diff == Style::DifferenceResult::Overflow) {
+        logNeedsLayout(diff, oldStyle);
         setNeedsLayoutForOverflowChange();
+    }
 }
 
 void RenderElement::setNeedsLayoutForOverflowChange()

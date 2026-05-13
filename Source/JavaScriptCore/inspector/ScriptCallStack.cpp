@@ -31,6 +31,7 @@
 
 #include "config.h"
 #include "ScriptCallStack.h"
+#include <wtf/text/TextStream.h>
 
 namespace Inspector {
 
@@ -134,6 +135,15 @@ Ref<Protocol::Console::StackTrace> ScriptCallStack::buildInspectorObject() const
     }
 
     return stackTrace;
+}
+
+TextStream& operator<<(TextStream& ts, const ScriptCallStack& stack)
+{
+    for (size_t i = 0; i < stack.size(); ++i) {
+        ts.writeIndent();
+        ts << stack.at(i) << '\n';
+    }
+    return ts;
 }
 
 } // namespace Inspector

@@ -76,4 +76,6 @@ private:
     RefPtr<AsyncStackTrace> m_parentStackTrace;
 };
 
+JS_EXPORT_PRIVATE WTF::TextStream& operator<<(WTF::TextStream&, const ScriptCallStack&);
+
 } // namespace Inspector

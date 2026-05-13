@@ -448,6 +448,8 @@ private:
 
     template<typename> Color selectionColor() const;
 
+    void logNeedsLayout(Style::Difference, const RenderStyle*) const;
+
     SingleThreadPackedWeakPtr<RenderObject> m_firstChild;
     unsigned m_hasInitializedStyle : 1;
 

@@ -800,6 +800,8 @@ private:
 
     WEBCORE_EXPORT void notifyInspectorOfRendererChange();
 
+    void logStyleInvalidated(Style::Validity);
+
 #if ASSERT_ENABLED
     mutable bool m_inRemovedLastRefFunction { false };
     bool m_adoptionIsRequired { true };

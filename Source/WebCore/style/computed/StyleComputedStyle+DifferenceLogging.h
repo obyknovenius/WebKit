@@ -88,8 +88,10 @@ void logIfDifferent(TextStream& ts, ASCIILiteral name, const T& item1, const T& 
     else
         differ = item1 != item2;
 
-    if (differ)
+    if (differ) {
+        ts.writeIndent();
         ts << name << " differs: "_s << ValueOrUnstreamableMessage(item1) << ", "_s << ValueOrUnstreamableMessage(item2) << '\n';
+    }
 }
 
 } // namespace WebCore
