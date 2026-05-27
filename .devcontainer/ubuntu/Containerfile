@@ -1,0 +1,11 @@
+FROM ubuntu:26.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN --mount=type=bind,source=Tools,target=Tools \
+    apt-get update && \
+    Tools/wpe/install-dependencies && \
+    Tools/gtk/install-dependencies && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN userdel -r -f ubuntu

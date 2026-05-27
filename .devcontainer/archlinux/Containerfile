@@ -1,0 +1,3 @@
+FROM archlinux:base-20260927.0.600689
+
+RUN pacman -Syu --noconfirm
