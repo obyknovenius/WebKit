@@ -1,0 +1,9 @@
+{
+  "features": {
+    "ghcr.io/obyknovenius/devcontainer-features/add-user:1": {
+      "version": "1.0.0",
+      "resolved": "ghcr.io/obyknovenius/devcontainer-features/add-user@sha256:1e8031fc2d014118da9ea3b2f204b2d897ecac0c5fa7e1f10daa910e5c51de91",
+      "integrity": "sha256:1e8031fc2d014118da9ea3b2f204b2d897ecac0c5fa7e1f10daa910e5c51de91"
+    }
+  }
+}

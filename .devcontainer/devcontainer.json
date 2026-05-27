@@ -1,0 +1,47 @@
+{
+	"name": "WebKit Container SDK",
+	"image": "ghcr.io/igalia/wkdev-sdk:2.55-v1-a95eaf2",
+	"runArgs": [
+		"--hostname=wkdev-sdk",
+		"--device=/dev/dri",
+		"--device=/dev/udmabuf",
+		"--ipc=host",
+		"--pid=host",
+		"--pids-limit=-1",
+		"--network=host"
+	],
+	"mounts": [
+		"type=bind,bind-propagation=rslave,source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR}",
+		"type=tmpfs,target=/tmp,tmpfs-mode=1777",
+		"type=bind,source=/var/lib/systemd/coredump,target=/var/lib/systemd/coredump",
+		"type=bind,source=/var/log/journal,target=/var/log/journal,readonly"
+	],
+	"containerEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}"
+	},
+	"capAdd": [
+		"SYS_ADMIN",
+		"SYS_PTRACE",
+	],
+	"securityOpt": [
+		"seccomp=unconfined",
+		"unmask=ALL",
+		"label=disable"
+	],
+	"features": {
+        "ghcr.io/obyknovenius/devcontainer-features/add-user:1": {}
+    },
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpp-devtools",
+				"ms-vscode.cmake-tools",
+				"Anthropic.claude-code"
+			]
+		}
+	},
+	"remoteUser": "${localEnv:USER}"
+}

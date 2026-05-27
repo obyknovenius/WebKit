@@ -1,0 +1,44 @@
+{
+	"name": "Fedora 44",
+	"build": {
+		"dockerfile": "Containerfile"
+	},
+	"runArgs": [
+		"--device=/dev/dri",
+		"--hostname=fedora-44"
+	],
+	"mounts": [
+		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,bind-propagation=rslave",
+		"source=${localEnv:HOME}/.claude,target=/home/${localEnv:USER}/.claude,type=bind"
+	],
+	"containerEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
+		"WEBKIT_JHBUILD": "TRUE"
+	},
+	"capAdd": [
+		"SYS_ADMIN",
+		"SYS_PTRACE"
+	],
+	"securityOpt": [
+		"seccomp=unconfined",
+		"unmask=ALL",
+		"label=disable"
+	],
+	"onCreateCommand": "sudo dnf update && Tools/wpe/install-dependencies && Tools/gtk/install-dependencies && Tools/Scripts/update-webkitwpe-libs && Tools/Scripts/update-webkitgtk-libs",
+	"features": {
+        "ghcr.io/obyknovenius/devcontainer-features/add-user:1": {}
+    },
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpp-devtools",
+				"ms-vscode.cmake-tools",
+				"Anthropic.claude-code"
+			]
+		}
+	},
+	"remoteUser": "${localEnv:USER}"
+}
