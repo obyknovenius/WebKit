@@ -1,0 +1,21 @@
+FROM ubuntu:22.04
+
+RUN apt-get update && \
+    apt-get install -y curl locales
+
+RUN locale-gen en_US.UTF-8
+
+RUN echo "deb https://ppa.launchpadcontent.net/ubuntu-toolchain-r/test/ubuntu jammy main" >> /etc/apt/sources.list.d/ubuntu-toolchain-r.list && \
+    curl -s -o /etc/apt/trusted.gpg.d/ubuntu-toolchain-r.asc "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x60C317803A41BA51845E371A1E9377A2BA9EF27F" && \
+    apt-get update && \
+    apt-get install -y libstdc++-13-dev
+
+RUN echo "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-23 main" >> /etc/apt/sources.list.d/llvm.list && \
+    curl -s -o /etc/apt/trusted.gpg.d/apt.llvm.org.asc https://apt.llvm.org/llvm-snapshot.gpg.key && \
+    apt-get update && \
+    apt-get install -y clang-23
+
+ENV CC=/usr/bin/clang-23
+ENV CXX=/usr/bin/clang++-23
+
+ENV BUILD_WEBKIT_ARGS="-cmakeargs=-DLD_PACK_RELATIVE_RELOCS=OFF --cmakearg=-DUSE_VULKAN=OFF"

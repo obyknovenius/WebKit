@@ -1,0 +1,47 @@
+{
+	"name": "Fedora 44",
+	"build": {
+		"dockerfile": "Containerfile"
+	},
+	"features": {
+        "ghcr.io/obyknovenius/devcontainer-features/add-user:1": {}
+    },
+	"runArgs": [
+		"--device=/dev/dri",
+		"--hostname=fedora-44"
+	],
+	"mounts": [
+		"type=bind,bind-propagation=rslave,source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR}",
+		"type=bind,source=${localEnv:HOME}/.claude,target=/home/${localEnv:USER}/.claude"
+	],
+	"capAdd": [
+		"SYS_ADMIN",
+		"SYS_PTRACE"
+	],
+	"securityOpt": [
+		"seccomp=unconfined",
+		"unmask=ALL",
+		"label=disable"
+	],
+	"containerEnv": {
+		"WEBKIT_JHBUILD": "TRUE"
+	},
+	"remoteEnv": {
+		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+		"PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/Tools/Scripts"
+	},
+	"remoteUser": "${localEnv:USER}",
+	"onCreateCommand": "sudo dnf update && Tools/wpe/install-dependencies && Tools/gtk/install-dependencies && Tools/Scripts/update-webkitwpe-libs && Tools/Scripts/update-webkitgtk-libs",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpp-devtools",
+				"ms-vscode.cmake-tools",
+				"Anthropic.claude-code"
+			]
+		}
+	}
+}
