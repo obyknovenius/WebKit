@@ -1,0 +1,43 @@
+{
+	"name": "Ubuntu 24.04",
+	"build": {
+		"dockerfile": "Containerfile"
+	},
+	"runArgs": [
+		"--device=/dev/dri"
+	],
+	"mounts": [
+		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,bind-propagation=rslave",
+		"source=${localEnv:HOME}/.claude,target=/home/${localEnv:USER}/.claude,type=bind"
+	],
+	"containerEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}"
+	},
+	"capAdd": [
+		"SYS_ADMIN",
+		"SYS_PTRACE"
+	],
+	"securityOpt": [
+		"seccomp=unconfined",
+		"unmask=ALL",
+		"label=disable"
+	],
+	"features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "username": "${localEnv:USER}"
+        }
+    },
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpp-devtools",
+				"ms-vscode.cmake-tools",
+				"Anthropic.claude-code"
+			]
+		}
+	},
+	"remoteUser": "${localEnv:USER}",
+}

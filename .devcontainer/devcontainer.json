@@ -1,0 +1,39 @@
+{
+	"name": "WebKit Container SDK",
+	"image": "ghcr.io/igalia/wkdev-sdk:2.53-v2-2352e15",
+	"runArgs": [
+		"--device=/dev/dri"
+	],
+	"mounts": [
+		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,bind-propagation=rslave"
+	],
+	"containerEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}"
+	},
+	"capAdd": [
+		"SYS_ADMIN",
+		"SYS_PTRACE"
+	],
+	"securityOpt": [
+		"seccomp=unconfined",
+		"unmask=ALL",
+		"label=disable"
+	],
+	"features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "username": "${localEnv:USER}"
+        }
+    },
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpp-devtools",
+				"ms-vscode.cmake-tools"
+			]
+		}
+	},
+	"remoteUser": "${localEnv:USER}"
+}
