@@ -437,6 +437,11 @@ void CurlHandle::appendRequestHeaders(const HTTPHeaderMap& headers)
     }
 }
 
+static bool isProxyHeader(const String& name)
+{
+    return startsWithLettersIgnoringASCIICase(name, "proxy-"_s);
+}
+
 void CurlHandle::appendRequestHeader(const String& name, const String& value)
 {
     String header;
@@ -448,14 +453,20 @@ void CurlHandle::appendRequestHeader(const String& name, const String& value)
         header = makeString(name, ": "_s, value);
     }
 
-    appendRequestHeader(WTF::move(header));
+    if (isProxyHeader(name))
+        appendProxyRequestHeader(WTF::move(header));
+    else
+        appendRequestHeader(WTF::move(header));
 }
 
 void CurlHandle::removeRequestHeader(const String& name)
 {
     // Add a header with no content, the internally used header will get disabled.
     auto header = makeString(name, ':');
-    appendRequestHeader(WTF::move(header));
+    if (isProxyHeader(name))
+        appendProxyRequestHeader(WTF::move(header));
+    else
+        appendRequestHeader(WTF::move(header));
 }
 
 void CurlHandle::appendRequestHeader(const String& header)
@@ -487,6 +498,7 @@ void CurlHandle::enableRequestHeaders()
     curl_easy_setopt(m_handle, CURLOPT_HTTPHEADER, headers);
 }
 
+<<<<<<< HEAD
 void CurlHandle::enableProxyRequestHeaders()
 {
     if (m_proxyRequestHeaders.isEmpty())
@@ -496,6 +508,28 @@ void CurlHandle::enableProxyRequestHeaders()
     curl_easy_setopt(m_handle, CURLOPT_PROXYHEADER, headers);
 }
 
+||||||| parent of b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
+=======
+void CurlHandle::appendProxyRequestHeader(String&& header)
+{
+    bool needToEnable = m_proxyRequestHeaders.isEmpty();
+
+    m_proxyRequestHeaders.append(header);
+
+    if (needToEnable)
+        enableProxyRequestHeaders();
+}
+
+void CurlHandle::enableProxyRequestHeaders()
+{
+    if (m_proxyRequestHeaders.isEmpty())
+        return;
+
+    const struct curl_slist* headers = m_proxyRequestHeaders.head();
+    curl_easy_setopt(m_handle, CURLOPT_PROXYHEADER, headers);
+}
+
+>>>>>>> b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
 void CurlHandle::enableHttp()
 {
     auto isHttp2Enabled = CurlContext::singleton().isHttp2Enabled();

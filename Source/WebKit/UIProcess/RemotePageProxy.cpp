@@ -38,6 +38,13 @@
 #include "RemoteMediaSessionManagerProxy.h"
 #include "RemotePageDrawingAreaProxy.h"
 #include "RemotePageFullscreenManagerProxy.h"
+<<<<<<< HEAD
+||||||| parent of b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
+#include "RemotePageMediaSessionManagerProxy.h"
+=======
+#include "RemotePageMediaSessionManagerProxy.h"
+#include "RemotePagePlaybackSessionManagerProxy.h"
+>>>>>>> b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
 #include "RemotePageScreenOrientationManagerProxy.h"
 #include "RemotePageVisitedLinkStoreRegistration.h"
 #include "RemotePageWebAuthenticatorCoordinatorProxy.h"
@@ -58,6 +65,7 @@
 #include <WebCore/PageIdentifier.h>
 #include <WebCore/RemoteUserInputEventData.h>
 #include <wtf/TZoneMallocInlines.h>
+
 
 #if ENABLE(FULLSCREEN_API)
 #include "WebFullScreenManagerProxy.h"
