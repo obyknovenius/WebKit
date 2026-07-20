@@ -498,18 +498,6 @@ void CurlHandle::enableRequestHeaders()
     curl_easy_setopt(m_handle, CURLOPT_HTTPHEADER, headers);
 }
 
-<<<<<<< HEAD
-void CurlHandle::enableProxyRequestHeaders()
-{
-    if (m_proxyRequestHeaders.isEmpty())
-        return;
-
-    const struct curl_slist* headers = m_proxyRequestHeaders.head();
-    curl_easy_setopt(m_handle, CURLOPT_PROXYHEADER, headers);
-}
-
-||||||| parent of b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
-=======
 void CurlHandle::appendProxyRequestHeader(String&& header)
 {
     bool needToEnable = m_proxyRequestHeaders.isEmpty();
@@ -529,7 +517,6 @@ void CurlHandle::enableProxyRequestHeaders()
     curl_easy_setopt(m_handle, CURLOPT_PROXYHEADER, headers);
 }
 
->>>>>>> b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
 void CurlHandle::enableHttp()
 {
     auto isHttp2Enabled = CurlContext::singleton().isHttp2Enabled();

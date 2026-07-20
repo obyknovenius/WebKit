@@ -328,13 +328,8 @@ private:
     };
 
     void enableRequestHeaders();
-<<<<<<< HEAD
-    void enableProxyRequestHeaders();
-||||||| parent of b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
-=======
     void appendProxyRequestHeader(String&&);
     void enableProxyRequestHeaders();
->>>>>>> b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
 
     static CURLcode willSetupSslCtxCallback(CURL*, void* sslCtx, void* userData);
     CURLcode willSetupSslCtx(void* sslCtx);

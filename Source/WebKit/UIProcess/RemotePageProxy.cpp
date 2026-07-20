@@ -38,13 +38,7 @@
 #include "RemoteMediaSessionManagerProxy.h"
 #include "RemotePageDrawingAreaProxy.h"
 #include "RemotePageFullscreenManagerProxy.h"
-<<<<<<< HEAD
-||||||| parent of b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
-#include "RemotePageMediaSessionManagerProxy.h"
-=======
-#include "RemotePageMediaSessionManagerProxy.h"
 #include "RemotePagePlaybackSessionManagerProxy.h"
->>>>>>> b3f2f71c4c87 (chore(webkit): bootstrap build #2333)
 #include "RemotePageScreenOrientationManagerProxy.h"
 #include "RemotePageVisitedLinkStoreRegistration.h"
 #include "RemotePageWebAuthenticatorCoordinatorProxy.h"
