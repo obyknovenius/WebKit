@@ -242,14 +242,8 @@ public:
     WEBCORE_EXPORT RefPtr<Node> nodeRespondingToDoubleClickEvent(const FloatPoint& viewportLocation, FloatPoint& adjustedViewportLocation);
 
     static bool nodeWillRespondToMouseEvents(Node&);
-<<<<<<< HEAD
 
     WEBCORE_EXPORT RefPtr<LocalDOMWindow> windowWithDoubleClickEventListener() const;
-#endif // PLATFORM(COCOA)
-||||||| parent of a4e9438b752d (chore(webkit): bootstrap build #2336)
-#endif // PLATFORM(COCOA)
-=======
->>>>>>> a4e9438b752d (chore(webkit): bootstrap build #2336)
 
 #if PLATFORM(IOS_FAMILY)
     const ViewportArguments& viewportArguments() const LIFETIME_BOUND;
