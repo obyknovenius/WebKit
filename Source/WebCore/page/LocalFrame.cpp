@@ -1934,7 +1934,6 @@ RefPtr<Node> LocalFrame::nodeRespondingToDoubleClickEvent(const FloatPoint& view
     return qualifyingNodeAtViewportLocation(viewportLocation, adjustedViewportLocation, WTF::move(ancestorRespondingToDoubleClickEvent), ShouldApproximate::Yes);
 }
 
-<<<<<<< HEAD
 RefPtr<LocalDOMWindow> LocalFrame::windowWithDoubleClickEventListener() const
 {
     RefPtr window = this->window();
@@ -1943,12 +1942,6 @@ RefPtr<LocalDOMWindow> LocalFrame::windowWithDoubleClickEventListener() const
 
     return window;
 }
-
-#endif // PLATFORM(COCOA)
-||||||| parent of 44aac0686ea1 (chore(webkit): bootstrap build #2338)
-#endif // PLATFORM(COCOA)
-=======
->>>>>>> 44aac0686ea1 (chore(webkit): bootstrap build #2338)
 
 } // namespace WebCore
 
