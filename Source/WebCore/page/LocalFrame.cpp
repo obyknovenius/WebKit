@@ -93,6 +93,7 @@
 #include "MixedContentChecker.h"
 #include "Navigator.h"
 #include "NodeList.h"
+#include "NodeRenderStyle.h"
 #include "NodeTraversal.h"
 #include "Page.h"
 #include "PaymentSession.h"
@@ -229,6 +230,7 @@ LocalFrame::LocalFrame(Page& page, ClientCreator&& clientCreator, FrameIdentifie
 
 void LocalFrame::init()
 {
+    InspectorInstrumentation::frameAttached(this);
     loader().init();
 }
 
@@ -462,7 +464,7 @@ void LocalFrame::orientationChanged()
 IntDegrees LocalFrame::orientation() const
 {
     if (RefPtr page = this->page())
-        return page->chrome().client().deviceOrientation();
+        return page->orientation();
     return 0;
 }
 #endif // ENABLE(ORIENTATION_EVENTS)
@@ -1683,7 +1685,6 @@ String LocalFrame::frameURLProtocol() const
     return ""_s;
 }
 
-#if PLATFORM(COCOA)
 
 static bool nodeIsMouseFocusable(Node& node)
 {
@@ -1933,6 +1934,7 @@ RefPtr<Node> LocalFrame::nodeRespondingToDoubleClickEvent(const FloatPoint& view
     return qualifyingNodeAtViewportLocation(viewportLocation, adjustedViewportLocation, WTF::move(ancestorRespondingToDoubleClickEvent), ShouldApproximate::Yes);
 }
 
+<<<<<<< HEAD
 RefPtr<LocalDOMWindow> LocalFrame::windowWithDoubleClickEventListener() const
 {
     RefPtr window = this->window();
@@ -1943,6 +1945,10 @@ RefPtr<LocalDOMWindow> LocalFrame::windowWithDoubleClickEventListener() const
 }
 
 #endif // PLATFORM(COCOA)
+||||||| parent of 44aac0686ea1 (chore(webkit): bootstrap build #2338)
+#endif // PLATFORM(COCOA)
+=======
+>>>>>>> 44aac0686ea1 (chore(webkit): bootstrap build #2338)
 
 } // namespace WebCore
 
