@@ -290,7 +290,12 @@ namespace WTF {
             {
                 return unsafeMakeSpan<T, SegmentSize>(m_entries, SegmentSize);
             }
-            T* data() { return m_entries; }
+
+            T* data()
+            {
+                static_assert(!OBJECT_OFFSETOF(Segment, m_entries), "Segment must add no header for (sizeof(T) * segSize) to size the buffer");
+                return m_entries;
+            }
 
         private:
             T m_entries[0];
@@ -379,7 +384,6 @@ WTF_ALLOW_UNSAFE_BUFFER_USAGE_END
 
         void allocateSegment()
         {
-            static_assert(!sizeof(Segment), "Segment must add no header for (sizeof(T) * segSize) to size the buffer");
             size_t segSize = sizeOfSegment(m_segments.size());
             auto* ptr = Malloc::malloc(sizeof(T) * segSize);
             m_segments.append(SegmentPtr(static_cast<Segment*>(ptr), { }));
