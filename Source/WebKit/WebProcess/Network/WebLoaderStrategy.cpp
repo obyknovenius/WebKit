@@ -683,19 +683,11 @@ void WebLoaderStrategy::scheduleLoadFromNetworkProcess(ResourceLoader& resourceL
         return;
     }
 
-<<<<<<< HEAD
     RefPtr<PendingStreamState> state;
     if (RefPtr body = resourceLoader.request().httpBody())
         state = body->pendingStreamState();
     auto loader = WebResourceLoader::create(resourceLoader, trackingParameters, WTF::move(state));
-    m_webResourceLoaders.set(identifier, WTF::move(loader));
-||||||| parent of 43a6ff4871c2 (chore(webkit): bootstrap build #2339)
-    auto loader = WebResourceLoader::create(resourceLoader, trackingParameters);
-    m_webResourceLoaders.set(identifier, WTF::move(loader));
-=======
-    auto loader = WebResourceLoader::create(resourceLoader, trackingParameters);
     m_webResourceLoaders.set(*resourceLoader.identifier(), WTF::move(loader));
->>>>>>> 43a6ff4871c2 (chore(webkit): bootstrap build #2339)
 }
 
 void WebLoaderStrategy::scheduleInternallyFailedLoad(WebCore::ResourceLoader& resourceLoader)
