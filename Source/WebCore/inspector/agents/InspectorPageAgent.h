@@ -180,24 +180,10 @@ private:
     String m_bootstrapScript;
     bool m_isFirstLayoutAfterOnLoad { false };
     bool m_showPaintRects { false };
-<<<<<<< HEAD
-||||||| parent of 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
-
-    std::optional<bool> m_fullScreenEnabledBeforeOverride;
-    std::optional<bool> m_notificationsEnabledBeforeOverride;
-    std::optional<bool> m_pointerLockEnabledBeforeOverride;
-    std::optional<bool> m_pushAPIEnabledBeforeOverride;
-=======
-
-    std::optional<bool> m_fullScreenEnabledBeforeOverride;
-    std::optional<bool> m_notificationsEnabledBeforeOverride;
-    std::optional<bool> m_pointerLockEnabledBeforeOverride;
-    std::optional<bool> m_pushAPIEnabledBeforeOverride;
 
     bool m_interceptFileChooserDialog { false };
     bool m_bypassCSP { false };
     bool m_ignoreDidClearWindowObject { false };
->>>>>>> 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
 };
 
 } // namespace WebCore

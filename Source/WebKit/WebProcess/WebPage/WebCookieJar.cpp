@@ -445,40 +445,10 @@ void WebCookieJar::setOptInCookiePartitioningEnabled(bool enabled)
 }
 #endif
 
-<<<<<<< HEAD
-||||||| parent of 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
-#if !PLATFORM(COCOA)
-
-String WebCookieJar::cookiesInPartitionedCookieStorage(const WebCore::Document&, const URL&, const WebCore::SameSiteInfo&) const
-{
-    return { };
-}
-
-void WebCookieJar::setCookiesInPartitionedCookieStorage(const WebCore::Document&, const URL&, const WebCore::SameSiteInfo&, const String&)
-{
-}
-
-#endif // !PLATFORM(COCOA)
-
-=======
 void WebCookieJar::setCookieFromResponse(ResourceLoader& loader, const String& setCookieValue)
 {
     const auto& request = loader.request();
     WebProcess::singleton().ensureNetworkProcessConnection().connection().send(Messages::NetworkConnectionToWebProcess::SetCookieFromResponse(request.firstPartyForCookies(), SameSiteInfo::create(request), request.url(), setCookieValue), 0);
 }
 
-#if !PLATFORM(COCOA)
-
-String WebCookieJar::cookiesInPartitionedCookieStorage(const WebCore::Document&, const URL&, const WebCore::SameSiteInfo&) const
-{
-    return { };
-}
-
-void WebCookieJar::setCookiesInPartitionedCookieStorage(const WebCore::Document&, const URL&, const WebCore::SameSiteInfo&, const String&)
-{
-}
-
-#endif // !PLATFORM(COCOA)
-
->>>>>>> 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
 } // namespace WebKit

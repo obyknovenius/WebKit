@@ -260,35 +260,6 @@ Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::overrideUserAgent(c
     return { };
 }
 
-<<<<<<< HEAD
-||||||| parent of 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
-void InspectorPageAgent::overrideSettingByModifyingValue(std::optional<bool>& savedValue, std::optional<bool> value, bool (Settings::*getter)() const, void (Settings::*setter)(bool))
-{
-    Ref inspectedPageSettings = m_inspectedPage->settings();
-    if (value) {
-        if (!savedValue)
-            savedValue = (inspectedPageSettings.get().*getter)();
-        (inspectedPageSettings.get().*setter)(*value);
-    } else if (savedValue) {
-        (inspectedPageSettings.get().*setter)(*savedValue);
-        savedValue = std::nullopt;
-    }
-}
-
-=======
-void InspectorPageAgent::overrideSettingByModifyingValue(std::optional<bool>& savedValue, std::optional<bool> value, bool (Settings::*getter)() const, void (Settings::*setter)(bool))
-{
-    Ref inspectedPageSettings = m_inspectedPage->settings();
-    if (value) {
-        if (!savedValue)
-            savedValue = (inspectedPageSettings.get().*getter)();
-        (inspectedPageSettings.get().*setter)(*value);
-    } else if (savedValue) {
-        (inspectedPageSettings.get().*setter)(*savedValue);
-        savedValue = std::nullopt;
-    }
-}
-
 Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::overridePlatform(const String& value)
 {
     m_platformOverride = value;
@@ -296,7 +267,6 @@ Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::overridePlatform(co
     return { };
 }
 
->>>>>>> 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
 Inspector::Protocol::ErrorStringOr<void> InspectorPageAgent::overrideSetting(Inspector::Protocol::Page::Setting setting, std::optional<bool>&& value)
 {
     auto& inspectedPageSettings = m_inspectedPage->settings();

@@ -8730,15 +8730,11 @@ void WebPageProxy::didFailProvisionalLoadForFrameShared(Ref<WebProcessProxy>&& p
     m_failingProvisionalLoadURL = { };
     m_allowsLoadingAlternateHTMLForFailingProvisionalLoadURL = true;
 
-<<<<<<< HEAD
     if (willContinueLoading == WillContinueLoading::Yes)
         return;
 
-||||||| parent of 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
-=======
     m_inspectorController->didFailProvisionalLoadForFrame(*navigationID, error);
 
->>>>>>> 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
     // If the provisional page's load fails then we destroy the provisional page.
     if (m_provisionalPage && m_provisionalPage->mainFrame() == &frame)
         m_provisionalPage = nullptr;
@@ -11213,34 +11209,18 @@ void WebPageProxy::runJavaScriptAlert(IPC::Connection& connection, FrameIdentifi
             automationSession->willShowJavaScriptDialog(*this, message, std::nullopt);
     }
 
-<<<<<<< HEAD
     runModalJavaScriptDialog(WTF::move(frame), WTF::move(frameInfo), WTF::move(message), [reply = WTF::move(reply)](WebPageProxy& page, WebFrameProxy* frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& completion, DialogDisposition disposition) mutable {
         if (disposition == DialogDisposition::Cancel) {
             reply();
             return completion();
         }
-        page.m_uiClient->runJavaScriptAlert(page, WTF::move(message), frame, WTF::move(frameInfo), [reply = WTF::move(reply), completion = WTF::move(completion)]() mutable {
+        if (page.m_inspectorDialogAgent)
+            page.m_inspectorDialogAgent->javascriptDialogOpening("alert"_s, message);
+        page.m_uiClient->runJavaScriptAlert(page, WTF::move(message), frame, WTF::move(frameInfo), [weakPage = WeakPtr { page }, reply = WTF::move(reply), completion = WTF::move(completion)]() mutable {
+            if (RefPtr page = weakPage.get(); page && page->m_inspectorDialogAgent)
+                page->m_inspectorDialogAgent->javascriptDialogClosed();
             reply();
             completion();
-||||||| parent of 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
-    auto showModal = [protectedThis = Ref { *this }](RefPtr<WebFrameProxy>&& frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& reply) mutable {
-        protectedThis->runModalJavaScriptDialog(WTF::move(frame), WTF::move(frameInfo), WTF::move(message), [reply = WTF::move(reply)](WebPageProxy& page, WebFrameProxy* frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& completion) mutable {
-            page.m_uiClient->runJavaScriptAlert(page, WTF::move(message), frame, WTF::move(frameInfo), [reply = WTF::move(reply), completion = WTF::move(completion)]() mutable {
-                reply();
-                completion();
-            });
-=======
-    auto showModal = [protectedThis = Ref { *this }](RefPtr<WebFrameProxy>&& frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& reply) mutable {
-        protectedThis->runModalJavaScriptDialog(WTF::move(frame), WTF::move(frameInfo), WTF::move(message), [reply = WTF::move(reply)](WebPageProxy& page, WebFrameProxy* frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& completion) mutable {
-            if (page.m_inspectorDialogAgent)
-                page.m_inspectorDialogAgent->javascriptDialogOpening("alert"_s, message);
-            page.m_uiClient->runJavaScriptAlert(page, WTF::move(message), frame, WTF::move(frameInfo), [weakPage = WeakPtr { page }, reply = WTF::move(reply), completion = WTF::move(completion)]() mutable {
-                if (RefPtr page = weakPage.get(); page && page->m_inspectorDialogAgent)
-                    page->m_inspectorDialogAgent->javascriptDialogClosed();
-                reply();
-                completion();
-            });
->>>>>>> 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
         });
     });
 }
@@ -11265,32 +11245,16 @@ void WebPageProxy::runJavaScriptConfirm(IPC::Connection& connection, FrameIdenti
     if (m_inspectorDialogAgent)
         m_inspectorDialogAgent->javascriptDialogOpening("confirm"_s, message);
 
-<<<<<<< HEAD
     runModalJavaScriptDialog(WTF::move(frame), WTF::move(frameInfo), WTF::move(message), [reply = WTF::move(reply)](WebPageProxy& page, WebFrameProxy* frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& completion, DialogDisposition disposition) mutable {
         if (disposition == DialogDisposition::Cancel) {
             reply(false);
             return completion();
         }
-        page.m_uiClient->runJavaScriptConfirm(page, WTF::move(message), frame, WTF::move(frameInfo), [reply = WTF::move(reply), completion = WTF::move(completion)](bool result) mutable {
+        page.m_uiClient->runJavaScriptConfirm(page, WTF::move(message), frame, WTF::move(frameInfo), [weakPage = WeakPtr { page }, reply = WTF::move(reply), completion = WTF::move(completion)](bool result) mutable {
+            if (RefPtr page = weakPage.get(); page && page->m_inspectorDialogAgent)
+                page->m_inspectorDialogAgent->javascriptDialogClosed();
             reply(result);
             completion();
-||||||| parent of 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
-    auto showModal = [protectedThis = Ref { *this }](RefPtr<WebFrameProxy>&& frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void(bool)>&& reply) mutable {
-        protectedThis->runModalJavaScriptDialog(WTF::move(frame), WTF::move(frameInfo), WTF::move(message), [reply = WTF::move(reply)](WebPageProxy& page, WebFrameProxy* frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& completion) mutable {
-            page.m_uiClient->runJavaScriptConfirm(page, WTF::move(message), frame, WTF::move(frameInfo), [reply = WTF::move(reply), completion = WTF::move(completion)](bool result) mutable {
-                reply(result);
-                completion();
-            });
-=======
-    auto showModal = [protectedThis = Ref { *this }](RefPtr<WebFrameProxy>&& frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void(bool)>&& reply) mutable {
-        protectedThis->runModalJavaScriptDialog(WTF::move(frame), WTF::move(frameInfo), WTF::move(message), [reply = WTF::move(reply)](WebPageProxy& page, WebFrameProxy* frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& completion) mutable {
-            page.m_uiClient->runJavaScriptConfirm(page, WTF::move(message), frame, WTF::move(frameInfo), [weakPage = WeakPtr { page }, reply = WTF::move(reply), completion = WTF::move(completion)](bool result) mutable {
-                if (RefPtr page = weakPage.get(); page && page->m_inspectorDialogAgent)
-                    page->m_inspectorDialogAgent->javascriptDialogClosed();
-                reply(result);
-                completion();
-            });
->>>>>>> 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
         });
     });
 }
@@ -11315,32 +11279,16 @@ void WebPageProxy::runJavaScriptPrompt(IPC::Connection& connection, FrameIdentif
     if (m_inspectorDialogAgent)
         m_inspectorDialogAgent->javascriptDialogOpening("prompt"_s, message, defaultValue);
 
-<<<<<<< HEAD
     runModalJavaScriptDialog(WTF::move(frame), WTF::move(frameInfo), WTF::move(message), [reply = WTF::move(reply), defaultValue = WTF::move(defaultValue)](WebPageProxy& page, WebFrameProxy* frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& completion, DialogDisposition disposition) mutable {
         if (disposition == DialogDisposition::Cancel) {
             reply({ });
             return completion();
         }
-        page.m_uiClient->runJavaScriptPrompt(page, WTF::move(message), WTF::move(defaultValue), frame, WTF::move(frameInfo), [reply = WTF::move(reply), completion = WTF::move(completion)](auto& result) mutable {
+        page.m_uiClient->runJavaScriptPrompt(page, WTF::move(message), WTF::move(defaultValue), frame, WTF::move(frameInfo), [weakPage = WeakPtr { page }, reply = WTF::move(reply), completion = WTF::move(completion)](auto& result) mutable {
+            if (RefPtr page = weakPage.get(); page && page->m_inspectorDialogAgent)
+                page->m_inspectorDialogAgent->javascriptDialogClosed();
             reply(result);
             completion();
-||||||| parent of 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
-    auto showModal = [protectedThis = Ref { *this }](RefPtr<WebFrameProxy>&& frame, FrameInfoData&& frameInfo, String&& message, String&& defaultValue, CompletionHandler<void(const String&)>&& reply) mutable {
-        protectedThis->runModalJavaScriptDialog(WTF::move(frame), WTF::move(frameInfo), WTF::move(message), [reply = WTF::move(reply), defaultValue = WTF::move(defaultValue)](WebPageProxy& page, WebFrameProxy* frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& completion) mutable {
-            page.m_uiClient->runJavaScriptPrompt(page, WTF::move(message), WTF::move(defaultValue), frame, WTF::move(frameInfo), [reply = WTF::move(reply), completion = WTF::move(completion)](auto& result) mutable {
-                reply(result);
-                completion();
-            });
-=======
-    auto showModal = [protectedThis = Ref { *this }](RefPtr<WebFrameProxy>&& frame, FrameInfoData&& frameInfo, String&& message, String&& defaultValue, CompletionHandler<void(const String&)>&& reply) mutable {
-        protectedThis->runModalJavaScriptDialog(WTF::move(frame), WTF::move(frameInfo), WTF::move(message), [reply = WTF::move(reply), defaultValue = WTF::move(defaultValue)](WebPageProxy& page, WebFrameProxy* frame, FrameInfoData&& frameInfo, String&& message, CompletionHandler<void()>&& completion) mutable {
-            page.m_uiClient->runJavaScriptPrompt(page, WTF::move(message), WTF::move(defaultValue), frame, WTF::move(frameInfo), [weakPage = WeakPtr { page }, reply = WTF::move(reply), completion = WTF::move(completion)](auto& result) mutable {
-                if (RefPtr page = weakPage.get(); page && page->m_inspectorDialogAgent)
-                    page->m_inspectorDialogAgent->javascriptDialogClosed();
-                reply(result);
-                completion();
-            });
->>>>>>> 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
         });
     });
 }

@@ -427,24 +427,10 @@ void WebProcessPool::setAutomationClient(std::unique_ptr<API::AutomationClient>&
 
 void WebProcessPool::setOverrideLanguages(Vector<String>&& languages)
 {
-<<<<<<< HEAD
     LOG_WITH_STREAM(Language, stream << "WebProcessPool is setting OverrideLanguages: " << languages);
-    WebKit::setOverrideLanguages(WTF::move(languages));
-||||||| parent of 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
-    WebKit::setOverrideLanguages(WTF::move(languages));
-=======
     m_configuration->setOverrideLanguages(WTF::move(languages));
->>>>>>> 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
 
-<<<<<<< HEAD
-    sendToAllProcesses(Messages::WebProcess::UserPreferredLanguagesChanged(overrideLanguages()));
-||||||| parent of 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
-    LOG_WITH_STREAM(Language, stream << "WebProcessPool is setting OverrideLanguages: " << languages);
-    sendToAllProcesses(Messages::WebProcess::UserPreferredLanguagesChanged(overrideLanguages()));
-=======
-    LOG_WITH_STREAM(Language, stream << "WebProcessPool is setting OverrideLanguages: " << languages);
     sendToAllProcesses(Messages::WebProcess::UserPreferredLanguagesChanged(m_configuration->overrideLanguages()));
->>>>>>> 0ccfd22c9acb (chore(webkit): bootstrap build #2340)
 
 #if ENABLE(GPU_PROCESS)
     if (RefPtr gpuProcess = GPUProcessProxy::singletonIfCreated())
