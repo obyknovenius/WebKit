@@ -41,7 +41,12 @@
 #include <wtf/TZoneMallocInlines.h>
 #include <wtf/text/StringBuffer.h>
 #include <wtf/text/StringBuilder.h>
+<<<<<<< HEAD
 #include <wtf/text/icu/UnicodeExtras.h>
+||||||| parent of 9dae75c1c51b (chore(webkit): bootstrap build #2375)
+=======
+#include <wtf/TZoneMallocInlines.h>
+>>>>>>> 9dae75c1c51b (chore(webkit): bootstrap build #2375)
 #include <wtf/unicode/icu/ICUHelpers.h>
 
 #if USE(HARFBUZZ)

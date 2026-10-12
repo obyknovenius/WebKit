@@ -427,8 +427,20 @@ static const IdentifierSchema& forcedColorsFeatureSchema()
         "forced-colors"_s,
         FixedVector { CSSValueID::None, CSSValueID::Active },
         OptionSet<MediaQueryDynamicDependency>(),
+<<<<<<< HEAD
         [](auto&) {
             return MatchingIdentifiers { CSSValueID::None };
+||||||| parent of 9dae75c1c51b (chore(webkit): bootstrap build #2375)
+        [](auto&) {
+            return MatchingIdentifiers { CSSValueNone };
+=======
+        [](auto& context) {
+            auto* page = context.document->frame()->page();
+            std::optional<bool> forcedColorsOverride = page->useForcedColorsOverride();
+            if (forcedColorsOverride)
+                return forcedColorsOverride.value() ? MatchingIdentifiers { CSSValueActive } : MatchingIdentifiers { CSSValueNone };
+            return MatchingIdentifiers { CSSValueNone };
+>>>>>>> 9dae75c1c51b (chore(webkit): bootstrap build #2375)
         }
     };
     return schema;
@@ -626,6 +638,9 @@ static const IdentifierSchema& prefersReducedMotionFeatureSchema()
         [](auto& context) {
             bool userPrefersReducedMotion = [&] {
                 Ref frame = *context.document->frame();
+                std::optional<bool> reducedMotionOverride = frame->page()->useReducedMotionOverride();
+                if (reducedMotionOverride)
+                    return reducedMotionOverride.value();
                 switch (frame->settings().forcedPrefersReducedMotionAccessibilityValue()) {
                 case ForcedAccessibilityValue::On:
                     return true;
