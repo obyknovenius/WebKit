@@ -9095,16 +9095,12 @@ Ref<DocumentLoader> WebPage::createDocumentLoader(LocalFrame& frame, ResourceReq
 
         if (!frame.isMainFrame())
             documentLoader->setUnpartitionedStorageSite(std::exchange(m_pendingUnpartitionedStorageSite, std::nullopt));
-<<<<<<< HEAD
 
         if (auto agentClusterAssignment = std::exchange(m_pendingAgentClusterAssignment, std::nullopt))
             documentLoader->setAgentClusterAssignment(*agentClusterAssignment);
-||||||| parent of 9dae75c1c51b (chore(webkit): bootstrap build #2375)
-=======
     } else if (m_pendingFrameNavigationID) {
         documentLoader->setNavigationID(*m_pendingFrameNavigationID);
         m_pendingFrameNavigationID = std::nullopt;
->>>>>>> 9dae75c1c51b (chore(webkit): bootstrap build #2375)
     }
 
     return documentLoader;

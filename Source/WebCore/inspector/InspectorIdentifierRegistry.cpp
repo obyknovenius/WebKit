@@ -75,26 +75,12 @@ Protocol::Network::LoaderId LegacyIdentifierRegistry::loaderId(WebCore::Document
 {
     if (!loader)
         return emptyString();
-<<<<<<< HEAD
-
-    if (auto navigationID = loader->navigationID())
-        return makeString("loader-"_s, navigationID->processIdentifier().toUInt64(), '.', navigationID->object().toUInt64());
-
-    return m_loaderToIdentifier.ensure(loader, [] {
-        return IdentifiersFactory::createIdentifier();
-    }).iterator->value;
-||||||| parent of 9dae75c1c51b (chore(webkit): bootstrap build #2375)
-    return m_loaderToIdentifier.ensure(loader, [] {
-        return IdentifiersFactory::createIdentifier();
-    }).iterator->value;
-=======
 
     auto navigationID = loader->navigationID();
     if (!navigationID)
         return emptyString();
 
     return navigationID->toString();
->>>>>>> 9dae75c1c51b (chore(webkit): bootstrap build #2375)
 }
 
 RefPtr<WebCore::LocalFrame> LegacyIdentifierRegistry::assertFrame(Protocol::ErrorString& errorString, const Protocol::Network::FrameId& frameId)

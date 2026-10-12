@@ -243,12 +243,8 @@
 #include <WebCore/DigitalCredentialsProtocols.h>
 #include <WebCore/DigitalCredentialsRequestData.h>
 #include <WebCore/DigitalCredentialsResponseData.h>
-<<<<<<< HEAD
 #include <WebCore/DocumentIsolationPolicy.h>
-||||||| parent of 9dae75c1c51b (chore(webkit): bootstrap build #2375)
-=======
 #include <WebCore/DiagnosticLoggingResultType.h>
->>>>>>> 9dae75c1c51b (chore(webkit): bootstrap build #2375)
 #include <WebCore/DocumentSyncData.h>
 #include <WebCore/DragController.h>
 #include <WebCore/DragData.h>

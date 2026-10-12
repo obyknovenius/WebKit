@@ -318,13 +318,7 @@ struct ResourceResponseData {
     ResourceResponseData() = default;
     ResourceResponseData(ResourceResponseData&&) = default;
     ResourceResponseData& operator=(ResourceResponseData&&) = default;
-<<<<<<< HEAD
-    ResourceResponseData(URL&& url, String&& mimeType, long long expectedContentLength, String&& textEncodingName, int httpStatusCode, String&& httpStatusText, String&& httpVersion, HTTPHeaderMap&& httpHeaderFields, std::optional<NetworkLoadMetrics>&& networkLoadMetrics, ResourceResponseSource source, ResourceResponseBaseType type, ResourceResponseBaseTainting tainting, bool isRedirected, UsedLegacyTLS usedLegacyTLS, WasPrivateRelayed wasPrivateRelayed, String&& proxyName, bool isRangeRequested, std::optional<CertificateInfo>&& certificateInfo, IPAddressSpace ipAddressSpace, bool isFromPrevalentDomain)
-||||||| parent of 9dae75c1c51b (chore(webkit): bootstrap build #2375)
-    ResourceResponseData(URL&& url, String&& mimeType, long long expectedContentLength, String&& textEncodingName, int httpStatusCode, String&& httpStatusText, String&& httpVersion, HTTPHeaderMap&& httpHeaderFields, std::optional<NetworkLoadMetrics>&& networkLoadMetrics, ResourceResponseSource source, ResourceResponseBaseType type, ResourceResponseBaseTainting tainting, bool isRedirected, UsedLegacyTLS usedLegacyTLS, WasPrivateRelayed wasPrivateRelayed, String&& proxyName, bool isRangeRequested, std::optional<CertificateInfo>&& certificateInfo, IPAddressSpace ipAddressSpace)
-=======
-    ResourceResponseData(URL&& url, String&& mimeType, long long expectedContentLength, String&& textEncodingName, int httpStatusCode, String&& httpStatusText, String&& httpVersion, HTTPHeaderMap&& httpHeaderFields, HTTPHeaderMap&& httpRequestHeaderFields, std::optional<NetworkLoadMetrics>&& networkLoadMetrics, ResourceResponseSource source, ResourceResponseBaseType type, ResourceResponseBaseTainting tainting, bool isRedirected, UsedLegacyTLS usedLegacyTLS, WasPrivateRelayed wasPrivateRelayed, String&& proxyName, bool isRangeRequested, std::optional<CertificateInfo>&& certificateInfo, IPAddressSpace ipAddressSpace)
->>>>>>> 9dae75c1c51b (chore(webkit): bootstrap build #2375)
+    ResourceResponseData(URL&& url, String&& mimeType, long long expectedContentLength, String&& textEncodingName, int httpStatusCode, String&& httpStatusText, String&& httpVersion, HTTPHeaderMap&& httpHeaderFields, HTTPHeaderMap&& httpRequestHeaderFields, std::optional<NetworkLoadMetrics>&& networkLoadMetrics, ResourceResponseSource source, ResourceResponseBaseType type, ResourceResponseBaseTainting tainting, bool isRedirected, UsedLegacyTLS usedLegacyTLS, WasPrivateRelayed wasPrivateRelayed, String&& proxyName, bool isRangeRequested, std::optional<CertificateInfo>&& certificateInfo, IPAddressSpace ipAddressSpace, bool isFromPrevalentDomain)
         : url(WTF::move(url))
         , mimeType(WTF::move(mimeType))
         , expectedContentLength(expectedContentLength)

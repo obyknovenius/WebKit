@@ -43,13 +43,9 @@
 #include "ProxyingPageAgent.h"
 #include "WebFrameProxy.h"
 #include "WebPageInspectorAgentBase.h"
-<<<<<<< HEAD
 #include "WebPageMessages.h"
-||||||| parent of 9dae75c1c51b (chore(webkit): bootstrap build #2375)
-=======
 #include "WebPageInspectorEmulationAgent.h"
 #include "WebPageInspectorInputAgent.h"
->>>>>>> 9dae75c1c51b (chore(webkit): bootstrap build #2375)
 #include "WebPageProxy.h"
 #include "WebProcessProxy.h"
 #include "WebsiteDataStore.h"

@@ -3372,12 +3372,8 @@ private:
 
     Markable<WebCore::NavigationIdentifier> m_pendingNavigationID;
     std::optional<WebCore::RegistrableDomain> m_pendingUnpartitionedStorageSite;
-<<<<<<< HEAD
     std::optional<WebCore::AgentClusterAssignment> m_pendingAgentClusterAssignment;
-||||||| parent of 9dae75c1c51b (chore(webkit): bootstrap build #2375)
-=======
     Markable<WebCore::NavigationIdentifier> m_pendingFrameNavigationID;
->>>>>>> 9dae75c1c51b (chore(webkit): bootstrap build #2375)
 
     bool m_shouldConsiderEnhancedSecurityForInsecureResponseForCurrentNavigation { false };
     bool m_mainFrameProgressCompleted { false };

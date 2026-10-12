@@ -427,20 +427,12 @@ static const IdentifierSchema& forcedColorsFeatureSchema()
         "forced-colors"_s,
         FixedVector { CSSValueID::None, CSSValueID::Active },
         OptionSet<MediaQueryDynamicDependency>(),
-<<<<<<< HEAD
-        [](auto&) {
-            return MatchingIdentifiers { CSSValueID::None };
-||||||| parent of 9dae75c1c51b (chore(webkit): bootstrap build #2375)
-        [](auto&) {
-            return MatchingIdentifiers { CSSValueNone };
-=======
         [](auto& context) {
             auto* page = context.document->frame()->page();
             std::optional<bool> forcedColorsOverride = page->useForcedColorsOverride();
             if (forcedColorsOverride)
-                return forcedColorsOverride.value() ? MatchingIdentifiers { CSSValueActive } : MatchingIdentifiers { CSSValueNone };
-            return MatchingIdentifiers { CSSValueNone };
->>>>>>> 9dae75c1c51b (chore(webkit): bootstrap build #2375)
+                return forcedColorsOverride.value() ? MatchingIdentifiers { CSSValueID::Active } : MatchingIdentifiers { CSSValueID::None };
+            return MatchingIdentifiers { CSSValueID::None };
         }
     };
     return schema;
