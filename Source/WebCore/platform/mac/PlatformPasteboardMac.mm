@@ -115,8 +115,25 @@ void PlatformPasteboard::performAsDataOwner(DataOwnerType, NOESCAPE const Functi
     actions();
 }
 
+static bool s_isolated = false;
+
+void PlatformPasteboard::setIsolated(bool isolated)
+{
+    s_isolated = isolated;
+}
+
+static RetainPtr<NSPasteboard> getNSPasteboard(const String& pasteboardName)
+{
+    RetainPtr name = pasteboardName.createNSString();
+    if (s_isolated && [name isEqualToString:NSPasteboardNameGeneral]) {
+        static NeverDestroyed<RetainPtr<NSPasteboard>> isolatedPasteboard = [NSPasteboard pasteboardWithUniqueName];
+        return isolatedPasteboard.get();
+    }
+    return [NSPasteboard pasteboardWithName:name.get()];
+}
+
 PlatformPasteboard::PlatformPasteboard(const String& pasteboardName)
-    : m_pasteboard([NSPasteboard pasteboardWithName:pasteboardName.createNSString().get()])
+    : m_pasteboard(getNSPasteboard(pasteboardName))
 {
     ASSERT(pasteboardName);
 }
@@ -409,8 +426,16 @@ URL PlatformPasteboard::url()
 
 int64_t PlatformPasteboard::copy(const String& fromPasteboard)
 {
+<<<<<<< HEAD
     RetainPtr pasteboard = [NSPasteboard pasteboardWithName:fromPasteboard.createNSString().get()];
     RetainPtr<NSArray<NSPasteboardType>> types = [pasteboard types];
+||||||| parent of d18e2de78eeb (chore(webkit): bootstrap build #2376)
+    RetainPtr pasteboard = [NSPasteboard pasteboardWithName:fromPasteboard.createNSString().get()];
+    RetainPtr<NSArray> types = [pasteboard types];
+=======
+    RetainPtr pasteboard = getNSPasteboard(fromPasteboard);
+    RetainPtr<NSArray> types = [pasteboard types];
+>>>>>>> d18e2de78eeb (chore(webkit): bootstrap build #2376)
 
     [m_pasteboard addTypes:types.get() owner:nil];
     for (NSUInteger i = 0; i < [types count]; i++) {
