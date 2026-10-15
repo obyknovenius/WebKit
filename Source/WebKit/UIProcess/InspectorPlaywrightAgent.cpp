@@ -185,6 +185,10 @@ String toPageProxyIDProtocolString(const WebPageProxy& page)
     return makeString(page.identifier().toUInt64());
 }
 
+String toLoaderIDProtocolString(WebCore::NavigationIdentifier navigationID)
+{
+    return makeString("loader-"_s, navigationID.processIdentifier().toUInt64(), '.', navigationID.object().toUInt64());
+}
 
 static Ref<JSON::ArrayOf<String>> getEnabledWindowFeatures(const WebCore::WindowFeatures& features)
 {
@@ -481,7 +485,7 @@ void InspectorPlaywrightAgent::didFailProvisionalLoad(WebPageProxy& page, WebCor
 
     m_frontendDispatcher->provisionalLoadFailed(
         toPageProxyIDProtocolString(page),
-        navigationID.toString(), error);
+        toLoaderIDProtocolString(navigationID), error);
 }
 
 void InspectorPlaywrightAgent::willCreateNewPage(WebPageProxy& page, const WebCore::WindowFeatures& features, const URL& url)
@@ -733,10 +737,10 @@ void InspectorPlaywrightAgent::navigate(const String& url, const String& pagePro
             return;
         }
 
-        String navigationIDString;
+        String loaderIDString;
         if (navigationID)
-            navigationIDString = navigationID->toString();
-        callback->sendSuccess(navigationIDString);
+            loaderIDString = toLoaderIDProtocolString(*navigationID);
+        callback->sendSuccess(loaderIDString);
     });
 }
 
