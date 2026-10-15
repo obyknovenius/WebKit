@@ -186,18 +186,10 @@ public:
 
     WEBCORE_EXPORT virtual void detachFromFrame(LoadWillContinueInAnotherProcess);
 
-<<<<<<< HEAD
-    WEBCORE_EXPORT FrameLoader* LEGACY_NODELETE frameLoader() const;
-    WEBCORE_EXPORT SubresourceLoader* LEGACY_NODELETE mainResourceLoader() const;
-||||||| parent of d18e2de78eeb (chore(webkit): bootstrap build #2376)
-    WEBCORE_EXPORT FrameLoader* NODELETE frameLoader() const;
-    WEBCORE_EXPORT SubresourceLoader* NODELETE mainResourceLoader() const;
-=======
     void replacedByFragmentNavigation(LocalFrame&);
 
-    WEBCORE_EXPORT FrameLoader* NODELETE frameLoader() const;
-    WEBCORE_EXPORT SubresourceLoader* NODELETE mainResourceLoader() const;
->>>>>>> d18e2de78eeb (chore(webkit): bootstrap build #2376)
+    WEBCORE_EXPORT FrameLoader* LEGACY_NODELETE frameLoader() const;
+    WEBCORE_EXPORT SubresourceLoader* LEGACY_NODELETE mainResourceLoader() const;
     WEBCORE_EXPORT RefPtr<FragmentedSharedBuffer> mainResourceData() const;
     
     DocumentWriter& writer() const LIFETIME_BOUND { return m_writer; }

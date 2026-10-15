@@ -9125,19 +9125,9 @@ Ref<DocumentLoader> WebPage::createDocumentLoader(LocalFrame& frame, ResourceReq
 
         if (!frame.isMainFrame())
             documentLoader->setUnpartitionedStorageSite(std::exchange(m_pendingUnpartitionedStorageSite, std::nullopt));
-<<<<<<< HEAD
-||||||| parent of d18e2de78eeb (chore(webkit): bootstrap build #2376)
-
-        if (auto agentClusterAssignment = std::exchange(m_pendingAgentClusterAssignment, std::nullopt))
-            documentLoader->setAgentClusterAssignment(*agentClusterAssignment);
-=======
-
-        if (auto agentClusterAssignment = std::exchange(m_pendingAgentClusterAssignment, std::nullopt))
-            documentLoader->setAgentClusterAssignment(*agentClusterAssignment);
     } else if (m_pendingFrameNavigationID) {
         documentLoader->setNavigationID(*m_pendingFrameNavigationID);
         m_pendingFrameNavigationID = std::nullopt;
->>>>>>> d18e2de78eeb (chore(webkit): bootstrap build #2376)
     }
 
     // Subframes get an assignment without site isolation too, through LoadDataInFrame.

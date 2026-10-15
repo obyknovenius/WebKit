@@ -168,11 +168,6 @@ static Vector<unsigned> stringIndicesFromClusters(const Vector<WORD>& clusters, 
     return stringIndices;
 }
 
-<<<<<<< HEAD
-void ComplexTextController::collectComplexTextRunsForCharacters(std::span<const char16_t> cp, unsigned stringLocation, const Font* font, std::span<const char16_t>, std::span<const unsigned> originalIndices)
-||||||| parent of d18e2de78eeb (chore(webkit): bootstrap build #2376)
-void ComplexTextController::collectComplexTextRunsForCharacters(std::span<const char16_t> cp, unsigned stringLocation, const Font* font)
-=======
 static int compactScriptItemsIfNeeded(std::span<const UChar> cp, Vector<SCRIPT_ITEM>& items, int numItems, const Font* font)
 {
     // https://bugs.webkit.org/show_bug.cgi?id=201214
@@ -200,8 +195,7 @@ static int compactScriptItemsIfNeeded(std::span<const UChar> cp, Vector<SCRIPT_I
     return 1;
 }
 
-void ComplexTextController::collectComplexTextRunsForCharacters(std::span<const char16_t> cp, unsigned stringLocation, const Font* font)
->>>>>>> d18e2de78eeb (chore(webkit): bootstrap build #2376)
+void ComplexTextController::collectComplexTextRunsForCharacters(std::span<const char16_t> cp, unsigned stringLocation, const Font* font, std::span<const char16_t>, std::span<const unsigned> originalIndices)
 {
     ASSERT_UNUSED(originalIndices, originalIndices.empty());
     if (!font) {

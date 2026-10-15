@@ -95,35 +95,6 @@ Protocol::Network::FrameId LegacyIdentifierRegistry::frameId(const WebCore::Fram
     return identifier;
 }
 
-<<<<<<< HEAD
-||||||| parent of d18e2de78eeb (chore(webkit): bootstrap build #2376)
-Protocol::Network::LoaderId LegacyIdentifierRegistry::loaderId(WebCore::DocumentLoader* loader)
-{
-    if (!loader)
-        return emptyString();
-
-    if (auto navigationID = loader->navigationID())
-        return makeString("loader-"_s, navigationID->processIdentifier().toUInt64(), '.', navigationID->object().toUInt64());
-
-    return m_loaderToIdentifier.ensure(loader, [] {
-        return IdentifiersFactory::createIdentifier();
-    }).iterator->value;
-}
-
-=======
-Protocol::Network::LoaderId LegacyIdentifierRegistry::loaderId(WebCore::DocumentLoader* loader)
-{
-    if (!loader)
-        return emptyString();
-
-    auto navigationID = loader->navigationID();
-    if (!navigationID)
-        return emptyString();
-
-    return navigationID->toString();
-}
-
->>>>>>> d18e2de78eeb (chore(webkit): bootstrap build #2376)
 RefPtr<WebCore::LocalFrame> LegacyIdentifierRegistry::assertFrame(Protocol::ErrorString& errorString, const Protocol::Network::FrameId& frameId)
 {
     RefPtr frame = dynamicDowncast<WebCore::LocalFrame>(frameForId(frameId));
@@ -140,24 +111,6 @@ Protocol::Network::FrameId LegacyIdentifierRegistry::takeFrame(const WebCore::Fr
     return identifier;
 }
 
-<<<<<<< HEAD
-||||||| parent of d18e2de78eeb (chore(webkit): bootstrap build #2376)
-Protocol::Network::LoaderId LegacyIdentifierRegistry::takeLoader(WebCore::DocumentLoader& loader)
-{
-    return m_loaderToIdentifier.take(&loader);
-}
-
-=======
-Protocol::Network::LoaderId LegacyIdentifierRegistry::takeLoader(WebCore::DocumentLoader& loader)
-{
-    auto navigationID = loader.navigationID();
-    if (!navigationID)
-        return {};
-
-    return navigationID->toString();
-}
-
->>>>>>> d18e2de78eeb (chore(webkit): bootstrap build #2376)
 // --- BackendIdentifierRegistry ---
 
 WTF_MAKE_TZONE_ALLOCATED_IMPL(BackendIdentifierRegistry);

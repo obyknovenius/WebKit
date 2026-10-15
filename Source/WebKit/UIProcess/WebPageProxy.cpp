@@ -277,12 +277,8 @@
 #include <WebCore/NotImplemented.h>
 #include <WebCore/OrganizationStorageAccessPromptQuirk.h>
 #include <WebCore/OriginAgentClusterPolicy.h>
-<<<<<<< HEAD
 #include <WebCore/Page.h>
-||||||| parent of d18e2de78eeb (chore(webkit): bootstrap build #2376)
-=======
 #include <WebCore/PageIdentifier.h>
->>>>>>> d18e2de78eeb (chore(webkit): bootstrap build #2376)
 #include <WebCore/PerformanceLoggingClient.h>
 #include <WebCore/PermissionDescriptor.h>
 #include <WebCore/PermissionState.h>

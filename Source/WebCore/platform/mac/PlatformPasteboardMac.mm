@@ -426,16 +426,8 @@ URL PlatformPasteboard::url()
 
 int64_t PlatformPasteboard::copy(const String& fromPasteboard)
 {
-<<<<<<< HEAD
-    RetainPtr pasteboard = [NSPasteboard pasteboardWithName:fromPasteboard.createNSString().get()];
-    RetainPtr<NSArray<NSPasteboardType>> types = [pasteboard types];
-||||||| parent of d18e2de78eeb (chore(webkit): bootstrap build #2376)
-    RetainPtr pasteboard = [NSPasteboard pasteboardWithName:fromPasteboard.createNSString().get()];
-    RetainPtr<NSArray> types = [pasteboard types];
-=======
     RetainPtr pasteboard = getNSPasteboard(fromPasteboard);
-    RetainPtr<NSArray> types = [pasteboard types];
->>>>>>> d18e2de78eeb (chore(webkit): bootstrap build #2376)
+    RetainPtr<NSArray<NSPasteboardType>> types = [pasteboard types];
 
     [m_pasteboard addTypes:types.get() owner:nil];
     for (NSUInteger i = 0; i < [types count]; i++) {
