@@ -1,0 +1,49 @@
+{
+	"name": "Ubuntu 22.04",
+	"build": {
+		"dockerfile": "Containerfile",
+		"context": "../.."
+	},
+	"features": {
+        "ghcr.io/obyknovenius/devcontainer-features/add-user:1": {}
+    },
+	"runArgs": [
+		"--device=/dev/dri",
+		"--hostname=ubuntu-22-04"
+	],
+	"mounts": [
+		"type=bind,bind-propagation=rslave,source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR}"
+	],
+	"capAdd": [
+		"SYS_ADMIN",
+		"SYS_PTRACE"
+	],
+	"securityOpt": [
+		"seccomp=unconfined",
+		"unmask=ALL",
+		"label=disable"
+	],
+	"containerEnv": {
+		"WEBKIT_JHBUILD": "TRUE",
+		"WEBKIT_OUTPUTDIR": "${containerWorkspaceFolder}/WebKitBuild-ubuntu-22.04",
+		"BUILD_WEBKIT_ARGS": "--cmakeargs=\"-DLD_PACK_RELATIVE_RELOCS=OFF -DUSE_VULKAN=OFF -DENABLE_WPE_QT_API=OFF -DENABLE_DOCUMENTATION=OFF\""
+	},
+	"remoteEnv": {
+		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
+		"DISPLAY": "${localEnv:DISPLAY}",
+		"WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+		"PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/Tools/Scripts"
+	},
+	"remoteUser": "${localEnv:USER}",
+	"onCreateCommand": "sudo apt-get update && Tools/wpe/install-dependencies && Tools/gtk/install-dependencies && Tools/Scripts/update-webkitwpe-libs && Tools/Scripts/update-webkitgtk-libs",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpp-devtools",
+				"ms-vscode.cmake-tools",
+				"Anthropic.claude-code"
+			]
+		}
+	}
+}

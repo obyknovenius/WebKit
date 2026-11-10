@@ -1,0 +1,7 @@
+FROM ghcr.io/igalia/wkdev-sdk:2.55-v4-8898cc2
+
+ARG USERNAME
+
+RUN useradd --create-home --shell /bin/bash --groups sudo "$USERNAME" && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/$USERNAME" && \
+    chmod 0440 "/etc/sudoers.d/$USERNAME"
